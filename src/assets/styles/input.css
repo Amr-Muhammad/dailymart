@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .primaryPink {
+        color: #DB4444;
+    }
+    /* .router-link-active {
+        @apply text-[#DB4444];
+    } */
+
+    .mainGreenBtn {
+        @apply px-12 py-2 bg-[#1F822E] text-white rounded-md hover:bg-white hover:text-black transition-all duration-200 hover:outline hover:outline-1;
+    }
+
+    .mainPinkBtn {
+        @apply px-10 py-2 bg-[#DB4444] text-white rounded-md hover:bg-white hover:text-black transition-all duration-200 hover:outline hover:outline-1;
+    }
+
+    .secondaryBtn {
+        @apply px-10 py-2 rounded-md transition-all duration-200 hover:outline hover:outline-1 hover:outline-black;
+
+    }
+}
