@@ -1200,11 +1200,6 @@ html {
   align-items: center;
 }
 
-.navbar-start {
-  width: 50%;
-  justify-content: flex-start;
-}
-
 .navbar-center {
   flex-shrink: 0;
 }
@@ -2203,11 +2198,6 @@ html {
   flex-grow: 1;
 }
 
-.translate-y-7 {
-  --tw-translate-y: 1.75rem;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
 .translate-y-8 {
   --tw-translate-y: 2rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -2222,18 +2212,6 @@ html {
 .scale-\[3\.2\] {
   --tw-scale-x: 3.2;
   --tw-scale-y: 3.2;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-\[3\.5\] {
-  --tw-scale-x: 3.5;
-  --tw-scale-y: 3.5;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-\[4\] {
-  --tw-scale-x: 4;
-  --tw-scale-y: 4;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -2263,10 +2241,6 @@ html {
 
 .items-center {
   align-items: center;
-}
-
-.justify-start {
-  justify-content: flex-start;
 }
 
 .justify-end {
@@ -2434,6 +2408,11 @@ html {
   background-color: rgb(251 146 60 / var(--tw-bg-opacity));
 }
 
+.bg-red-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
+}
+
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -2509,16 +2488,12 @@ html {
   padding-bottom: 0.5rem;
 }
 
-.pe-10 {
-  padding-inline-end: 2.5rem;
-}
-
-.pe-20 {
-  padding-inline-end: 5rem;
-}
-
 .ps-1 {
   padding-inline-start: 0.25rem;
+}
+
+.ps-48 {
+  padding-inline-start: 12rem;
 }
 
 .pt-11 {
@@ -2527,6 +2502,14 @@ html {
 
 .pt-6 {
   padding-top: 1.5rem;
+}
+
+.ps-4 {
+  padding-inline-start: 1rem;
+}
+
+.ps-3 {
+  padding-inline-start: 0.75rem;
 }
 
 .text-center {
@@ -2820,10 +2803,6 @@ html {
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
-  }
-
-  .lg\:ps-0 {
-    padding-inline-start: 0px;
   }
 
   .lg\:text-left {

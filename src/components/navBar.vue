@@ -3,38 +3,10 @@
 
         <div class="navbar text-white w-11/12 mx-auto flex justify-between ">
 
-            <div>
-                <div class="dropdown pe-10 lgScreen:pe-0">
-
-                    <div tabindex="0" role="button" class="btn btn-ghost lgScreen:hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h8m-8 6h16" />
-                        </svg>
-                    </div>
-
-                    <ul tabindex="0"
-                        class="menu menu-sm dropdown-content rounded-box mt-3 w-52 p-2 shadow text-black bg-white relative z-50">
-                        <li>
-                            <router-link to="/homePage">Home</router-link>
-                        </li>
-                        <li><a>Explore</a></li>
-                        <li><a>Offers</a></li>
-                        <li><a>Plans</a></li>
-                        <li><a>Contact Us</a></li>
-                    </ul>
-
-                </div>
-
-                <div class="lg:ps-0 pe-20">
-                    <router-link to="/homePage">
-                        <img class="w-14 scale-[3.2] relative translate-y-8" src="../assets/logo1.png" alt="">
-                    </router-link>
-                    <!-- <img class="w-14 scale-[3.5] relative translate-y-7" src="../assets/logo2.png" alt=""> -->
-                    <!-- <img class="w-14 scale-[4] relative translate-y-7" src="../assets/logo3.png" alt=""> -->
-                    <!-- <a class="btn btn-ghost text-xl">DailyMart</a> -->
-                </div>
+            <div class="ps-3">
+                <router-link to="/homePage">
+                    <img class="w-14 scale-[3.2] relative translate-y-8" src="../assets/logo1.png" alt="">
+                </router-link>
             </div>
 
             <div class="navbar-center hidden lgScreen:flex gap-y-2 lgScreen:gap-y-0">
@@ -74,15 +46,40 @@
                         </router-link>
                     </div>
                 </div>
+
+                <div class="dropdown lgScreen:pe-0">
+
+                    <div tabindex="0" role="button" class="btn btn-ghost lgScreen:hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h8m-8 6h16" />
+                        </svg>
+                    </div>
+
+                    <ul tabindex="0"
+                        class="menu menu-sm dropdown-content rounded-box mt-3 w-52 p-2 shadow text-black bg-white relative z-50">
+                        <li>
+                            <router-link to="/homePage">Home</router-link>
+                        </li>
+                        <li><a>Explore</a></li>
+                        <li><a>Offers</a></li>
+                        <li><a>Plans</a></li>
+                        <li><a>Contact Us</a></li>
+                    </ul>
+
+                </div>
+
             </div>
 
         </div>
 
         <div class="navbar bg-[#FBFBFB] text-gray-900 border-b border-stone-400 ">
 
-            <div class="w-11/12 mx-auto justify-start lgScreen:justify-center">
+            <div class="w-11/12 mx-auto lgScreen:justify-center flex justify-end">
 
-                <div class="navbar-start w-3/12	lgScreen:hidden ">
+                <div class="lgScreen:hidden">
+
                     <div class="dropdown">
                         <div tabindex="0" role="button" class="btn btn-ghost lgScreen:hidden">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -210,7 +207,8 @@ export default {
         }
         ,
         async getProfilePicture() {
-            let user = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/c5ec0a8b494a30e.json')
+            let user = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')
+            console.log(user.u);
 
             if (user.data.userImages.userImage) {
                 this.userImage = user.data.userImages.userImage

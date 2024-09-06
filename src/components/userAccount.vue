@@ -2,45 +2,47 @@
 
     <div>
 
-        <div class="flex justify-between">
+        <div class="container">
+            <div class="flex justify-between">
 
-            <div class="breadcrumbs text-sm">
-                <ul>
-                    <li class=" text-gray-400"><router-link to="/homePage">Home</router-link></li>
-                    <li>My Account</li>
-                </ul>
-            </div>
-
-            <div>
-                <p>Welcome <span class="primaryPink">Amr!</span></p>
-            </div>
-
-        </div>
-
-        <div class="flex mt-16 flex-wrap justify-center">
-            <leftSection class="md:w-3/12">
-                <div>
-                    <h1 class="font-bold">Manage My Account</h1>
-                    <ul class="ms-10 mt-4 flex gap-7 md:block mb-5 md:mb-0">
-                        <li class="mb-[6px] text-gray-400">
-                            <router-link to="/useraccount/userprofile">My Profile</router-link>
-                        </li>
-                        <li class="mb-[6px] text-gray-400">
-                            <router-link to="/useraccount/weeklyorders">Weekly Orders</router-link>
-                        </li>
-                        <li class="mb-[6px] text-gray-400">
-                            <router-link to="/useraccount/wishlist">My Wishlist</router-link>
-                        </li>
-                        <li class="mb-[6px] text-gray-400">
-                            <router-link to="/useraccount/myorders">My Orders</router-link>
-                        </li>
+                <div class="breadcrumbs text-sm">
+                    <ul>
+                        <li class=" text-gray-400"><router-link to="/homePage">Home</router-link></li>
+                        <li>My Account</li>
                     </ul>
                 </div>
-            </leftSection>
 
-            <rightSection class="md:w-9/12 shadow-2xl py-14">
-                <router-view></router-view>
-            </rightSection>
+                <div>
+                    <p>Welcome <span class="primaryPink">Amr!</span></p>
+                </div>
+
+            </div>
+
+            <div class="flex mt-16 flex-wrap justify-center">
+                <leftSection class="md:w-3/12">
+                    <div>
+                        <h1 class="font-bold">Manage My Account</h1>
+                        <ul class="ms-10 mt-4 flex gap-7 md:block mb-5 md:mb-0">
+                            <li class="mb-[6px] text-gray-400">
+                                <router-link to="/useraccount/userprofile">My Profile</router-link>
+                            </li>
+                            <li class="mb-[6px] text-gray-400">
+                                <router-link to="/useraccount/weeklyorders">Weekly Orders</router-link>
+                            </li>
+                            <li class="mb-[6px] text-gray-400">
+                                <router-link to="/useraccount/wishlist">My Wishlist</router-link>
+                            </li>
+                            <li class="mb-[6px] text-gray-400">
+                                <router-link to="/useraccount/myorders">My Orders</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </leftSection>
+
+                <rightSection class="md:w-9/12 shadow-2xl py-14">
+                    <router-view></router-view>
+                </rightSection>
+            </div>
         </div>
 
     </div>
