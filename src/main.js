@@ -13,6 +13,12 @@ import LoginPage from './components/loginPage.vue';
 import TestComponent from './components/testComponent.vue';
 // import { getAuth } from 'firebase/auth';
 
+// Menna Pages
+import SignPage from './components/signPage.vue';
+import ProductsPage from './components/productsPage.vue';
+import OffersPage from './components/offersPage.vue';
+import ErrorPage from './components/errorPage.vue';
+
 const routes = [
     { path: '/', component: HomePage },
     {
@@ -33,6 +39,10 @@ const routes = [
         ]
     },
     { path: '/loginpage', component: LoginPage },
+    { path: '/signPage', component: SignPage },
+    { path: '/productsPage', component: ProductsPage },
+    { path: '/offersPage', component: OffersPage },
+    { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
     { path: '/test', component: TestComponent }
 ]
 
