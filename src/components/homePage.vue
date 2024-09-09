@@ -61,15 +61,18 @@
                 <p>We’ve selected them based on quality and value to enhance your experience.</p>
             </div>
 
-            <Carousel :itemsToShow="5.5" :wrapAround="true" :transition="1500" :autoplay="true" :snap-align="'center'"
+            <Carousel :itemsToShow="5.5" :wrapAround="true" :transition="2000" :autoplay="true" :snap-align="'center'"
                 :pause-autoplay-on-hover="true" :breakpoints="prdsBreakpoints" class="prds">
-                <Slide v-for="prd in prds" :key="prd" class="flex flex-col sm:mx-auto md:mx-0 sm:mb-3 lg:mb-0">
+
+                <Slide v-for="prd in prds" :key="prd.id" class="flex flex-col sm:mx-auto md:mx-0 sm:mb-3 lg:mb-0">
+
                     <div
                         class="face image absolute flex justify-center items-center rounded-lg shadow-md  overflow-hidden w-full h-full text-center">
                         <img :src="prd.src" class="max-w-[150px]">
                         <span
                             class="prd-action absolute bg-[#0a1e1e] bottom-0 left-0 p-1 text-lg w-full shadow-md text-white font-semibold">Click</span>
                     </div>
+
                     <div class="face info bg-[#DAFFDA] rounded-lg shadow-md w-full h-full text-center">
                         <div class="card-body items-center text-center py-3 px-2 bg-white m-3 rounded-lg shadow-sm">
                             <p class="text-xs text-stone-500 ">{{ prd.title }}</p>
@@ -93,7 +96,9 @@
                             </div>
                         </div>
                     </div>
+
                 </Slide>
+
                 <template #addons>
                     <Navigation />
                 </template>
@@ -223,7 +228,7 @@ export default defineComponent({
                 { id: 3, src: require('../assets/featured (2).png'), price: 19, title: 'Domty Sandwich' },
                 { id: 4, src: require('../assets/featured (3).png'), price: 39, title: 'Spiro Spathis' },
                 { id: 5, src: require('../assets/featured (4).png'), price: 29, title: 'BigChips' },
-                { id: 5, src: require('../assets/featured (5).png'), price: 99, title: 'Avuva Body Splash' },
+                { id: 6, src: require('../assets/featured (5).png'), price: 99, title: 'Avuva Body Splash' },
             ],
             prdsBreakpoints: {
                 0: {
@@ -284,10 +289,10 @@ export default defineComponent({
 }
 
 .featured ol li {
-    /* transition: transform .5s; */
-    /* transform-style: preserve-3d; */
+    transition: transform .5s;
+    transform-style: preserve-3d;
     cursor: pointer;
-    /* position: relative; */
+    position: relative;
     /* max-width: 400px; */
     /* flex: 1 0 200px; */
     /* width: 25% !important; */
@@ -314,13 +319,13 @@ export default defineComponent({
     padding: 20px;
 }
 
-.carousel__viewport {
+/* .carousel__viewport {
     perspective: 2000px;
-}
+} */
 
-.carousel__track {
+/* .carousel__track {
     transform-style: preserve-3d;
-}
+} */
 
 .carousel__slide--sliding {
     transition: 0.5s;

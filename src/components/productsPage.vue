@@ -51,7 +51,7 @@
                         <div class="card-body p-5">
                             <h2 class="card-title text-start">{{
                                 product.title.length > 15 ?
-                                    product.title.slice(0, 15).split().join('')+'...':product.title }}</h2>
+                                    product.title.slice(0, 15).split().join('') + '...' : product.title }}</h2>
                             <div class="price flex gap-3">
                                 <div class="after text-lg text-red-500 font-bold">
                                     {{ product.afterSale }}<span class="text-xs  font-normal">L.E</span>
@@ -90,16 +90,16 @@ export default {
     data() {
         return {
             products: [
-                { src: require('../assets/prd1.png'), title: 'Ponky Chips', price: 50, afterSale: 39, comments: 85, new: true, rate: 3 },
-                { src: require('../assets/prd2.png'), title: 'Big Chips', price: 50, afterSale: 39, comments: 85, sale: "-10%" },
-                { src: require('../assets/prd3.png'), title: 'McvitieS Digestive Biscuits', price: 50, afterSale: 39, comments: 85 },
-                { src: require('../assets/prd4.png'), title: 'Abu Auf Snacks', price: 50, afterSale: 39, comments: 85, new: true, rate: 3 },
-                { src: require('../assets/prd5.png'), title: 'Lambada', price: 50, afterSale: 39, comments: 85 },
-                { src: require('../assets/prd6.png'), title: 'Big Chips', price: 50, afterSale: 39, comments: 85, sale: "-25%" },
-                { src: require('../assets/prd7.png'), title: 'McvitieS Digestive Biscuits', price: 50, afterSale: 39, comments: 85, sale: "-15%" },
-                { src: require('../assets/prd1.png'), title: 'Ponky Chips', price: 50, afterSale: 39, comments: 85, new: true, rate: 3 },
-                { src: require('../assets/prd7.png'), title: 'McvitieS Digestive Biscuits', price: 50, afterSale: 39, comments: 85, sale: "-15%" },
-                { src: require('../assets/prd1.png'), title: 'Ponky Chips', price: 50, afterSale: 39, comments: 85, new: true, rate: 3 },
+                { src: require('../assets/prd1.png'), id: 1, title: 'Ponky Chips', price: 50, afterSale: 39, comments: 85, new: true, rate: 3 },
+                { src: require('../assets/prd2.png'), id: 2, title: 'Big Chips', price: 50, afterSale: 39, comments: 85, sale: "-10%" },
+                { src: require('../assets/prd3.png'), id: 3, title: 'McvitieS Digestive Biscuits', price: 50, afterSale: 39, comments: 85 },
+                { src: require('../assets/prd4.png'), id: 4, title: 'Abu Auf Snacks', price: 50, afterSale: 39, comments: 85, new: true, rate: 3 },
+                { src: require('../assets/prd5.png'), id: 5, title: 'Lambada', price: 50, afterSale: 39, comments: 85 },
+                { src: require('../assets/prd6.png'), id: 6, title: 'Big Chips', price: 50, afterSale: 39, comments: 85, sale: "-25%" },
+                { src: require('../assets/prd7.png'), id: 7, title: 'McvitieS Digestive Biscuits', price: 50, afterSale: 39, comments: 85, sale: "-15%" },
+                { src: require('../assets/prd1.png'), id: 8, title: 'Ponky Chips', price: 50, afterSale: 39, comments: 85, new: true, rate: 3 },
+                { src: require('../assets/prd7.png'), id: 9, title: 'McvitieS Digestive Biscuits', price: 50, afterSale: 39, comments: 85, sale: "-15%" },
+                { src: require('../assets/prd1.png'), id: 10, title: 'Ponky Chips', price: 50, afterSale: 39, comments: 85, new: true, rate: 3 },
             ]
         }
     }
