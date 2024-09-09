@@ -43,15 +43,12 @@
                                         d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                                 </svg>
                             </div>
-                            <div
-                                class="cart-btn hidden absolute bottom-0 bg-slate-800 text-white w-full p-2 font-bold text-center">
-                                Add To Cart</div>
                         </figure>
 
                         <div class="card-body p-5">
                             <h2 class="card-title text-start">{{
                                 product.title.length > 15 ?
-                                    product.title.slice(0, 15).split().join('')+'...':product.title }}</h2>
+                                    product.title.slice(0, 15).split().join('') + '...' : product.title }}</h2>
                             <div class="price flex gap-3">
                                 <div class="after text-lg text-red-500 font-bold">
                                     {{ product.afterSale }}<span class="text-xs  font-normal">L.E</span>
@@ -64,6 +61,10 @@
                             <div class="rating rating-sm ">
                                 <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
                                     :checked="false" class="mask mask-star-2 bg-amber-400 me-1" />
+                            </div>
+                            <div class="flex mt-3 justify-center">
+                                <button class="mainGreenBtn px-8 me-3">Edit</button>
+                                <button class="mainPinkBtn px-8">Delete</button>
                             </div>
                         </div>
                     </div>

@@ -63,14 +63,14 @@ export default {
     data () {
         return {
             products : [
-                {src: require('../../imgs/prd1.png'), title: 'Ponky Chips', price: 50, afterSale: 39, comments: 85, sale: "-10%"},
-                {src: require('../../imgs/prd2.png'), title: 'Big Chips', price: 50, afterSale: 39, comments: 85, sale: "-10%"},
-                {src: require('../../imgs/prd3.png'), title: 'McvitieS Digestive Biscuits', price: 50, afterSale: 39, comments: 85, sale: "-35%"},
-                {src: require('../../imgs/prd4.png'), title: 'Abu Auf Snacks', price: 50, afterSale: 39, comments: 85, sale: "-15%"},
-                {src: require('../../imgs/prd5.png'), title: 'Lambada', price: 50, afterSale: 39, comments: 85, sale: "-10%"},
-                {src: require('../../imgs/prd6.png'), title: 'Big Chips', price: 50, afterSale: 39, comments: 85, sale: "-25%"},
-                {src: require('../../imgs/prd7.png'), title: 'McvitieS Digestive Biscuits', price: 50, afterSale: 39, comments: 85, sale: "-15%"},
-                {src: require('../../imgs/prd1.png'), title: 'Ponky Chips', price: 50, afterSale: 39, comments: 85, sale: "-15%"},
+                {src: require('../assets/prd1.png'), title: 'Ponky Chips', price: 50, afterSale: 39, comments: 85, sale: "-10%"},
+                {src: require('../assets/prd2.png'), title: 'Big Chips', price: 50, afterSale: 39, comments: 85, sale: "-10%"},
+                {src: require('../assets/prd3.png'), title: 'McvitieS Digestive Biscuits', price: 50, afterSale: 39, comments: 85, sale: "-35%"},
+                {src: require('../assets/prd4.png'), title: 'Abu Auf Snacks', price: 50, afterSale: 39, comments: 85, sale: "-15%"},
+                {src: require('../assets/prd5.png'), title: 'Lambada', price: 50, afterSale: 39, comments: 85, sale: "-10%"},
+                {src: require('../assets/prd6.png'), title: 'Big Chips', price: 50, afterSale: 39, comments: 85, sale: "-25%"},
+                {src: require('../assets/prd7.png'), title: 'McvitieS Digestive Biscuits', price: 50, afterSale: 39, comments: 85, sale: "-15%"},
+                {src: require('../assets/prd1.png'), title: 'Ponky Chips', price: 50, afterSale: 39, comments: 85, sale: "-15%"},
             ]
         }
     }

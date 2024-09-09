@@ -14,7 +14,9 @@
                     <li>
                         <router-link to="/homePage">Home</router-link>
                     </li>
-                    <li><a>Explore</a></li>
+                    <li>
+                        <router-link to="/productsPage">Explore</router-link>
+                    </li>
                     <li><a>Offers</a></li>
                     <li><a>Plans</a></li>
                     <li><a>Contact Us</a></li>
@@ -58,7 +60,7 @@
                     </div>
 
                     <ul tabindex="0"
-                        class="menu menu-sm dropdown-content rounded-box mt-3 w-52 p-2 shadow text-black bg-white relative z-50">
+                        class="menu menu-sm dropdown-content rounded-box mt-3 w-52 p-2 shadow text-black bg-white relative z-50 -translate-x-32">
                         <li>
                             <router-link to="/homePage">Home</router-link>
                         </li>
@@ -90,7 +92,7 @@
                         </div>
 
                         <ul tabindex="0"
-                            class="menu menu-sm dropdown-content  rounded-box mt-3 w-52 p-2 gap-y-2 lgScreen:gap-y-0 shadow text-black bg-white">
+                            class="menu menu-sm dropdown-content  rounded-box mt-3 w-52 p-2 gap-y-2 lgScreen:gap-y-0 shadow text-black bg-white -translate-x-32">
                             <li class="flex flex-row items-center pb-2">
                                 <img src="../assets/snack.png" alt="" class="w-6 p-0" />
                                 <router-link to="homePage" class="ps-1">Snacks</router-link>
@@ -170,8 +172,6 @@
 
         </div>
     </nav>
-
-
 </template>
 
 <script>

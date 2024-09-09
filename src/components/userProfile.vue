@@ -136,10 +136,10 @@ export default {
                 let reader = new FileReader()
 
                 reader.onload = async function (e) {
-                    let user = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/c5ec0a8b494a30e.json')
+                    let user = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')
 
                     user.data.userImages.userImage = e.target.result
-                    await axios.put('https://dailymart-5c550-default-rtdb.firebaseio.com/users/c5ec0a8b494a30e.json', user.data)
+                    await axios.put('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json', user.data)
                     location.reload()
                 }
                 reader.readAsDataURL(file)
@@ -151,7 +151,7 @@ export default {
     ,
 
     async mounted() {
-        let user = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/c5ec0a8b494a30e.json')
+        let user = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')
 
         if (user.data.userImages.userImage) {
             this.userImage = user.data.userImages.userImage

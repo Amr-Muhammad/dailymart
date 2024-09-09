@@ -18,6 +18,8 @@ import SignPage from './components/signPage.vue';
 import ProductsPage from './components/productsPage.vue';
 import OffersPage from './components/offersPage.vue';
 import ErrorPage from './components/errorPage.vue';
+import ManageProducts from './components/manageProducts.vue';
+import EditDeleteProducts from './components/edit-deleteProducts.vue';
 
 const routes = [
     { path: '/', component: HomePage },
@@ -42,8 +44,10 @@ const routes = [
     { path: '/signPage', component: SignPage },
     { path: '/productsPage', component: ProductsPage },
     { path: '/offersPage', component: OffersPage },
+    { path: '/test', component: TestComponent },
+    { path: '/manageProducts', component: ManageProducts },
+    { path: '/editDelete', component: EditDeleteProducts },
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
-    { path: '/test', component: TestComponent }
 ]
 
 
