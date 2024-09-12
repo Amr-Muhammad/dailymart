@@ -15,7 +15,7 @@
                         <router-link to="/homePage">Home</router-link>
                     </li>
                     <li>
-                        <router-link to="/productsPage">Explore</router-link>
+                        <router-link to="/CategroyPage">Explore</router-link>
                     </li>
                     <li><a>Offers</a></li>
                     <li><a>Plans</a></li>
@@ -32,10 +32,10 @@
                     <router-link to="/useraccount">
                         <img class="w-6 filter invert grayscale brightness-0" src="../assets/weeklyOrders.png" />
                     </router-link>
-                    <router-link to="/useraccount">
+                    <router-link to="/useraccount/wishlist">
                         <img class="w-6 filter invert grayscale brightness-0" src="../assets/wishlist.png" />
                     </router-link>
-                    <router-link to="/useraccount">
+                    <router-link to="/cart">
                         <img class="w-6 filter invert grayscale brightness-0" src="../assets/cart.png" />
                     </router-link>
                 </div>
@@ -64,7 +64,9 @@
                         <li>
                             <router-link to="/homePage">Home</router-link>
                         </li>
-                        <li><a>Explore</a></li>
+                        <li>
+                            <router-link to="/CategroyPage">Explore</router-link>
+                        </li>
                         <li><a>Offers</a></li>
                         <li><a>Plans</a></li>
                         <li><a>Contact Us</a></li>

@@ -3,8 +3,8 @@
     <div>
         <h2 class="ms-20 text-2xl font-semibold ">Your Wishlist
             <span class="text-gray-400 text-[16px]">
-                <span>(2 </span>
-                <span>items)</span>
+                <span>({{ itemsNumber }} </span>
+                <span> items)</span>
             </span>
         </h2>
     </div>
@@ -88,31 +88,31 @@
 
     <div class="items-wrapper w-full px-4 mt-10">
 
-        <div class="flex flex-wrap items-center justify-between my-7 mx-16 p-3 rounded-lg shadow-md bg-white">
+        <div v-for="item in wishlist" :key="item[0]"
+            class="flex flex-wrap items-center justify-between my-7 mx-16 p-3 rounded-lg shadow-md bg-white">
 
             <div class="w-full md:w-1/4 flex justify-center mb-4 md:mb-0">
-                <img class="w-6/12 max-w-xs" src="../assets/6223000504383_-_47_-_57g-1-removebg-preview.png"
-                    alt="Big Chips">
+                <img class="w-6/12 max-w-xs" :src="item[1].image_url" alt="Big Chips">
             </div>
 
             <div class="w-full md:w-2/4 flex flex-col md:items-start text-center md:text-left mb-4 md:mb-0">
-                <div class="text-lg font-semibold mb-2">Big Chips</div>
+                <div class="text-lg font-semibold mb-2">{{ item[1].english_name }}</div>
                 <div class="rating flex justify-center mb-2">
                     <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
-                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400"  />
-                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400"   />
-                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400"  />
-                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400"  />
+                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
                 </div>
-                <p class="text-lg font-semibold">10.00 E£</p>
+                <p class="text-lg font-semibold">{{ item[1].price }} E£</p>
             </div>
 
             <div class="w-full md:w-1/4 flex md:flex-row flex-col md:items-center">
-                <button class="mainGreenBtn font-semibold me-2">
+                <button @click="addToCart(item[0], item[1])" class="mainGreenBtn font-semibold me-2">
                     Add To Cart
                 </button>
-                <svg class="mx-auto cursor-pointer mt-3 md:mt-0" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
+                <svg @click="deleteItem(item[0])" class="mx-auto cursor-pointer mt-3 md:mt-0" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd"
                         d="M12 10.585L14.293 8.293L15.707 9.707L13.414 12L15.707 14.293L14.293 15.707L12 13.414L9.707 15.707L8.293 14.293L10.585 12L8.293 9.707L9.707 8.293L12 10.585ZM12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2ZM12 4C16.418 4 20 7.582 20 12C20 16.418 16.418 20 12 20C7.582 20 4 16.418 4 12C4 7.582 7.582 4 12 4Z"
                         fill="#000" />
@@ -130,8 +130,38 @@
 </template>
 
 <script>
-export default {
+import axios from 'axios';
 
+export default {
+    data() {
+        return {
+            wishlist: null,
+            itemsNumber: null,
+            userId: 'bab69910f7dc80c'
+        }
+    },
+    methods: {
+        async getWishlist() {
+            this.wishlist = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/wishlist/${this.userId}.json`)).data
+            this.wishlist = Object.entries(this.wishlist)
+            console.log(this.wishlist);
+
+            this.itemsNumber = this.wishlist.length
+
+        },
+        async deleteItem(productId) {
+            let res = (await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/wishlist/${this.userId}/${productId}.json`))
+            console.log(res);
+            this.getWishlist()
+        },
+        async addToCart(productId, product) {
+            let res = (await (axios.put(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.userId}/${productId}.json`, product))).data
+            console.log(res);
+        },
+    },
+    mounted() {
+        this.getWishlist()
+    }
 }
 </script>
 
