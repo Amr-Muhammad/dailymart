@@ -24,6 +24,7 @@ import EditDeleteProducts from './components/edit-deleteProducts.vue';
 
 import Cart from './components/Cart.vue';
 import CategroyPage from './components/categroyPage.vue';
+import ProductDetails from './components/productDetails.vue';
 
 
 //Farha
@@ -73,6 +74,7 @@ const routes = [
     { path: '/editDelete', component: EditDeleteProducts },
     { path: '/cart', component: Cart },
     { path: '/CategroyPage', component: CategroyPage },
+    { path: '/productDetailes', component: ProductDetails },
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
 
     //Farha

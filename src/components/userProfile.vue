@@ -8,6 +8,9 @@
         <!-- <img class="w-28 rounded-full border border-black"
             src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" alt="">  -->
         <img class="object-fill w-28 h-28 rounded-full border-[3px] border-[#1F822E]" :src="userImage" alt="">
+        <span v-if="exist" @click="deleteProfilePicture()"
+            class="text-red-500 font-semibold text-xs mt-4 cursor-pointer hover:underline">Delete
+            Profile Picture</span>
 
         <!-- <button class="mainGreenBtn my-4">Upload Image</button> -->
         <input @change="uploadImage" type="file"
@@ -122,7 +125,8 @@ export default {
 
     data() {
         return {
-            userImage: null
+            userImage: null,
+            exist: null
         }
     },
 
@@ -136,28 +140,33 @@ export default {
                 let reader = new FileReader()
 
                 reader.onload = async function (e) {
-                    let user = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')
-
-                    user.data.userImages.userImage = e.target.result
-                    await axios.put('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json', user.data)
+                    await axios.patch('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json', { profilePicture: e.target.result })
                     location.reload()
                 }
                 reader.readAsDataURL(file)
             }
+        },
 
-
+        async deleteProfilePicture() {
+            await axios.delete('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c/profilePicture.json')
+            location.reload()
         }
     }
     ,
 
     async mounted() {
-        let user = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')
+        let user = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')).data
 
-        if (user.data.userImages.userImage) {
-            this.userImage = user.data.userImages.userImage
+        if (user.profilePicture) {
+            this.userImage = user.profilePicture
+            this.exist = true
         }
         else {
-            this.userImage = user.data.userImages.maleImage
+            if (user.gender == 'male') {
+                this.userImage = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+            } else {
+                this.userImage = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+            }
         }
     }
 }

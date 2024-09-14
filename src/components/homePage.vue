@@ -61,7 +61,7 @@
                 <p>We’ve selected them based on quality and value to enhance your experience.</p>
             </div>
 
-            <Carousel :itemsToShow="5.5" :wrapAround="true" :transition="2000" :autoplay="true" :snap-align="'center'"
+            <Carousel :itemsToShow="5.5" :wrapAround="true" :transition="1000" :snap-align="'center'"
                 :pause-autoplay-on-hover="true" :breakpoints="prdsBreakpoints" class="prds">
 
                 <Slide v-for="prd in prds" :key="prd.id" class="flex flex-col sm:mx-auto md:mx-0 sm:mb-3 lg:mb-0">
@@ -199,19 +199,50 @@ export default defineComponent({
     name: 'HomePage',
     components: { Carousel, Slide, Navigation },
     setup() {
+        let handler = null;
+
         onMounted(() => {
-            const productBox = document.querySelectorAll(".featured ol li");
-            productBox.forEach((prd) => {
-                prd.addEventListener("click", () => {
+            setInterval(() => {
+                const productBox = document.querySelectorAll('[class*="--prev"], [class*="--active"], [class*="--next"]');
+
+                if (handler) {
+                    productBox.forEach((prd) => {
+                        prd.removeEventListener("click", handler);
+                    })
+                }
+
+                handler = function (event) {
+                    const prd = event.currentTarget;
                     prd.classList.toggle("flip");
                     if (prd.classList.contains("flip")) {
                         setTimeout(() => {
                             prd.classList.remove("flip");
-                        }, 4000)
+                        }, 4000);
                     }
-                })
-            });
-        })
+                };
+
+                productBox.forEach((prd) => {
+                    prd.addEventListener("click", handler);
+                });
+            }, 1000);
+        });
+
+
+        // onMounted(() => {
+        //     setInterval(() => {
+        //         const productBox = document.querySelectorAll('[class*="--prev"], [class*="--active"], [class*="--next"]')
+        //         productBox.forEach((prd) => {
+        //             prd.addEventListener("click", () => {
+        //                 prd.classList.toggle("flip");
+        //                 // if (prd.classList.contains("flip")) {
+        //                 //     setTimeout(() => {
+        //                 //         prd.classList.remove("flip");
+        //                 //     }, 4000)
+        //                 // }    
+        //             })
+        //         });
+        //     }, 1000);
+        // })
         return {
         }
     },
@@ -291,7 +322,6 @@ export default defineComponent({
 .featured ol li {
     transition: transform .5s;
     transform-style: preserve-3d;
-    cursor: pointer;
     position: relative;
     /* max-width: 400px; */
     /* flex: 1 0 200px; */
@@ -332,26 +362,25 @@ export default defineComponent({
 }
 
 .carousel__slide {
-    opacity: 0.9;
+    opacity: 0.5;
     transform: rotateY(-20deg) scale(0.9);
-}
-
-.carousel__slide--active~.carousel__slide {
-    transform: rotateY(20deg) scale(0.9);
 }
 
 .carousel__slide--prev {
     opacity: 1;
+    cursor: pointer;
     transform: rotateY(-10deg) scale(0.95);
 }
 
 .carousel__slide--next {
+    cursor: pointer;
     opacity: 1;
     transform: rotateY(10deg) scale(0.95);
 }
 
 .carousel__slide--active {
+    cursor: pointer;
     opacity: 1;
-    transform: rotateY(0) scale(1.1);
+    transform: rotateY(0) scale(1);
 }
 </style>

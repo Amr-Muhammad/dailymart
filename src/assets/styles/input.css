@@ -6,9 +6,9 @@
     .primaryPink {
         color: #DB4444;
     }
-    /* .router-link-active {
+    .router-link-exact-active {
         @apply text-[#DB4444];
-    } */
+    }
 
     .mainGreenBtn {
         @apply px-12 py-2 bg-[#1F822E] text-white rounded-md hover:bg-white hover:text-black transition-all duration-200 hover:outline hover:outline-1;

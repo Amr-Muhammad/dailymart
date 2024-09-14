@@ -97,35 +97,43 @@
                             class="menu menu-sm dropdown-content  rounded-box mt-3 w-52 p-2 gap-y-2 lgScreen:gap-y-0 shadow text-black bg-white -translate-x-32">
                             <li class="flex flex-row items-center pb-2">
                                 <img src="../assets/snack.png" alt="" class="w-6 p-0" />
-                                <router-link to="homePage" class="ps-1">Snacks</router-link>
+                                <router-link to="/productsPage/bab69910f7dc80c257a9_snacks"
+                                    class="ps-1">Snacks</router-link>
                             </li>
                             <li class="flex flex-row items-start">
                                 <img src="../assets/beverage.png" alt="" class="w-6 p-0" />
-                                <router-link to="homePage" class="ps-1">Beverage</router-link>
+                                <router-link to="/productsPage/bab69910f7dc80c257a9_bevrages"
+                                    class="ps-1">Beverage</router-link>
                             </li>
                             <li class="flex flex-row items-center">
                                 <img src="../assets/dairy.png" alt="" class="w-6 p-0" />
-                                <router-link to="homePage" class="ps-1">Dairy Products</router-link>
+                                <router-link to="/productsPage/bab69910f7dc80c257a9_dairy" class="ps-1">Dairy
+                                    Products</router-link>
                             </li>
                             <li class="flex flex-row items-center">
                                 <img src="../assets/veges&fruits.png" alt="" class="w-6 p-0" />
-                                <router-link to="homePage" class="ps-1">Vegetables & Fruits</router-link>
+                                <router-link to="/productsPage/bab69910f7dc80c257a9_fruits" class="ps-1">Vegetables &
+                                    Fruits</router-link>
                             </li>
                             <li class="flex flex-row items-center">
                                 <img src="../assets/frozen-food.png" alt="" class="w-6 p-0" />
-                                <router-link to="homePage" class="ps-1">Frozen Goods</router-link>
+                                <router-link to="/productsPage/bab69910f7dc80c257a9_frozen" class="ps-1">Frozen
+                                    Goods</router-link>
                             </li>
                             <li class="flex flex-row items-center">
                                 <img src="../assets/cooking-oil.png" alt="" class="w-6 p-0" />
-                                <router-link to="homePage" class="ps-1">Cooking Oil</router-link>
+                                <router-link to="/productsPage/bab69910f7dc80c257a9_oils" class="ps-1">Cooking
+                                    Oil</router-link>
                             </li>
                             <li class="flex flex-row items-center">
                                 <img src="../assets/veges&fruits.png" alt="" class="w-6 p-0" />
-                                <router-link to="homePage" class="ps-1">Sauses</router-link>
+                                <router-link to="/productsPage/bab69910f7dc80c257a9oils_sauces"
+                                    class="ps-1">Sauces</router-link>
                             </li>
                             <li class="flex flex-row items-center">
                                 <img src="../assets/cleaning.png" alt="" class="w-6 p-0" />
-                                <router-link to="homePage" class="ps-1">Cleaning Products</router-link>
+                                <router-link to="/productsPage/bab69910f7dc80c257a9_cleaning" class="ps-1">Cleaning
+                                    Products</router-link>
                             </li>
                         </ul>
                     </div>
@@ -136,35 +144,43 @@
                     <ul tabindex="0" class="menu menu-horizontal py-0 flex lgScreen:gap-3">
                         <li class="flex flex-row items-center">
                             <img src="../assets/snack.png" alt="" class="w-6 p-0" />
-                            <router-link to="homePage" class="ps-1">Snacks</router-link>
+                            <router-link to="/productsPage/bab69910f7dc80c257a9_snacks"
+                                class="ps-1">Snacks</router-link>
                         </li>
                         <li class="flex flex-row lg:items-center items-start">
                             <img src="../assets/beverage.png" alt="" class="w-6 p-0" />
-                            <router-link to="homePage" class="ps-1">Beverage</router-link>
+                            <router-link to="/productsPage/bab69910f7dc80c257a9_bevrages"
+                                class="ps-1">Beverage</router-link>
                         </li>
                         <li class="flex flex-row items-center">
                             <img src="../assets/dairy.png" alt="" class="w-6 p-0" />
-                            <router-link to="homePage" class="ps-1">Dairy Products</router-link>
+                            <router-link to="/productsPage/bab69910f7dc80c257a9_dairy" class="ps-1">Dairy
+                                Products</router-link>
                         </li>
                         <li class="flex flex-row items-center">
                             <img src="../assets/veges&fruits.png" alt="" class="w-6 p-0" />
-                            <router-link to="homePage" class="ps-1">Vegetables & Fruits</router-link>
+                            <router-link to="/productsPage/bab69910f7dc80c257a9_fruits" class="ps-1">Vegetables &
+                                Fruits</router-link>
                         </li>
                         <li class="flex flex-row items-center">
                             <img src="../assets/frozen-food.png" alt="" class="w-6 p-0" />
-                            <router-link to="homePage" class="ps-1">Frozen Goods</router-link>
+                            <router-link to="/productsPage/bab69910f7dc80c257a9_frozen" class="ps-1">Frozen
+                                Goods</router-link>
                         </li>
                         <li class="flex flex-row items-center">
                             <img src="../assets/cooking-oil.png" alt="" class="w-6 p-0" />
-                            <router-link to="homePage" class="ps-1">Cooking Oil</router-link>
+                            <router-link to="/productsPage/bab69910f7dc80c257a9_oils" class="ps-1">Cooking
+                                Oil</router-link>
                         </li>
                         <li class="flex flex-row items-center">
                             <img src="../assets/sauces.png" alt="" class="w-6 p-0" />
-                            <router-link to="homePage" class="ps-1">Sauses</router-link>
+                            <router-link to="/productsPage/bab69910f7dc80c257a9oils_sauces"
+                                class="ps-1">Sauces</router-link>
                         </li>
                         <li class="flex flex-row items-center">
                             <img src="../assets/cleaning.png" alt="" class="w-6 p-0" />
-                            <router-link to="homePage" class="ps-1">Cleaning Products</router-link>
+                            <router-link to="/productsPage/bab69910f7dc80c257a9_cleaning" class="ps-1">Cleaning
+                                Products</router-link>
                         </li>
                     </ul>
                 </div>
@@ -178,7 +194,7 @@
 
 <script>
 import axios from 'axios';
-import { signOut, onAuthStateChanged, getAuth } from 'firebase/auth'
+import { signOut, getAuth } from 'firebase/auth'
 export default {
     name: 'navBar',
     data() {
@@ -188,16 +204,16 @@ export default {
         }
     },
     async mounted() {
-        onAuthStateChanged(getAuth(), user => {
-            if (user) {
-                this.isLogged = true
-            }
-            else {
-                this.isLogged = false
-            }
-        })
-            ,
-            await this.getProfilePicture()
+        // onAuthStateChanged(getAuth(), user => {
+        //     if (user) {
+        //         this.isLogged = true
+        //     }
+        //     else {
+        //         this.isLogged = false
+        //     }
+        // })
+        //     ,
+        await this.getProfilePicture()
 
     },
     methods: {
@@ -209,14 +225,16 @@ export default {
         }
         ,
         async getProfilePicture() {
-            let user = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')
-            console.log(user.u);
-
-            if (user.data.userImages.userImage) {
-                this.userImage = user.data.userImages.userImage
+            let user = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')).data
+            if (user.profilePicture) {
+                this.userImage = user.profilePicture
             }
             else {
-                this.userImage = user.data.userImages.maleImage
+                if (user.gender == 'male') {
+                    this.userImage = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+                } else {
+                    this.userImage = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+                }
             }
         }
     }
