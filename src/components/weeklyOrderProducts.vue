@@ -1,33 +1,22 @@
 <template>
 
-    <div class="container mx-auto products pt-10 mb-12 text-center">
+    <div class="products pt-10 mb-12 text-center">
 
         <section class="products-head mb-12 mx-10">
             <h2
                 class="text-xs sm:w-1/5 md:w-2/5 mb-4 text-start text-stone-500 font-bold relative before:content-[''] before:absolute before:bg-[#DB4444] before:top-0 md:before:top-0 before:-left-3 md:before:-left-6 before:block before:w-2 md:before:w-3 before:h-4 md:before:h-5 before:rounded-sm">
                 Our Products</h2>
             <div class="flex  flex-col gap-3 md:flex-row justify-between items-start md:items-center ">
-
                 <p class="text-lg md:text-2xl font-bold text-stone-900 w-fit">Explore Our Products</p>
-
-                <div class="search-input relative lg:w-1/5 flex items-center">
-
-                    <input v-model="searchQuery" type="text" placeholder="Search"
-                        class="input rounded-md focus:outline-none h-8 input-bordered border-[#166534] border-2 focus:border-[#166534] w-full max-w-64" />
-
-                    <div
-                        class="relative right-8 h-8 flex items-center w-10 rounded-r-md justify-center border-2 border-[#166534] bg-[#166534]">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                            stroke="currentColor" class="size-5 text-white">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                        </svg>
-
-                    </div>
-
+                <div class="search-input relative">
+                    <input v-model="searchQuery" type="text" placeholder="search"
+                        class="input focus:outline-none h-8 input-bordered border-red-400 focus:border-red-400 w-full max-w-64" />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
+                        stroke="currentColor" class="size-5 absolute top-1.5 right-3.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
                 </div>
-
             </div>
         </section>
 
@@ -109,7 +98,6 @@ export default {
             categoryId: null,
             searchQuery: '',
             userId: 'bab69910f7dc80c',
-            // lastVisibleProduct: null,
         }
     }
     ,
@@ -123,19 +111,6 @@ export default {
         async addToWishlist(productId, product) {
             console.log(await service.methods.addTo_cart_wishlist(this.userId, productId, product, 'wishlist'));
         },
-        // async fetchFirstPage() {
-        //     const url = `https://dailymart-5c550-default-rtdb.firebaseio.com/products.json?orderBy="$key"&limitToFirst=20`;
-        //     const res = (await axios.get(url)).data;
-        //     this.products = Object.values(res); // Convert the fetched object into an array of products
-        //     this.lastVisibleProduct = Object.keys(res)[Object.keys(res).length - 1]; // Get the last product key for pagination
-        //     console.log(this.products);
-        //     console.log(this.lastVisibleProduct);
-        // },
-        // async fetchNextPage() {
-        //     const res = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/products.json?orderBy="$key"&limitToFirst=20&startAt="${this.lastVisibleProduct}"`)).data;
-        //     delete res[Object.keys(res)[0]]
-        //     this.products = res
-        // },
     },
     mounted() {
         this.categoryId = this.$route.params.id

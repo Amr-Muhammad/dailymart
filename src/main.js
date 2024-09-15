@@ -21,30 +21,29 @@ import ErrorPage from './components/errorPage.vue';
 import ManageProducts from './components/manageProducts.vue';
 import EditDeleteProducts from './components/edit-deleteProducts.vue';
 
-
 import Cart from './components/Cart.vue';
 import CategroyPage from './components/categroyPage.vue';
 import ProductDetails from './components/productDetails.vue';
 
 
-//Farha
-// import ImpactHeading from './components/ChartsHeadre.vue'
-// import BoycottWrapper from './components/BoycottingWrapper.vue'
-// import BoycottProducts from './components/BoycottingProducts.vue'
-// import RollerCoasterCarousel from './components/BoycottingCaroselLogo.vue'
-// import PlansWrapperComponent from './components/PlansWrapper.vue'
-// import CartProducts from './components/Cart.vue'
-// import TopPicksForYou from './components/TopPicks.vue'
-// import HowItWorks from './components/HowItWorks.vue'
-// import PlansCrds from './components/PlansCrds.vue'
-// import FAQSection from './components/FaqPlans.vue'
-// import AdminHeader from './components/AdminHeader.vue'
-// import AdminSidebar from './components/AdminSidebar.vue'
-// import AdminForm from './components/AdminForm.vue'
-// import AdminMangement from './components/AdminMangement.vue'
-// import AdminListItem from './components/AdminListItem.vue'
-// import AdminList from './components/AdminList.vue'
-// import EmailGetHelp from './components/EmailGetHelp.vue';
+//farha
+import 'animate.css';
+import EmailGetHelp from './components/EmailGetHelp.vue'
+import ImpactHeading from './components/ChartsHeadre.vue'
+import BoycottWrapper from './components/BoycottingWrapper.vue'
+import BoycottProducts from './components/BoycottingProducts.vue'
+import RollerCoasterCarousel from './components/BoycottingCaroselLogo.vue'
+import PlansWrapperComponent from './components/PlansWrapper.vue'
+import TopPicksForYou from './components/TopPicks.vue'
+import HowItWorks from './components/HowItWorks.vue'
+import PlansCrds from './components/PlansCrds.vue'
+import FAQSection from './components/FaqPlans.vue'
+import AdminForm from './components/AdminForm.vue'
+import AdminMangement from './components/AdminMangement.vue'
+import AdminListItem from './components/AdminListItem.vue'
+import AdminList from './components/AdminList.vue'
+import WeeklyOrderProducts from './components/weeklyOrderProducts.vue';
+
 
 const routes = [
     { path: '/', component: HomePage },
@@ -62,7 +61,9 @@ const routes = [
             { path: 'userprofile', component: UserProfile },
             { path: 'wishlist', component: userWishlist },
             { path: 'weeklyorders', component: userWeeklyOrders },
-            { path: 'myorders', component: MyOrders }
+            { path: 'myorders', component: MyOrders },
+            { path: 'AdminList', component: AdminList }, //wrapper
+            { path: 'AdminMangement', component: AdminMangement }, //wrapper
         ]
     },
     { path: '/loginpage', component: LoginPage },
@@ -75,27 +76,26 @@ const routes = [
     { path: '/cart', component: Cart },
     { path: '/CategroyPage', component: CategroyPage },
     { path: '/productDetailes', component: ProductDetails },
+
+    //farha
+    { path: '/ImpactHeading', component: ImpactHeading }, //wrapper
+    { path: '/BoycottWrapper', component: BoycottWrapper }, //wrapper
+    { path: '/BoycottProducts', component: BoycottProducts },
+    { path: '/RollerCoasterCarousel', component: RollerCoasterCarousel },
+    { path: '/PlansWrapperComponent', component: PlansWrapperComponent }, //wrapper
+    { path: '/TopPicksForYou', component: TopPicksForYou },
+    { path: '/HowItWorks', component: HowItWorks },
+    { path: '/PlansCrds', component: PlansCrds },
+    { path: '/', component: FAQSection },
+    { path: '/EmailGetHelp', component: EmailGetHelp }, //wrapper
+    { path: '/AdminForm', component: AdminForm },
+    { path: '/AdminListItem', component: AdminListItem },
+    { path: '/weeklyProducts', component: WeeklyOrderProducts },
+
+
+
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
 
-    //Farha
-
-    // { path: '/ImpactHeading', component: ImpactHeading },
-    // { path: '/BoycottWrapper', component: BoycottWrapper },
-    // { path: '/BoycottProducts', component: BoycottProducts },
-    // { path: '/RollerCoasterCarousel', component: RollerCoasterCarousel },
-    // { path: '/PlansWrapperComponent', component: PlansWrapperComponent },
-    // { path: '/CartProducts', component: CartProducts },
-    // { path: '/TopPicksForYou', component: TopPicksForYou },
-    // { path: '/HowItWorks', component: HowItWorks },
-    // { path: '/PlansCrds', component: PlansCrds },
-    // { path: '/FAQSection', component: FAQSection },
-    // { path: '/EmailGetHelp', component: EmailGetHelp },
-    // { path: '/AdminHeader', component: AdminHeader },
-    // { path: '/AdminSidebar', component: AdminSidebar },
-    // { path: '/AdminForm', component: AdminForm },
-    // { path: '/AdminMangement', component: AdminMangement },
-    // { path: '/AdminListItem', component: AdminListItem },
-    // { path: '/AdminList', component: AdminList }
 ]
 
 

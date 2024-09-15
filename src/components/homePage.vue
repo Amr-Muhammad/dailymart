@@ -12,7 +12,7 @@
             </div>
         </section>
 
-        <section class="sale-sec bg-white p-5 mb-16 text-center">
+        <section class="container mx-auto sale-sec bg-white p-5 mb-16 text-center">
 
             <div class="head">
                 <h2>Exclusive Deals Await You</h2>
@@ -61,7 +61,7 @@
                 <p>We’ve selected them based on quality and value to enhance your experience.</p>
             </div>
 
-            <Carousel :itemsToShow="5.5" :wrapAround="true" :transition="1000" :snap-align="'center'"
+            <Carousel :itemsToShow="5.5" :wrapAround="true" :transition="1500" :autoplay="1000" :snap-align="'center'"
                 :pause-autoplay-on-hover="true" :breakpoints="prdsBreakpoints" class="prds">
 
                 <Slide v-for="prd in prds" :key="prd.id" class="flex flex-col sm:mx-auto md:mx-0 sm:mb-3 lg:mb-0">
@@ -135,15 +135,15 @@
                     values and commitment.</p>
             </div>
 
-            <Carousel :itemsToShow="3.95" :wrapAround="true" :transition="1500" :autoplay="true" :snap-align="'center'"
+            <Carousel :itemsToShow="3.95" :wrapAround="true" :transition="1500" :autoplay="1000" :snap-align="'center'"
                 :pause-autoplay-on-hover="true" :breakpoints="breakpoints" class="boycotted-prds">
                 <Slide v-for="item in items" :key="item">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-55 absolute z-10 stroke-red-600">
+                        stroke="currentColor" class="size-60 absolute z-10 stroke-red-600">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
                     </svg>
-                    <img :src="item.src" :alt="item.alt" class="rounded-full w-60 mx-5 blur-[3px]" />
+                    <img :src="item.src" :alt="item.alt" class="rounded-full max-w-[150px] mx-5" />
                 </Slide>
                 <template #addons>
                     <Navigation />
@@ -156,7 +156,7 @@
 
         </section>
 
-        <section class="top-rated bg-white p-5 mb-16">
+        <section class="container mx-auto top-rated bg-white p-5 mb-16">
 
             <div class="head">
                 <h2>Top Rated Products</h2>

@@ -17,9 +17,15 @@
                     <li>
                         <router-link to="/CategroyPage">Explore</router-link>
                     </li>
-                    <li><a>Offers</a></li>
-                    <li><a>Plans</a></li>
-                    <li><a>Contact Us</a></li>
+                    <li>
+                        <router-link to="/offersPage">Offers</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/PlansWrapperComponent">Plans</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/EmailGetHelp">Contact Us</router-link>
+                    </li>
                     <!-- <li v-if="!isLogged">
                         <router-link to="/loginpage">Login</router-link>
                     </li> -->
@@ -29,14 +35,14 @@
 
             <div class="userIcons">
                 <div class="cart-wishlist-wOrders me-5 flex gap-3">
-                    <router-link to="/useraccount">
-                        <img class="w-6 filter invert grayscale brightness-0" src="../assets/weeklyOrders.png" />
+                    <router-link to="/useraccount/weeklyorders">
+                        <img title="Weekly Orders" class="w-6 filter invert grayscale brightness-0" src="../assets/weeklyOrders.png" />
                     </router-link>
                     <router-link to="/useraccount/wishlist">
-                        <img class="w-6 filter invert grayscale brightness-0" src="../assets/wishlist.png" />
+                        <img title="Wishlist" class="w-6 filter invert grayscale brightness-0" src="../assets/wishlist.png" />
                     </router-link>
                     <router-link to="/cart">
-                        <img class="w-6 filter invert grayscale brightness-0" src="../assets/cart.png" />
+                        <img title="Cart" class="w-6 filter invert grayscale brightness-0" src="../assets/cart.png" />
                     </router-link>
                 </div>
 
@@ -67,9 +73,15 @@
                         <li>
                             <router-link to="/CategroyPage">Explore</router-link>
                         </li>
-                        <li><a>Offers</a></li>
-                        <li><a>Plans</a></li>
-                        <li><a>Contact Us</a></li>
+                        <li>
+                            <router-link to="/offersPage">Offers</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/PlansWrapperComponent">Plans</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/EmailGetHelp">Contact Us</router-link>
+                        </li>
                     </ul>
 
                 </div>

@@ -2,7 +2,7 @@
 
     <div>
 
-        <div class="container">
+        <div class="container mx-auto">
             <div class="flex justify-between">
 
                 <div class="breadcrumbs text-sm">
@@ -19,7 +19,7 @@
             </div>
 
             <div class="flex mt-16 flex-wrap justify-center">
-                <leftSection class="md:w-3/12">
+                <leftSection class="md:w-2/12">
                     <div>
                         <h1 class="font-bold">Manage My Account</h1>
                         <ul class="ms-10 mt-4 flex gap-7 md:block mb-5 md:mb-0">
@@ -39,7 +39,7 @@
                     </div>
                 </leftSection>
 
-                <rightSection class="md:w-9/12 shadow-2xl py-14">
+                <rightSection class="md:w-10/12 shadow-2xl py-14">
                     <router-view></router-view>
                 </rightSection>
             </div>

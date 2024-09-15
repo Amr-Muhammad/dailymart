@@ -23,7 +23,6 @@
           @click="toggleFAQ(index)"
         >
           <h2 class="text-lg">{{ faq.question }}</h2>
-          <!-- Arrow Icon -->
           <svg
             :class="{
               'rotate-180': activeFAQ === index,

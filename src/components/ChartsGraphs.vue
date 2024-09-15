@@ -68,6 +68,7 @@ export default {
         labels: ['P&G', 'Starbucks', "McDonald's", 'Coca-Cola'],
         datasets: [
           {
+            label: 'company sales drop in (%)',
             data: [23.3, 16, 12, 35.6],
             backgroundColor: ['#00A1DF', '#00704A', '#FFCE56', '#fe001a'],
             hoverBackgroundColor: ['#00A1DF', '#00704A', '#FFCE56', '#fe001a']
@@ -167,7 +168,7 @@ export default {
         const entry = entries[0];
         if (entry.isIntersecting) {
           this.typeText();
-          this.observer.disconnect(); // Stop observing after the text starts typing
+          this.observer.disconnect(); 
         }
       });
 
@@ -199,12 +200,12 @@ export default {
 .chart-container
 {
   width: 500px;
-  height: 300px; /* Adjust height as needed */
+  height: 300px; 
   margin-bottom: 20px;
 }
 .apexchart-container {
   width: 100%;
-  height: 300px; /* Adjust height as needed */
+  height: 300px; 
   margin-bottom: 20px;
 }
 </style>
