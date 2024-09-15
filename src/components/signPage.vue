@@ -1,6 +1,6 @@
 <template>
-    <div class="-mt-32">
-        <div class="signContainer relative max-w-full h-screen grid-cols[1fr] overflow-hidden bg-white before before:content-[''] before:absolute before:-translate-y-2/4 before:w-[2000px] before:h-[2000px] before:bg-green-800 before:right-2/4 before:duration-[800ms] before:ease-in-out before:z-[6]">
+    <div class="-my-40">
+        <div class="signContainer relative max-w-full h-screen grid-cols[1fr] overflow-hidden bg-white before before:content-[''] before:absolute before:-translate-y-2/4 before:w-[2000px] before:h-[4000px] before:bg-green-800 before:right-2/4 before:duration-[800ms] before:ease-in-out before:z-[6]">
             <section class="forms-cont absolute w-full h-full top-0 left-0">
                 <div class="signin-signup absolute z-[5] top-[95%] lg:top-2/4 left-1/2 lg:left-3/4 w-full md:w-6/12 duration-[1000ms] ease-in-out -translate-x-1/2 -translate-y-full md:-translate-y-1/2 grid">
                     <form action="" @submit.prevent="signinForm()" class="signin-form col-[1_/_span_2] row-[1_/_span_2] z-[2] duration-[100ms] delay-[500ms] overflow-hidden px-10">

@@ -1,5 +1,5 @@
 <template>
-    <footer class="bg-[#FBFBFB] py-8 px-4 md:px-8 lg:px-16">
+    <footer class="bg-[#FBFBFB] py-8 px-4 md:px-8 lg:px-16" v-if="$route.name !== 'SignPage'">
         <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
             <!-- Brand and Social Links -->
             <div class="space-y-4">

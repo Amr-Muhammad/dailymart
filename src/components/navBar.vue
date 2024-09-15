@@ -1,5 +1,5 @@
 <template>
-    <nav class="fixed start-0 end-0 top-0 bg-green-800 z-50">
+    <nav class="fixed start-0 end-0 top-0 bg-green-800 z-50" v-if="$route.name !== 'SignPage'">
 
         <div class="navbar text-white w-11/12 mx-auto flex justify-between ">
 

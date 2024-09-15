@@ -67,7 +67,7 @@ const routes = [
         ]
     },
     { path: '/loginpage', component: LoginPage },
-    { path: '/signPage', component: SignPage },
+    { path: '/signPage', name: "SignPage", component: SignPage },
     { path: '/productsPage/:id', component: ProductsPage },
     { path: '/offersPage', component: OffersPage },
     { path: '/test', component: TestComponent },
