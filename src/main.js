@@ -102,7 +102,7 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
-    linkActiveClass: 'router-link-active'
+    linkActiveClass: 'router-link-active',
 })
 
 const firebaseConfig = {
@@ -119,6 +119,8 @@ initializeApp(firebaseConfig);
 
 
 createApp(App).use(router).mount('#app')
+
+
 
 
 // router.beforeEach((to, from, next) => {

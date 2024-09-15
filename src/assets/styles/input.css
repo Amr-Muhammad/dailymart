@@ -23,6 +23,10 @@
 
     }
 
+    .lg-screen-nav {
+        @apply me-2 hover:bg-white hover:text-[#166534] hover:rounded-[0.250rem] transition-all;
+    }
+    
     .head {
         @apply text-center mb-12;
     }
