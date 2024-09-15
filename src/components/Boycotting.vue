@@ -13,7 +13,7 @@
             Your one-stop online grocery store.
           </p>
         </header>
-        <a href="#" class="flex gap-1 hover:bg-emerald-950 hover:text-white justify-center items-center px-5 py-2.5 mt-9 text-base text-center text-emerald-50 bg-[#166534] rounded-lg max-w-[310px] min-h-[49px] w-[310px] max-md:px-5 animate__animated animate__pulse animate__infinite">
+        <a href="#" class="flex gap-1 hover:bg-emerald-950 hover:text-white justify-center items-center px-5 py-2.5 mt-9 text-base text-center text-emerald-50 bg-lime-600 rounded-lg max-w-[310px] min-h-[49px] w-[310px] max-md:px-5 animate__animated animate__pulse animate__infinite">
           <span class="gap-2 self-stretch p-1 my-auto">Shop Now</span>
         </a>
       </div>
