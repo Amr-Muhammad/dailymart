@@ -9,7 +9,7 @@
       </p>
       <router-link
         to="/BoycottWrapper"
-        class="flex flexmobile hover:bg-emerald-950 gap-1 justify-center items-center px-5 py-2.5 mt-9 text-base text-center text-emerald-50 bg-[#166534] rounded-lg max-w-[310px] min-h-[49px] w-[310px] max-md:px-5 animate__animated animate__tada" 
+        class="flex flexmobile hover:bg-emerald-950 gap-1 justify-center items-center px-5 py-2.5 mt-9 text-base text-center text-emerald-50 bg-lime-600 rounded-lg max-w-[310px] min-h-[49px] w-[310px] max-md:px-5 animate__animated animate__tada" 
         role="button">
         <span class="gap-2 p-1">Names Of Boycotting Products ?</span>
       </router-link>
