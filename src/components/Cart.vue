@@ -7,6 +7,10 @@
       <p class="mt-2">My Cart</p>
     </h2>
 
+    <div class="text-right mt-6">
+      <button class="text-red-600 underline hover:text-red-800" @click="clearCart()">Remove all</button>
+    </div>
+
     <div v-if="cart != null">
       <div v-for="(item, index) in cart" :key="index"
         class="flex items-center justify-between border-b border-gray-200 py-4">
@@ -14,10 +18,11 @@
           <img :src="item[1].image_url" alt="Product Image" class="w-20 h-20 object-cover rounded">
           <div>
             <h3 class="text-lg font-semibold">{{ item[1].english_name }}</h3>
-            <p class="text-sm text-green-600">In Stock • Availability: {{ item[1].amount }}</p>
+            <p class="text-sm text-green-600">In Stock • Availability: {{ item[1].availability }}</p>
             <div class="flex items-center space-x-2 mt-2">
               <label for="quantity" class="text-sm">Qty:</label>
-              <select v-model="item[1].amount" class="border border-gray-300 rounded p-1">
+              <select v-model="item[1].availability" class="border border-gray-300 rounded p-1">
+                <!-- la elah ella allah!!! -->
                 <option v-for="qty in 10" :key="qty" :value="qty">{{ qty }}</option>
               </select>
             </div>
@@ -35,9 +40,9 @@
           </button>
         </div>
       </div>
-      <div class="text-right mt-6">
-        <button class="text-red-600 underline hover:text-red-800" @click="clearCart()">Remove all</button>
-      </div>
+
+      <button @click="handleCheckout()" class="mainGreenBtn mt-3">Checkout</button>
+
     </div>
 
     <div v-if="cart == null" class="flex items-center justify-center flex-col">
@@ -53,6 +58,7 @@
 
 <script>
 import service from '@/mixins/service';
+import axios from 'axios';
 
 export default {
   name: 'CartProducts',
@@ -68,23 +74,66 @@ export default {
     // }
     // ,
     async getCart() {
-      this.cart = await service.methods.get_cart_wishlist(this.userId,'cart')
+      this.cart = await service.methods.get_cart_wishlist_weekly(this.userId, 'cart')
       if (this.cart) {
         this.cart = Object.entries(this.cart)
       }
     },
     async deleteItem(productId) {
-      await service.methods.deleteItem_cart_wishlist(this.userId, productId, 'cart')
+      await service.methods.deleteItem_cart_wishlist_weekly(this.userId, productId, 'cart')
       this.getCart()
     },
     async clearCart() {
-      await service.methods.clear_Cart_Wishlist(this.userId, 'cart')
+      await service.methods.clear_cart_wishlist_weekly(this.userId, 'cart')
       this.getCart()
     },
+    async handleCheckout() {
+      try {
+
+        const userResponse = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${this.userId}.json`);
+
+        const cart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.userId}.json`)).data
+
+        let cartArray = []
+        for (let i = 0; i < Object.entries(cart).length; i++) {
+          cartArray.push(Object.entries(cart)[i][1])
+        }
+
+        const user = {
+          name: userResponse.data.name,
+          email: userResponse.data.email
+        };
+        console.log(user);
+        const sessionResponse = await axios.post('https://delight-mart-server.vercel.app/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email });
+        const sessionId = sessionResponse.data.id;
+
+        const { error } = await this.stripe.redirectToCheckout({
+          sessionId: sessionId
+        });
+
+        if (error) {
+          console.error('Error redirecting to checkout:', error);
+        }
+      } catch (error) {
+        console.error('Error during checkout process:', error);
+      }
+    }
   },
 
-  mounted() {
+  async mounted() {
     this.getCart()
+    if (!window.Stripe) {
+      const script = document.createElement('script');
+      script.src = 'https://js.stripe.com/v3/';
+      script.onload = () => {
+        this.stripe = window.Stripe('pk_test_51PtX5uLbeudqBLeNmUwmj2P6zWbDPnbu4xUktC6XRsyZ4To6giHWQG083GNF0jfu90KCGgygSmcGSi1dzPjUhDql00oJveYLCq');
+        console.log(this.stripe);
+
+      }
+      document.head.appendChild(script);
+    } else {
+      this.stripe = window.Stripe('pk_test_51PtX5uLbeudqBLeNmUwmj2P6zWbDPnbu4xUktC6XRsyZ4To6giHWQG083GNF0jfu90KCGgygSmcGSi1dzPjUhDql00oJveYLCq');
+    }
   }
 };
 </script>

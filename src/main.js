@@ -41,8 +41,12 @@ import FAQSection from './components/FaqPlans.vue'
 import AdminForm from './components/AdminForm.vue'
 import AdminMangement from './components/AdminMangement.vue'
 import AdminListItem from './components/AdminListItem.vue'
-import AdminList from './components/AdminList.vue'
+import manageAdmins from './components/manageAdmins.vue'
 import WeeklyOrderProducts from './components/weeklyOrderProducts.vue';
+import UsersList from './components/manageUsers.vue';
+import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
+import ManageUsers from './components/manageUsers.vue';
+import AdminAccount from './components/adminAccount.vue';
 
 
 const routes = [
@@ -60,10 +64,24 @@ const routes = [
             { path: '', redirect: '/useraccount/userprofile' },
             { path: 'userprofile', component: UserProfile },
             { path: 'wishlist', component: userWishlist },
+            { path: 'weeklyorders/:id?', component: userWeeklyOrders },
+            { path: 'myorders', component: MyOrders },
+            // { path: 'AdminMangement', component: AdminMangement }, //wrapper
+            // { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder },
+        ]
+    },
+    {
+        path: '/adminaccount',
+        component: AdminAccount,
+        children: [
+            { path: '', redirect: '/adminaccount/manageusers' },
+            { path: 'manageusers', component: ManageUsers },
             { path: 'weeklyorders', component: userWeeklyOrders },
             { path: 'myorders', component: MyOrders },
-            { path: 'AdminList', component: AdminList }, //wrapper
+            { path: 'manageAdmins', component: manageAdmins }, //wrapper
             { path: 'AdminMangement', component: AdminMangement }, //wrapper
+            { path: 'manageusers', component: UsersList },
+            { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder },
         ]
     },
     { path: '/loginpage', component: LoginPage },
@@ -72,7 +90,7 @@ const routes = [
     { path: '/offersPage', component: OffersPage },
     { path: '/test', component: TestComponent },
     { path: '/manageProducts', component: ManageProducts },
-    { path: '/editDelete', component: EditDeleteProducts },
+    { path: '/editDelete/:id?', component: EditDeleteProducts },
     { path: '/cart', component: Cart },
     { path: '/CategroyPage', component: CategroyPage },
     { path: '/productDetailes', component: ProductDetails },
@@ -90,7 +108,7 @@ const routes = [
     { path: '/EmailGetHelp', component: EmailGetHelp }, //wrapper
     { path: '/AdminForm', component: AdminForm },
     { path: '/AdminListItem', component: AdminListItem },
-    { path: '/weeklyProducts', component: WeeklyOrderProducts },
+    { path: '/weeklyProducts', component: WeeklyOrderProducts }, //eh da!!!
 
 
 

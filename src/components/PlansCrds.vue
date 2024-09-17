@@ -1,5 +1,6 @@
 <template>
-  <section class="flex overflow-hidden flex-col justify-center items-center px-20 py-32 bg-zinc-50 max-md:px-5 max-md:py-24">
+  <section
+    class="flex overflow-hidden flex-col justify-center items-center px-20 py-32 bg-zinc-50 max-md:px-5 max-md:py-24">
     <div class="flex flex-col w-full max-w-[1070px] max-md:max-w-full">
       <header class="flex flex-col justify-center self-center max-w-full min-w-[304px] w-[532px]">
         <h1 class="text-6xl leading-tight text-gray-500 max-md:max-w-full max-md:text-4xl">
@@ -10,15 +11,10 @@
         </p>
       </header>
       <div class="flex flex-wrap gap-10 items-start mt-16 max-md:mt-10 max-md:max-w-full">
-        <article
-          v-for="(plan, index) in plans"
-          :key="index"
-          :class="[
-            'flex overflow-hidden flex-col flex-1 py-9 px-9 mt-3.5 rounded-[36px] border border-solid transform transition-transform hover:shadow-lg hover:-translate-y-2',
-            plan.isPro ? 'bg-teal-800 min-h-[462px] min-w-[288px]' : 'bg-green-100 border-zinc-400'
-          ]"
-          style="min-height: 450px; width: 250px;"
-        >
+        <article v-for="(plan, index) in plans" :key="index" :class="[
+          'flex overflow-hidden flex-col flex-1 py-9 px-9 mt-3.5 rounded-[36px] border border-solid transform transition-transform hover:shadow-lg hover:-translate-y-2',
+          plan.isPro ? 'bg-teal-800 min-h-[462px] min-w-[288px]' : 'bg-green-100 border-zinc-400'
+        ]" style="min-height: 450px; width: 250px;">
           <div class="flex flex-col">
             <header class="flex flex-col w-full">
               <span :class="[
@@ -42,19 +38,28 @@
                 'flex gap-2.5 items-center w-full text-base leading-relaxed mb-2.5',
                 plan.isPro ? 'text-zinc-300' : 'text-slate-500'
               ]">
-                <img :src="plan.isPro ? proIconUrl : basicIconUrl" alt="" class="object-contain shrink-0 self-stretch my-auto aspect-square w-[27px]" />
+                <img :src="plan.isPro ? proIconUrl : basicIconUrl" alt=""
+                  class="object-contain shrink-0 self-stretch my-auto aspect-square w-[27px]" />
                 <span class="flex-1 shrink self-stretch my-auto basis-0">{{ feature }}</span>
               </li>
             </ul>
           </div>
-         <div class="flex justify-center">
-          <button :class="[
-            'flex gap-1.5 justify-center justify-self-center items-center px-7 py-5 mt-7  text-base leading-relaxed text-center whitespace-nowrap rounded-lg border border-solid min-h-[50px] w-[202px] max-md:px-5',
-            plan.isPro ? 'text-yellow-50 bg-red-400 hover:bg-green-700'  : 'text-white bg-green-700 hover:bg-red-400 '
-          ]">
-            {{ plan.buttonText }}
-          </button>
-         </div>
+          <div class="flex justify-center">
+            <button v-if="plan.isPro" @click="subscribe()" :class="[
+              'flex gap-1.5 justify-center justify-self-center items-center px-7 py-5 mt-7  text-base leading-relaxed text-center whitespace-nowrap rounded-lg border border-solid min-h-[50px] w-[202px] max-md:px-5',
+              plan.isPro ? 'text-yellow-50 bg-red-400 hover:bg-green-700' : 'text-white bg-green-700 hover:bg-red-400 '
+            ]">
+              {{ plan.buttonText }}
+            </button>
+            <button v-if="!plan.isPro" :class="[
+              'flex gap-1.5 justify-center justify-self-center items-center px-7 py-5 mt-7  text-base leading-relaxed text-center whitespace-nowrap rounded-lg border border-solid min-h-[50px] w-[202px] max-md:px-5',
+              plan.isPro ? 'text-yellow-50 bg-red-400 hover:bg-green-700' : 'text-white bg-green-700 hover:bg-red-400 '
+            ]">
+              <router-link to="/signPage">
+                {{ plan.buttonText }}
+              </router-link>
+            </button>
+          </div>
         </article>
       </div>
     </div>
@@ -73,13 +78,13 @@ export default {
           title: 'Standard',
           price: 'Your Order Price',
           description: 'Get started with our free plan.',
-          features: ['Fresh Products', 'Email Support','No Free Dilivery', 'Boycotting Alternative'],
+          features: ['Fresh Products', 'Email Support', 'No Free Dilivery', 'Boycotting Alternative'],
           buttonText: 'Start Free Trial',
           isPro: false,
         },
         {
-          title: ' Subscribtion',
-          price: '$15.00',
+          title: ' Subscription',
+          price: '$5.00',
           description: 'Unlock all features.',
           features: ['Free Delivery', 'Get Discount', '24/7 Support', 'Premium Customer Service'],
           buttonText: ' Subscribe',
@@ -88,5 +93,10 @@ export default {
       ],
     };
   },
+  methods: {
+    subscribe() {
+      location.assign('https://buy.stripe.com/test_8wM9E6eqSd0hh0YfZ2')
+    }
+  }
 };
 </script>

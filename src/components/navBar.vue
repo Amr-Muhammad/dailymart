@@ -10,9 +10,11 @@
             </div>
 
             <div class="navbar-center hidden lgScreen:flex gap-y-2 lgScreen:gap-y-0">
+
                 <ul class="menu menu-horizontal lg-screen-1st-nav px-1">
                     <li>
                         <router-link to="/homePage" class="lg-screen-nav">Home</router-link>
+
                     </li>
                     <li>
                         <router-link to="/CategroyPage" class="lg-screen-nav">Explore</router-link>
@@ -24,22 +26,28 @@
                         <router-link to="/PlansWrapperComponent" class="lg-screen-nav">Plans</router-link>
                     </li>
                     <li>
+
                         <router-link to="/EmailGetHelp" class="lg-screen-nav">Contact Us</router-link>
                     </li>
+
                     <!-- <li v-if="!isLogged">
                         <router-link to="/loginpage">Login</router-link>
                     </li> -->
+
+
                     <li v-if="isLogged" @click="logOut()"><a>Log out</a></li>
                 </ul>
             </div>
 
             <div class="userIcons">
                 <div class="cart-wishlist-wOrders me-5 flex gap-3">
-                    <router-link to="/useraccount/weeklyorders">
-                        <img title="Weekly Orders" class="w-6 filter invert grayscale brightness-0" src="../assets/weeklyOrders.png" />
+                    <router-link :to="subscribed ? '/useraccount/weeklyorders' : '/PlansWrapperComponent'">
+                        <img title="Weekly Orders" class="w-6 filter invert grayscale brightness-0"
+                            src="../assets/weeklyOrders.png" />
                     </router-link>
                     <router-link to="/useraccount/wishlist">
-                        <img title="Wishlist" class="w-6 filter invert grayscale brightness-0" src="../assets/wishlist.png" />
+                        <img title="Wishlist" class="w-6 filter invert grayscale brightness-0"
+                            src="../assets/wishlist.png" />
                     </router-link>
                     <router-link to="/cart">
                         <img title="Cart" class="w-6 filter invert grayscale brightness-0" src="../assets/cart.png" />
@@ -205,6 +213,7 @@
 </template>
 
 <script>
+import service from '@/mixins/service';
 import axios from 'axios';
 import { signOut, getAuth } from 'firebase/auth'
 
@@ -214,19 +223,25 @@ export default {
         return {
             isLogged: false,
             userImage: null,
+
+            subscribed: null,
+            userId: 'bab69910f7dc80c',
+            user: null
         }
     },
-    // async mounted() {
-    //     // onAuthStateChanged(getAuth(), user => {
-    //     //     if (user) {
-    //     //         this.isLogged = true
-    //     //     }
-    //     //     else {
-    //     //         this.isLogged = false
-    //     //     }
-    //     // })
-    //     //     ,
-    //     await this.getProfilePicture()
+    mounted() {
+        // onAuthStateChanged(getAuth(), user => {
+        //     if (user) {
+        //         this.isLogged = true
+        //     }
+        //     else {
+        //         this.isLogged = false
+        //     }
+        // })
+        //     ,
+        this.getProfilePicture()
+        this.isUserSubscribed()
+
 
     // },
     methods: {
@@ -251,8 +266,13 @@ export default {
             }
         },
 
-    },
-}   
+        async isUserSubscribed() {
+            this.user = await service.methods.getLoggedUser(this.userId)
+            this.subscribed = this.user.planid
+        }
+    }
+}
+
 </script>
 
 <style scoped>
