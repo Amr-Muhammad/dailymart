@@ -269,8 +269,7 @@ export default {
             // let res = await signOut(getAuth())
             // console.log(res);
             this.$router.push('./loginPage')
-        }
-        ,
+        },
         async getProfilePicture() {
             let user = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')).data
             if (user.profilePicture) {

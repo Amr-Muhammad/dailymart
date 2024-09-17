@@ -24,6 +24,8 @@ import EditDeleteProducts from './components/edit-deleteProducts.vue';
 import Cart from './components/Cart.vue';
 import CategroyPage from './components/categroyPage.vue';
 import ProductDetails from './components/productDetails.vue';
+// Second Page
+import ProductDetail from './components/productdetail.vue';
 
 
 //farha
@@ -94,6 +96,8 @@ const routes = [
     { path: '/cart', component: Cart },
     { path: '/CategroyPage', component: CategroyPage },
     { path: '/productDetailes', component: ProductDetails },
+    // Second Page
+    { path: '/productdetail/:id', component: ProductDetail },
 
     //farha
     { path: '/ImpactHeading', component: ImpactHeading }, //wrapper
