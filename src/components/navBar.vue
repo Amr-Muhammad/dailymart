@@ -4,19 +4,38 @@
         <div class="navbar text-white w-11/12 mx-auto flex justify-between ">
 
             <div class="ps-3">
-                <router-link to="/homePage">
+                <!-- <router-link to="/homePage"> -->
                     <img class="w-14 scale-[3.2] relative translate-y-8" src="../assets/logo1.png" alt="">
-                </router-link>
+                <!-- </router-link> -->
             </div>
 
             <div class="navbar-center hidden lgScreen:flex gap-y-2 lgScreen:gap-y-0">
 
-                <ul class="menu menu-horizontal lg-screen-1st-nav px-1">
-                    <li>
+                <ul class="menu menu-horizontal lg-screen-1st-nav px-1 gap-3">
+                    <!-- <li>
                         <router-link to="/homePage" class="lg-screen-nav">Home</router-link>
 
-                    </li>
-                    <li>
+                    </li> -->
+
+                    <router-link to="/homePage" class="lg-screen-nav flex items-center">
+                        <li>Home</li>
+                    </router-link>
+                    <router-link to="/CategroyPage" class="lg-screen-nav flex items-center">
+                        <li>Explore</li>
+                    </router-link>
+                    <router-link to="/offersPage" class="lg-screen-nav flex items-center">
+                        <li>Offers</li>
+                    </router-link>
+                    <router-link to="/PlansWrapperComponent" class="lg-screen-nav flex items-center">
+                        <li>Plans</li>
+                    </router-link>
+                    <router-link to="/EmailGetHelp" class="lg-screen-nav flex items-center">
+                        <li>Contact Us</li>
+                    </router-link>
+
+
+
+                    <!-- <li>
                         <router-link to="/CategroyPage" class="lg-screen-nav">Explore</router-link>
                     </li>
                     <li>
@@ -28,7 +47,7 @@
                     <li>
 
                         <router-link to="/EmailGetHelp" class="lg-screen-nav">Contact Us</router-link>
-                    </li>
+                    </li> -->
 
                     <!-- <li v-if="!isLogged">
                         <router-link to="/loginpage">Login</router-link>
@@ -275,11 +294,12 @@ export default {
 </script>
 
 <style scoped>
-    .lg-screen-active-nav {
-        background-color: white;
-        color: blue;
-    }
-    /* .router-link-exact-active,
+.lg-screen-active-nav {
+    background-color: white;
+    color: blue;
+}
+
+/* .router-link-exact-active,
     .router-link-active {
                 background-color: white;
         color: #166534;

@@ -251,9 +251,8 @@ export default {
         ,
         async getAllProducts() {
             try {
-                this.products = await service.methods.getAllProducts(this.searchQueryProducts)
-                this.products = Object.entries(this.products)
-
+                this.products = await service.methods.getAllProducts(this.searchQueryProducts,'',true)
+                // this.products = Object.entries(this.products)
             }
             catch (err) {
                 console.log(err);

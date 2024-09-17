@@ -182,8 +182,10 @@ export default {
     methods: {
         async getAllProducts() {
             try {
-                this.products = await service.methods.getAllProducts(this.searchQueryProducts, this.categoryId)
-                this.products = Object.entries(this.products)
+                this.products = await service.methods.getAllProducts(this.searchQueryProducts, this.categoryId,true)
+                // this.products = Object.entries(this.products)
+                console.log(this.products);
+                
             }
             catch (err) {
                 console.log(err);
