@@ -6235,7 +6235,7 @@ html {
 
 .hover\:border-solid:hover {
   border-style: solid;
-
+}
 .hover\:scale-\[1\.1\]:hover {
   --tw-scale-x: 1.1;
   --tw-scale-y: 1.1;

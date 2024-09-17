@@ -51,8 +51,9 @@
                 class="card bg-base-100 rounded-sm cursor-pointer mb-8 w-full lg:w-1/5 md:w-4/12 sm:w-6/12 gap-3 p-3">
 
                 <div class="border rounded-md hover:scale-[1.01] transition-all hover:shadow-lg duration-300">
-
                     <figure class="bg-stone-50 p-5 relative ">
+                        <!-- For Navigate to detail page -->
+                        <router-link class="w-full h-full absolute" :to="`/productdetail/${product[0]}`"></router-link>
                         <img :src="product[1].image_url" alt="" class="w-1/2 h-[180px]" />
                         <div class="badges absolute top-3 px-3 w-full flex justify-between">
                             <div v-if="product[1].new"
