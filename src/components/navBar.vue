@@ -1,5 +1,5 @@
 <template>
-    <nav class="fixed start-0 end-0 top-0 bg-green-800 z-50">
+    <nav class="fixed start-0 end-0 top-0 bg-green-800 z-50" v-if="$route.name !== 'SignPage'">
 
         <div class="navbar text-white w-11/12 mx-auto flex justify-between ">
 
@@ -10,40 +10,26 @@
             </div>
 
             <div class="navbar-center hidden lgScreen:flex gap-y-2 lgScreen:gap-y-0">
-                <ul class="menu menu-horizontal px-1 flex gap-5">
 
-                    <router-link to="/homePage" class="flex items-center">
-                        <li>Home</li>
-                    </router-link>
-                    <router-link to="/CategroyPage" class="flex items-center">
-                        <li>Explore</li>
-                    </router-link>
-                    <router-link to="/offersPage" class="flex items-center">
-                        <li>Offers</li>
-                    </router-link>
-                    <router-link to="/PlansWrapperComponent" class="flex items-center">
-                        <li>Plans</li>
-                    </router-link>
-                    <router-link to="/EmailGetHelp" class="flex items-center">
-                        <li>Contact Us</li>
-                    </router-link>
+                <ul class="menu menu-horizontal lg-screen-1st-nav px-1">
+                    <li>
+                        <router-link to="/homePage" class="lg-screen-nav">Home</router-link>
 
+                    </li>
+                    <li>
+                        <router-link to="/CategroyPage" class="lg-screen-nav">Explore</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/offersPage" class="lg-screen-nav">Offers</router-link>
+                    </li>
+                    <li>
+                        <router-link to="/PlansWrapperComponent" class="lg-screen-nav">Plans</router-link>
+                    </li>
+                    <li>
 
-                    <!-- <li>
-                        <router-link to="/homePage">Home</router-link>
+                        <router-link to="/EmailGetHelp" class="lg-screen-nav">Contact Us</router-link>
                     </li>
-                    <li>
-                        <router-link to="/CategroyPage">Explore</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/offersPage">Offers</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/PlansWrapperComponent">Plans</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/EmailGetHelp">Contact Us</router-link>
-                    </li> -->
+
                     <!-- <li v-if="!isLogged">
                         <router-link to="/loginpage">Login</router-link>
                     </li> -->
@@ -174,44 +160,44 @@
 
                 </div>
 
-                <div class="navbar-center hidden lgScreen:flex justify-center">
-                    <ul tabindex="0" class="menu menu-horizontal py-0 flex lgScreen:gap-3">
-                        <li class="flex flex-row items-center">
+                <div class="navbar-center hidden lgScreen:flex justify-center items-center">
+                    <ul tabindex="0" class="menu menu-horizontal py-0 flex lgScreen:gap-0.5">
+                        <li class="flex flex-row items-center hover:text-red-700">
                             <img src="../assets/snack.png" alt="" class="w-6 p-0" />
                             <router-link to="/productsPage/bab69910f7dc80c257a9_snacks"
                                 class="ps-1">Snacks</router-link>
                         </li>
-                        <li class="flex flex-row lg:items-center items-start">
+                        <li class="flex flex-row lg:items-center hover:text-red-700">
                             <img src="../assets/beverage.png" alt="" class="w-6 p-0" />
                             <router-link to="/productsPage/bab69910f7dc80c257a9_bevrages"
                                 class="ps-1">Beverage</router-link>
                         </li>
-                        <li class="flex flex-row items-center">
+                        <li class="flex flex-row items-center hover:text-red-700">
                             <img src="../assets/dairy.png" alt="" class="w-6 p-0" />
                             <router-link to="/productsPage/bab69910f7dc80c257a9_dairy" class="ps-1">Dairy
                                 Products</router-link>
                         </li>
-                        <li class="flex flex-row items-center">
+                        <li class="flex flex-row items-center hover:text-red-700">
                             <img src="../assets/veges&fruits.png" alt="" class="w-6 p-0" />
                             <router-link to="/productsPage/bab69910f7dc80c257a9_fruits" class="ps-1">Vegetables &
                                 Fruits</router-link>
                         </li>
-                        <li class="flex flex-row items-center">
+                        <li class="flex flex-row items-center hover:text-red-700">
                             <img src="../assets/frozen-food.png" alt="" class="w-6 p-0" />
                             <router-link to="/productsPage/bab69910f7dc80c257a9_frozen" class="ps-1">Frozen
                                 Goods</router-link>
                         </li>
-                        <li class="flex flex-row items-center">
+                        <li class="flex flex-row items-center hover:text-red-700">
                             <img src="../assets/cooking-oil.png" alt="" class="w-6 p-0" />
                             <router-link to="/productsPage/bab69910f7dc80c257a9_oils" class="ps-1">Cooking
                                 Oil</router-link>
                         </li>
-                        <li class="flex flex-row items-center">
+                        <li class="flex flex-row items-center hover:text-red-700">
                             <img src="../assets/sauces.png" alt="" class="w-6 p-0" />
                             <router-link to="/productsPage/bab69910f7dc80c257a9oils_sauces"
                                 class="ps-1">Sauces</router-link>
                         </li>
-                        <li class="flex flex-row items-center">
+                        <li class="flex flex-row items-center hover:text-red-700">
                             <img src="../assets/cleaning.png" alt="" class="w-6 p-0" />
                             <router-link to="/productsPage/bab69910f7dc80c257a9_cleaning" class="ps-1">Cleaning
                                 Products</router-link>
@@ -230,12 +216,14 @@
 import service from '@/mixins/service';
 import axios from 'axios';
 import { signOut, getAuth } from 'firebase/auth'
+
 export default {
     name: 'navBar',
     data() {
         return {
             isLogged: false,
             userImage: null,
+
             subscribed: null,
             userId: 'bab69910f7dc80c',
             user: null
@@ -254,7 +242,8 @@ export default {
         this.getProfilePicture()
         this.isUserSubscribed()
 
-    },
+
+    // },
     methods: {
         async logOut() {
             await signOut(getAuth())
@@ -276,12 +265,26 @@ export default {
                 }
             }
         },
+
         async isUserSubscribed() {
             this.user = await service.methods.getLoggedUser(this.userId)
             this.subscribed = this.user.planid
         }
     }
 }
+
 </script>
 
-<style scoped></style>
+<style scoped>
+    .lg-screen-active-nav {
+        background-color: white;
+        color: blue;
+    }
+    /* .router-link-exact-active,
+    .router-link-active {
+                background-color: white;
+        color: #166534;
+        border-radius: 0.250rem;
+        
+    } */
+</style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="relative ">
+    <div class="relative -mt-6">
 
         <section class="hero-sec mb-16 bg-cover h-screen">
             <div class=" text-white bg-[#00000080] w-full h-full  p-8 flex flex-col justify-center items-center">
@@ -8,7 +8,9 @@
                     unboycotted products.
                     Make it simple and convenient to support the brands you believe in.</p>
                 <button
-                    class="hero-btn btn w-fit bg-[#DB4444] border-[#DB4444] px-16 mt-10 transition-all font-bold md:text-xl text-white hover:bg-[#0A1E1E] hover:border-[#0A1E1E]">Discover</button>
+                    class="hero-btn btn w-fit bg-[#DB4444] border-[#DB4444] px-16 mt-10 transition-all font-bold md:text-xl text-white hover:bg-[#0A1E1E] hover:border-[#0A1E1E]">
+                    <router-link to="/CategroyPage">Discover</router-link>
+                </button>
             </div>
         </section>
 
@@ -49,9 +51,9 @@
                     </div>
                 </div>
             </div>
-            <button @click="gotoOffers()"
-                class="btn px-10 transition-all font-bold text-white border-0 bg-[#DB4444] hover:bg-[#0A1E1E] hover:border-[#0A1E1E]">Find
-                more</button>
+            <button
+                class="btn px-10 transition-all font-bold text-white border-0 bg-[#DB4444] hover:bg-[#0A1E1E] hover:border-[#0A1E1E]">
+                <router-link to="/offersPage">Find more</router-link> </button>
         </section>
 
         <section class="featured bg-slate-50 px-5 py-16 text-center">
@@ -118,8 +120,8 @@
                             justice and equality.
                         </p>
                         <button
-                            class="btn bg-[#DAFFDA] hover:bg-[#DB4444] hover:text-white btn-primary px-20 border-0 transition-all md:text-lg font-semibold">See
-                            Your Impact</button>
+                            class="btn bg-[#DAFFDA] hover:bg-[#DB4444] hover:text-white btn-primary px-20 border-0 transition-all md:text-lg font-semibold">
+                            <router-link to="/ImpactHeading">See Your Impact</router-link> </button>
                     </div>
                 </div>
             </div>
@@ -151,8 +153,8 @@
             </Carousel>
 
             <button
-                class="btn px-10 mt-10 transition-all font-bold text-white border-0 bg-[#DB4444] hover:bg-[#0A1E1E] hover:border-[#0A1E1E]">See
-                more</button>
+                class="btn px-10 mt-10 transition-all font-bold text-white border-0 bg-[#DB4444] hover:bg-[#0A1E1E] hover:border-[#0A1E1E]">
+                <router-link to="/BoycottWrapper">See more</router-link> </button>
 
         </section>
 
@@ -298,11 +300,6 @@ export default defineComponent({
             ]
         }
     },
-    methods: {
-        gotoOffers() {
-            this.$router.push('/offers');
-        }
-    }
 })
 </script>
 

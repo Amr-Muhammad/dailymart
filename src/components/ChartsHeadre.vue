@@ -1,7 +1,7 @@
 <template>
   <header class="flexmobile container md:flex justify-between items-center max-md:mt-10">
     <div class="md:flex flexmobile relative left-20 flex-col">
-      <h1 class="md:text-5xl font-bold green-color animate__animated animate__backInUp ">
+      <h1 class="md:text-5xl font-bold green-color animate__animated animate__backInUp me-3">
         The Impact of Boycotting Israeli Products in The World
       </h1>
       <p class="mt-3.5 text-xl leading-snug text-emerald-600 ">
