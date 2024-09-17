@@ -10,8 +10,26 @@
             </div>
 
             <div class="navbar-center hidden lgScreen:flex gap-y-2 lgScreen:gap-y-0">
-                <ul class="menu menu-horizontal px-1">
-                    <li>
+                <ul class="menu menu-horizontal px-1 flex gap-5">
+
+                    <router-link to="/homePage" class="flex items-center">
+                        <li>Home</li>
+                    </router-link>
+                    <router-link to="/CategroyPage" class="flex items-center">
+                        <li>Explore</li>
+                    </router-link>
+                    <router-link to="/offersPage" class="flex items-center">
+                        <li>Offers</li>
+                    </router-link>
+                    <router-link to="/PlansWrapperComponent" class="flex items-center">
+                        <li>Plans</li>
+                    </router-link>
+                    <router-link to="/EmailGetHelp" class="flex items-center">
+                        <li>Contact Us</li>
+                    </router-link>
+
+
+                    <!-- <li>
                         <router-link to="/homePage">Home</router-link>
                     </li>
                     <li>
@@ -25,21 +43,25 @@
                     </li>
                     <li>
                         <router-link to="/EmailGetHelp">Contact Us</router-link>
-                    </li>
+                    </li> -->
                     <!-- <li v-if="!isLogged">
                         <router-link to="/loginpage">Login</router-link>
                     </li> -->
+
+
                     <li v-if="isLogged" @click="logOut()"><a>Log out</a></li>
                 </ul>
             </div>
 
             <div class="userIcons">
                 <div class="cart-wishlist-wOrders me-5 flex gap-3">
-                    <router-link to="/useraccount/weeklyorders">
-                        <img title="Weekly Orders" class="w-6 filter invert grayscale brightness-0" src="../assets/weeklyOrders.png" />
+                    <router-link :to="subscribed ? '/useraccount/weeklyorders' : '/PlansWrapperComponent'">
+                        <img title="Weekly Orders" class="w-6 filter invert grayscale brightness-0"
+                            src="../assets/weeklyOrders.png" />
                     </router-link>
                     <router-link to="/useraccount/wishlist">
-                        <img title="Wishlist" class="w-6 filter invert grayscale brightness-0" src="../assets/wishlist.png" />
+                        <img title="Wishlist" class="w-6 filter invert grayscale brightness-0"
+                            src="../assets/wishlist.png" />
                     </router-link>
                     <router-link to="/cart">
                         <img title="Cart" class="w-6 filter invert grayscale brightness-0" src="../assets/cart.png" />
@@ -205,6 +227,7 @@
 </template>
 
 <script>
+import service from '@/mixins/service';
 import axios from 'axios';
 import { signOut, getAuth } from 'firebase/auth'
 export default {
@@ -212,10 +235,13 @@ export default {
     data() {
         return {
             isLogged: false,
-            userImage: null
+            userImage: null,
+            subscribed: null,
+            userId: 'bab69910f7dc80c',
+            user: null
         }
     },
-    async mounted() {
+    mounted() {
         // onAuthStateChanged(getAuth(), user => {
         //     if (user) {
         //         this.isLogged = true
@@ -225,7 +251,8 @@ export default {
         //     }
         // })
         //     ,
-        await this.getProfilePicture()
+        this.getProfilePicture()
+        this.isUserSubscribed()
 
     },
     methods: {
@@ -248,6 +275,10 @@ export default {
                     this.userImage = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
                 }
             }
+        },
+        async isUserSubscribed() {
+            this.user = await service.methods.getLoggedUser(this.userId)
+            this.subscribed = this.user.planid
         }
     }
 }

@@ -6,7 +6,7 @@
     .primaryPink {
         color: #DB4444;
     }
-    .router-link-exact-active {
+    .router-link-active {
         @apply text-[#DB4444];
     }
 

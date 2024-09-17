@@ -151,7 +151,7 @@ export default {
     },
     methods: {
         async getWishlist() {
-            this.wishlist = await service.methods.get_cart_wishlist(this.userId, 'wishlist')
+            this.wishlist = await service.methods.get_cart_wishlist_weekly(this.userId, 'wishlist')
             if (this.wishlist) {
                 this.wishlist = Object.entries(this.wishlist)
                 this.itemsNumber = this.wishlist.length
@@ -161,11 +161,11 @@ export default {
             }
         },
         async deleteItem(productId) {
-            await service.methods.deleteItem_cart_wishlist(this.userId, productId, 'wishlist')
+            await service.methods.deleteItem_cart_wishlist_weekly(this.userId, productId, 'wishlist')
             this.getWishlist()
         },
         async addToCart(productId, product) {
-            console.log(await service.methods.addTo_cart_wishlist(this.userId, productId, product, 'cart'));
+            console.log(await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, product, 'cart'));
         },
     },
     mounted() {

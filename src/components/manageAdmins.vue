@@ -1,9 +1,12 @@
 <template>
-  <section class="flex container mx-auto flex-col text-xs rounded-none text-zinc-500">
+
+  <section class="flex container flex-col text-xs rounded-none text-zinc-500">
+    <h1 class="text-3xl font-bold text-gray-800 pt-6 text-center italic">Manage Admins</h1>
+
     <main class="mt-20 w-full max-md:mt-10 max-md:max-w-full">
       <div class="flex gap-5 max-md:flex-col">
         <div
-          class="flex px-16 pt-16 pb-36 bg-white rounded-xl border-2 border-solid border-zinc-100 shadow-[0px_20px_30px_rgba(167,209,233,0.45)] max-md:px-5 max-md:pb-24 max-md:max-w-full flex-col ml-5 w-[84%] max-md:ml-0 max-md:w-full">
+          class="flex mx-auto px-16 pt-16 pb-36  rounded-xl border-2 border-solid border-zinc-100 shadow-[0px_20px_30px_rgba(167,209,233,0.45)] flex-col w-10/12">
           <header
             class="flex flex-wrap gap-5 justify-between self-center w-full font-bold leading-loose max-w-[814px] max-md:max-w-full">
             <div class="flex gap-3 whitespace-nowrap">
@@ -27,6 +30,7 @@
       </div>
     </main>
   </section>
+
 </template>
 
 <script>
