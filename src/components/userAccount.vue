@@ -42,7 +42,7 @@
                     </div>
                 </leftSection>
 
-                <rightSection class="md:w-10/12 shadow-2xl py-14">
+                <rightSection class="md:w-10/12 shadow-2xl py-14 mx-auto">
                     <router-view></router-view>
                     <!-- <router-view v-slot="{ Component }">
                         <transition enter-active-class="animate__animated animate__fadeInLeft"

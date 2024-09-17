@@ -1,7 +1,9 @@
 <template>
-    <BoycottBanner/>
-    <RollerCoasterCarousel/>
-    <BoycottProducts/>
+    <div class="container mx-auto">
+        <BoycottBanner />
+        <RollerCoasterCarousel />
+        <BoycottProducts />
+    </div>
 
 </template>
 
@@ -17,8 +19,6 @@ export default {
         BoycottProducts,
         RollerCoasterCarousel,
     }
-    }
+}
 </script>
-<style>
-
-</style>
+<style></style>

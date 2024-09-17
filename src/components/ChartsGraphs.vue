@@ -1,51 +1,47 @@
 <template>
-  <section class="container flexmobile flex-col ml-5 px-20 mt-44 flex justify-center">
-    <p ref="autoTypingParagraph" class="md:text-2xl flexmobile font-bold green-color autoTyping">
-      {{ displayText }}
-    </p>
-    <div class="charts-container mt-32 flexmobile gap-2 flex flex-col md:flex-row flex-wrap justify-center">
-      <div class="chart-container flexmobile mb-10 md:mb-0 md:mr-10">
-        <Pie
-          id="my-pie-chart-id"
-          :options="chartOptions"
-          :data="pieChartData"
-        />
+  <div class="container mx-auto">
+    <section class="flexmobile flex-col ml-5 px-20 mt-44 flex justify-center">
+      <p ref="autoTypingParagraph" class="md:text-2xl flexmobile font-bold green-color autoTyping">
+        {{ displayText }}
+      </p>
+      <div class="charts-container mt-32 flexmobile gap-2 flex flex-col md:flex-row flex-wrap justify-center">
+        <div class="chart-container flexmobile mb-10 md:mb-0 md:mr-10">
+          <Pie id="my-pie-chart-id" :options="chartOptions" :data="pieChartData" />
+        </div>
+        <div class="chart-container flexmobile mb-10 md:mb-0 md:mr-10">
+          <Bar id="my-bar-chart-id" :options="chartOptions" :data="barChartData" />
+        </div>
+        <div class="apexchart-container mt-20">
+          <apexchart type="bar" height="350" :options="apexChartOptions" :series="apexSeries"></apexchart>
+        </div>
       </div>
-      <div class="chart-container flexmobile mb-10 md:mb-0 md:mr-10">
-        <Bar
-          id="my-bar-chart-id"
-          :options="chartOptions"
-          :data="barChartData"
-        />
-      </div>
-      <div class="apexchart-container mt-20">
-        <apexchart type="bar" height="350" :options="apexChartOptions" :series="apexSeries"></apexchart>
-      </div>
-    </div>
-  </section>
-  <section class="container  flexmobile flex-col ml-5 px-20 mt-44 flex justify-center">
-   <p class="md:text-xl font-bold green-color">The percentage of revenues of boycotting companies in most Arab countries :</p>
-   <p class="pt-4 pb-20 text-red-800 text-lg font-bold ">The lower it is, the greater the percentage of boycotting .</p>
-   <div class="stats flexmobile shadow">
-  <div class="stat place-items-center">
-    <div class="stat-title">Egypt</div>
-    <div class="stat-value">10% - 15% ↘︎</div>
-    <div class="stat-desc pt-4"> Very Heigh BDS and very low revenues </div>
-  </div>
+    </section>
+    <section class="flexmobile flex-col ml-5 px-20 mt-44 flex justify-center">
+      <p class="md:text-xl font-bold green-color">The percentage of revenues of boycotting companies in most Arab
+        countries :</p>
+      <p class="pt-4 pb-20 text-red-800 text-lg font-bold ">The lower it is, the greater the percentage of boycotting .
+      </p>
+      <div class="stats flexmobile shadow">
+        <div class="stat place-items-center">
+          <div class="stat-title">Egypt</div>
+          <div class="stat-value">10% - 15% ↘︎</div>
+          <div class="stat-desc pt-4"> Very Heigh BDS and very low revenues </div>
+        </div>
 
-  <div class="stat place-items-center">
-    <div class="stat-title">kuwait </div>
-    <div class="stat-value text-secondary">20% - 25% ↘︎</div>
-    <div class="stat-desc text-secondary"> Middle revenues </div>
-  </div>
+        <div class="stat place-items-center">
+          <div class="stat-title">kuwait </div>
+          <div class="stat-value text-secondary">20% - 25% ↘︎</div>
+          <div class="stat-desc text-secondary"> Middle revenues </div>
+        </div>
 
-  <div class="stat place-items-center">
-    <div class="stat-title">United Arab Emirates</div>
-    <div class="stat-value">60% - 65% ↗︎</div>
-    <div class="stat-desc"> Very Heigh revenues and very low BDS </div>
+        <div class="stat place-items-center">
+          <div class="stat-title">United Arab Emirates</div>
+          <div class="stat-value">60% - 65% ↗︎</div>
+          <div class="stat-desc"> Very Heigh revenues and very low BDS </div>
+        </div>
+      </div>
+    </section>
   </div>
-</div>
-  </section>
 </template>
 
 <script>
@@ -168,7 +164,7 @@ export default {
         const entry = entries[0];
         if (entry.isIntersecting) {
           this.typeText();
-          this.observer.disconnect(); 
+          this.observer.disconnect();
         }
       });
 
@@ -197,17 +193,15 @@ export default {
   justify-content: center;
 }
 
-.chart-container
-{
+.chart-container {
   width: 500px;
-  height: 300px; 
+  height: 300px;
   margin-bottom: 20px;
 }
+
 .apexchart-container {
   width: 100%;
-  height: 300px; 
+  height: 300px;
   margin-bottom: 20px;
 }
 </style>
-
-

@@ -31,16 +31,16 @@ import 'animate.css';
 import EmailGetHelp from './components/EmailGetHelp.vue'
 import ImpactHeading from './components/ChartsHeadre.vue'
 import BoycottWrapper from './components/BoycottingWrapper.vue'
-import BoycottProducts from './components/BoycottingProducts.vue'
-import RollerCoasterCarousel from './components/BoycottingCaroselLogo.vue'
+// import BoycottProducts from './components/BoycottingProducts.vue'
+// import RollerCoasterCarousel from './components/BoycottingCaroselLogo.vue'
 import PlansWrapperComponent from './components/PlansWrapper.vue'
-import TopPicksForYou from './components/TopPicks.vue'
-import HowItWorks from './components/HowItWorks.vue'
-import PlansCrds from './components/PlansCrds.vue'
-import FAQSection from './components/FaqPlans.vue'
-import AdminForm from './components/AdminForm.vue'
+// import TopPicksForYou from './components/TopPicks.vue'
+// import HowItWorks from './components/HowItWorks.vue'
+// import PlansCrds from './components/PlansCrds.vue'
+// import FAQSection from './components/FaqPlans.vue'
+// import AdminForm from './components/AdminForm.vue'
 import AdminMangement from './components/AdminMangement.vue'
-import AdminListItem from './components/AdminListItem.vue'
+// import AdminListItem from './components/AdminListItem.vue'
 import manageAdmins from './components/manageAdmins.vue'
 import WeeklyOrderProducts from './components/weeklyOrderProducts.vue';
 import UsersList from './components/manageUsers.vue';
@@ -98,16 +98,17 @@ const routes = [
     //farha
     { path: '/ImpactHeading', component: ImpactHeading }, //wrapper
     { path: '/BoycottWrapper', component: BoycottWrapper }, //wrapper
-    { path: '/BoycottProducts', component: BoycottProducts },
-    { path: '/RollerCoasterCarousel', component: RollerCoasterCarousel },
+    // { path: '/BoycottProducts', component: BoycottProducts },
+    // { path: '/RollerCoasterCarousel', component: RollerCoasterCarousel },
     { path: '/PlansWrapperComponent', component: PlansWrapperComponent }, //wrapper
-    { path: '/TopPicksForYou', component: TopPicksForYou },
-    { path: '/HowItWorks', component: HowItWorks },
-    { path: '/PlansCrds', component: PlansCrds },
-    { path: '/', component: FAQSection },
+    // { path: '/TopPicksForYou', component: TopPicksForYou },
+    // { path: '/HowItWorks', component: HowItWorks },
+    // { path: '/PlansCrds', component: PlansCrds },
+    // { path: '/', component: FAQSection },
     { path: '/EmailGetHelp', component: EmailGetHelp }, //wrapper
-    { path: '/AdminForm', component: AdminForm },
-    { path: '/AdminListItem', component: AdminListItem },
+    // { path: '/AdminForm', component: AdminForm },
+    // { path: '/AdminListItem', component: AdminListItem },
+
     { path: '/weeklyProducts', component: WeeklyOrderProducts }, //eh da!!!
 
 
