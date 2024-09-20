@@ -22,6 +22,7 @@
             </div>
 
             <div class="flex mt-16 flex-wrap justify-center">
+
                 <leftSection class="md:w-2/12">
                     <div>
                         <h1 class="font-bold">Manage My Account</h1>
@@ -34,6 +35,9 @@
                             </li>
                             <li class="mb-[6px] text-gray-400">
                                 <router-link to="/useraccount/wishlist">My Wishlist</router-link>
+                            </li>
+                            <li class="mb-[6px] text-gray-400">
+                                <router-link to="/useraccount/manageMyPlan">My Plan</router-link>
                             </li>
                             <li class="mb-[6px] text-gray-400">
                                 <router-link to="/useraccount/myorders">My Orders</router-link>

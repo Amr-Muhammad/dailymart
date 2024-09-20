@@ -21,9 +21,9 @@
                     </svg>
                 </div>
             </div>
-            <button class="mainGreenBtn block me-auto mt-5">
-                <router-link to="editDelete">Add new product +</router-link>
-            </button>
+            <router-link to="editDelete">
+                <button class="mainGreenBtn block me-auto mt-5">Add new product +</button>
+            </router-link>
         </section>
 
         <section class="flex flex-wrap">
@@ -48,16 +48,16 @@
                     </figure>
 
                     <div class="card-body p-5">
-                        <h2 class="card-title text-start text-[18px] font-semibold">{{
+                        <h2 v-if="product[1].english_name" class="card-title text-start text-[18px] font-semibold">{{
                             product[1].english_name.length > 15 ?
                                 product[1].english_name.slice(0, 15).split().join('') + '...' : product[1].english_name
                         }}</h2>
-                        <h2 class="card-title text-start text-sm">{{
+                        <h2 v-if="product[1].description" class="card-title text-start text-sm">{{
                             product[1].description.length > 25 ?
                                 product[1].description.slice(0, 25).split().join('') + '...' : product[1].description
                         }}</h2>
                         <div class="price flex gap-3">
-                            <div class="after text-lg text-red-500 font-bold">
+                            <div v-if="product[1].onsale" class="after text-lg text-red-500 font-bold">
                                 {{ product[1].onsale.split('%')[0].length ==
                                     2 ? product[1].price - (product[1].onsale.split('%')[0] * product[1].price / 100) :
                                     product[1].price

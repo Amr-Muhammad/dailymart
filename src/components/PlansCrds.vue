@@ -84,7 +84,7 @@ export default {
         },
         {
           title: ' Subscription',
-          price: '$5.00',
+          price: '250 EGP',
           description: 'Unlock all features.',
           features: ['Free Delivery', 'Get Discount', '24/7 Support', 'Premium Customer Service'],
           buttonText: ' Subscribe',

@@ -49,6 +49,7 @@ import UsersList from './components/manageUsers.vue';
 import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import ManageUsers from './components/manageUsers.vue';
 import AdminAccount from './components/adminAccount.vue';
+import ManageMyPlan from './components/manageMyPlan.vue';
 
 
 const routes = [
@@ -68,6 +69,7 @@ const routes = [
             { path: 'wishlist', component: userWishlist },
             { path: 'weeklyorders/:id?', component: userWeeklyOrders },
             { path: 'myorders', component: MyOrders },
+            { path: 'manageMyPlan', component: ManageMyPlan },
             // { path: 'AdminMangement', component: AdminMangement }, //wrapper
             // { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder },
         ]
@@ -83,7 +85,7 @@ const routes = [
             { path: 'manageAdmins', component: manageAdmins }, //wrapper
             { path: 'AdminMangement', component: AdminMangement }, //wrapper
             { path: 'manageusers', component: UsersList },
-            { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder },
+            { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder }
         ]
     },
     { path: '/loginpage', component: LoginPage },

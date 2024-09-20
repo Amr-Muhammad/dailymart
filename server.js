@@ -25,7 +25,7 @@ app.post('/create-checkout-session', async (req, res) => {
         quantity: product.quantity
       })),
       mode: 'payment',
-      success_url: 'http://localhost:8080/success',
+      success_url: 'http://localhost:8080/useraccount/myorders',
       cancel_url: 'http://localhost:8080/cancel',
       customer_email: userEmail,
       metadata: {

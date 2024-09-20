@@ -2,11 +2,11 @@
 
     <div class="mx-20 flex justify-between">
         <h2 class=" text-2xl font-semibold">Weekly Orders</h2>
-        <p v-if="products != null" class="font-semibold italic">Your orders are expected to be delivered by friday, {{
+        <!-- <p v-if="products != null" class="font-semibold italic">Your orders are expected to be delivered by friday, {{
             nextFriday }} , {{ days
             }}
             days,
-            {{ hours }} hours, {{ minutes }} minutes, {{ seconds }} seconds</p>
+            {{ hours }} hours, {{ minutes }} minutes, {{ seconds }} seconds</p> -->
     </div>
 
     <div v-if="products != null" class="items-wrapper w-full px-4 mt-10">
@@ -75,14 +75,14 @@
             <span class="text-red-600 font-bold">{{ minutes }} minutes</span>,
             <span class="text-purple-600 font-bold">{{ seconds }} seconds</span>
         </p>
-        <p class="font-semibold italic">
+        <!-- <p class="font-semibold italic">
             Your orders are expected to be delivered by Friday,
             <span class="text-blue-600 font-bold">{{ nextFriday }}</span>,
             <span class="badge bg-green-200 text-green-800">{{ days }} days</span>,
             <span class="badge bg-orange-200 text-orange-800">{{ hours }} hours</span>,
             <span class="badge bg-red-200 text-red-800">{{ minutes }} minutes</span>,
             <span class="badge bg-purple-200 text-purple-800">{{ seconds }} seconds</span>
-        </p>
+        </p> -->
         <button class="mainGreenBtn">
             <router-link to="/CategroyPage">Add Prodcut</router-link>
         </button>

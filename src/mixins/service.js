@@ -12,10 +12,12 @@ export default {
     methods: {
         async getLoggedUser(userId) {
             return (await (axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${userId}.json`))).data
-        },
+        }
+        ,
         async planSubscribe(userId, object) {
             return (await (axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${userId}.json`, object))).data
-        },
+        }
+        ,
         async getAllProducts(searchQuery, categoryId, boycottOrNot) {
             this.products = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/products.json')).data
 
@@ -94,6 +96,9 @@ export default {
             nextFriday.setHours(23, 59, 59, 999) // Set the time to 11:59:59 PM
             return nextFriday;
         },
+        async ordered(productId, noOfOrders) {
+            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`, noOfOrders)
+        },
 
 
         //Admin
@@ -104,11 +109,11 @@ export default {
         async getProduct(productId) {
             return (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}/.json`)).data
         },
-        async editProdcut(productId,product) {
-            return (await axios.put(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}/.json`,product)).data
+        async editProdcut(productId, product) {
+            return (await axios.put(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}/.json`, product)).data
         },
         async addProdcut(product) {
-            return (await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/.json`,product)).data
+            return (await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/.json`, product)).data
         }
 
     },

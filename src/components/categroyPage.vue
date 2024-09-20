@@ -115,7 +115,8 @@
                     <div class="border rounded-md hover:scale-[1.01] transition-all hover:shadow-lg duration-300">
 
                         <figure class="bg-stone-50 p-5 relative ">
-                            <router-link class="w-full h-full absolute" :to="`/productdetail/${product[0]}`"></router-link>
+                            <router-link class="w-full h-full absolute"
+                                :to="`/productdetail/${product[0]}`"></router-link>
                             <img :src="product[1].image_url" alt="" class="w-1/2 h-[180px]" />
                             <div class="badges absolute top-3 px-3 w-full flex justify-between">
                                 <div v-if="product[1].new"
@@ -251,7 +252,7 @@ export default {
         ,
         async getAllProducts() {
             try {
-                this.products = await service.methods.getAllProducts(this.searchQueryProducts,'',true)
+                this.products = await service.methods.getAllProducts(this.searchQueryProducts, '', true)
                 // this.products = Object.entries(this.products)
             }
             catch (err) {
@@ -290,7 +291,7 @@ export default {
         ,
         async addToWishlist(productId, product) {
             try {
-                await service.methods.addTo_cart_wishlist(this.userId, productId, product, 'wishlist')
+                await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, product, 'wishlist')
             }
             catch (err) {
                 console.log(err);
@@ -325,7 +326,8 @@ export default {
             catch (err) {
                 console.log(err);
             }
-        },
+        }
+        ,
         async isUserSubscribed() {
             this.user = await service.methods.getLoggedUser(this.userId)
             this.subscribed = this.user.planid

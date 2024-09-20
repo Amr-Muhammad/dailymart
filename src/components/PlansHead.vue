@@ -9,8 +9,12 @@
             Your daily essentials delivered
           </p>
           <div class=" flex justify-between">
-          <button class="btn hover1 mr-2 text-white btncustomGreen">Start Shopping</button>
+          <router-link to="/CategroyPage">
+            <button class="btn hover1 mr-2 text-white btncustomGreen">Start Shopping</button>
+          </router-link>
+         <router-link to="/EmailGetHelp">
           <button class="btn hover2 text-white border-white">Learn More</button>
+         </router-link>
           </div>
         </div>
       </div>

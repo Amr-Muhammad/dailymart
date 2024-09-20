@@ -4,9 +4,7 @@
         <div class="navbar text-white w-11/12 mx-auto flex justify-between ">
 
             <div class="ps-3">
-                <!-- <router-link to="/homePage"> -->
-                    <img class="w-14 scale-[3.2] relative translate-y-8" src="../assets/logo1.png" alt="">
-                <!-- </router-link> -->
+                <img class="w-14 scale-[3.2] relative translate-y-8" src="../assets/logo1.png" alt="">
             </div>
 
             <div class="navbar-center hidden lgScreen:flex gap-y-2 lgScreen:gap-y-0">

@@ -32,6 +32,9 @@
                             <li class="mb-[6px] text-gray-400">
                                 <router-link to="/adminaccount/manageadmins">Manage Admins</router-link>
                             </li>
+                            <li class="mb-[6px] text-gray-400">
+                                <router-link to="/manageproducts">Manage Products</router-link>
+                            </li>
                             <!-- <li class="mb-[6px] text-gray-400">
                                 <router-link to="/adminaccount/manageusers">My Orders</router-link>
                             </li> -->

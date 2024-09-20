@@ -3979,11 +3979,6 @@ html {
   margin-bottom: 1rem;
 }
 
-.my-40 {
-  margin-top: 10rem;
-  margin-bottom: 10rem;
-}
-
 .my-7 {
   margin-top: 1.75rem;
   margin-bottom: 1.75rem;
@@ -4024,6 +4019,10 @@ html {
 
 .mb-2\.5 {
   margin-bottom: 0.625rem;
+}
+
+.mb-20 {
+  margin-bottom: 5rem;
 }
 
 .mb-3 {
@@ -4160,6 +4159,10 @@ html {
 
 .mt-4 {
   margin-top: 1rem;
+}
+
+.mt-40 {
+  margin-top: 10rem;
 }
 
 .mt-44 {
@@ -4306,6 +4309,14 @@ html {
   height: 100vh;
 }
 
+.h-80 {
+  height: 20rem;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
 .max-h-10 {
   max-height: 2.5rem;
 }
@@ -4442,6 +4453,10 @@ html {
   width: 66.666667%;
 }
 
+.w-80 {
+  width: 20rem;
+}
+
 .w-\[17px\] {
   width: 17px;
 }
@@ -4476,10 +4491,6 @@ html {
 
 .w-\[600px\] {
   width: 600px;
-}
-
-.w-\[84\%\] {
-  width: 84%;
 }
 
 .w-fit {
@@ -4517,10 +4528,6 @@ html {
 
 .max-w-10 {
   max-width: 2.5rem;
-}
-
-.max-w-4xl {
-  max-width: 56rem;
 }
 
 .max-w-64 {
@@ -5086,11 +5093,6 @@ html {
   background-color: rgb(0 0 0 / 0.55);
 }
 
-.bg-blue-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
-}
-
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -5099,11 +5101,6 @@ html {
 .bg-gray-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(209 213 219 / var(--tw-bg-opacity));
-}
-
-.bg-gray-50 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 .bg-green-100 {
@@ -5461,6 +5458,10 @@ html {
 
 .pl-10 {
   padding-left: 2.5rem;
+}
+
+.pl-2 {
+  padding-left: 0.5rem;
 }
 
 .pl-3\.5 {
@@ -6067,6 +6068,11 @@ html {
   top: 0px;
 }
 
+.before\:top-\[8px\]::before {
+  content: var(--tw-content);
+  top: 8px;
+}
+
 .before\:z-\[6\]::before {
   content: var(--tw-content);
   z-index: 6;
@@ -6203,16 +6209,6 @@ html {
   --tw-scale-x: 1.01;
   --tw-scale-y: 1.01;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-
-
-.hover\:border-2:hover {
-  border-width: 2px;
-}
-
-.hover\:border-solid:hover {
-  border-style: solid;
 }
 
 .hover\:scale-\[1\.1\]:hover {

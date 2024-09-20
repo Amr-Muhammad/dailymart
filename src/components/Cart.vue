@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-4xl mx-auto p-6 bg-gray-50 rounded-lg shadow-lg">
+  <div class="mx-auto p-6 rounded-lg shadow-lg w-6/12">
 
     <h2 class="text-3xl font-bold mb-4 flex items-center">
       <i class="fas fa-shopping-cart  mr-2"></i>
@@ -7,7 +7,7 @@
       <p class="mt-2">My Cart</p>
     </h2>
 
-    <div class="text-right mt-6">
+    <div v-if="cart != null" class="text-right mt-6">
       <button class="text-red-600 underline hover:text-red-800" @click="clearCart()">Remove all</button>
     </div>
 
@@ -47,11 +47,10 @@
 
     <div v-if="cart == null" class="flex items-center justify-center flex-col">
       <img src="../assets/Empty-removebg-preview.png" alt="">
-      <button class="mainGreenBtn">
-        <router-link to="/CategroyPage">Back Shopping?</router-link>
-      </button>
+      <router-link to="/CategroyPage">
+        <button class="mainGreenBtn">Back Shopping?</button>
+      </router-link>
     </div>
-
 
   </div>
 </template>
@@ -104,6 +103,8 @@ export default {
           email: userResponse.data.email
         };
         console.log(user);
+        console.log(cartArray);
+
         const sessionResponse = await axios.post('https://delight-mart-server.vercel.app/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email });
         const sessionId = sessionResponse.data.id;
 
