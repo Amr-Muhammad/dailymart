@@ -7,28 +7,28 @@
                 <img class="w-14 scale-[3.2] relative translate-y-8" src="../assets/logo1.png" alt="">
             </div>
 
-            <div class="navbar-center hidden lgScreen:flex gap-y-2 lgScreen:gap-y-0">
+            <div class="navbar-center hidden lgScreen:flex gap-y-2 lgScreen:gap-y-0 ms-16">
 
-                <ul class="menu menu-horizontal lg-screen-1st-nav px-1 gap-3">
+                <ul class="menu menu-horizontal lg-screen-1st-nav px-1 gap-1">
                     <!-- <li>
                         <router-link to="/homePage" class="lg-screen-nav">Home</router-link>
 
                     </li> -->
 
                     <router-link to="/homePage" class="lg-screen-nav flex items-center">
-                        <li>Home</li>
+                        <li class="font-semibold">HOME</li>
                     </router-link>
                     <router-link to="/CategroyPage" class="lg-screen-nav flex items-center">
-                        <li>Explore</li>
+                        <li class="font-semibold">EXPLORE</li>
                     </router-link>
                     <router-link to="/offersPage" class="lg-screen-nav flex items-center">
-                        <li>Offers</li>
+                        <li class="font-semibold">OFFERS</li>
                     </router-link>
                     <router-link to="/PlansWrapperComponent" class="lg-screen-nav flex items-center">
-                        <li>Plans</li>
+                        <li class="font-semibold">PLANS</li>
                     </router-link>
                     <router-link to="/EmailGetHelp" class="lg-screen-nav flex items-center">
-                        <li>Contact Us</li>
+                        <li class="font-semibold">CONTACT US</li>
                     </router-link>
 
 

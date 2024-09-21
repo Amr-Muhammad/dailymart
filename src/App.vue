@@ -1,6 +1,6 @@
 <template>
   <navBar></navBar>
-  <div class=" mt-40 mb-20 mx-auto">
+  <div class="mt-[136px] mx-auto">
     <router-view></router-view>
   </div>
   <footerCom></footerCom>
