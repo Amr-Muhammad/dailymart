@@ -132,7 +132,7 @@
 
                                     <div class="price flex gap-3">
                                         <div class="after text-lg text-red-500 font-bold">
-                                            {{ product[1].onsale.split('%')[0].length ==
+                                            {{ product[1].onsale.split('%').length ==
                                                 2 ? product[1].price - (product[1].onsale.split('%')[0] * product[1].price /
                                                     100) :
                                                 product[1].price

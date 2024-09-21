@@ -178,11 +178,12 @@
 
                                 <div class="card-body p-5">
 
-                                    <h2 :title="product[1].english_name" class="card-title text-start text-[18px] font-semibold">{{
-                                        product[1].english_name.length > 15 ?
-                                            product[1].english_name.slice(0, 15).split().join('') + '...' :
-                                            product[1].english_name
-                                    }}</h2>
+                                    <h2 :title="product[1].english_name"
+                                        class="card-title text-start text-[18px] font-semibold">{{
+                                            product[1].english_name.length > 15 ?
+                                                product[1].english_name.slice(0, 15).split().join('') + '...' :
+                                                product[1].english_name
+                                        }}</h2>
 
                                     <h2 :title="product[1].description" class="card-title text-start text-sm">{{
                                         product[1].description.length > 25 ?
@@ -192,7 +193,7 @@
 
                                     <div class="price flex gap-3">
                                         <div class="after text-lg text-red-500 font-bold">
-                                            {{ product[1].onsale.split('%')[0].length ==
+                                            {{ product[1].onsale.split('%').length ==
                                                 2 ? product[1].price - (product[1].onsale.split('%')[0] * product[1].price /
                                                     100) :
                                                 product[1].price
