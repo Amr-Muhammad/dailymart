@@ -12,6 +12,7 @@
   "dependencies": {
     "@stripe/stripe-js": "^4.4.0",
     "@vue/cli": "^5.0.8",
+    "animate.css": "^4.1.1",
     "axios": "^1.7.5",
     "body-parser": "^1.20.2",
     "chart.js": "^4.4.4",
@@ -23,12 +24,12 @@
     "firebase": "^10.13.1",
     "json-server": "^1.0.0-beta.2",
     "stripe": "^16.9.0",
+    "sweetalert2": "^11.14.0",
     "vue": "^3.2.13",
     "vue-chartjs": "^5.3.1",
     "vue-router": "^4.4.3",
     "vue3-apexcharts": "^1.6.0",
-    "vue3-carousel": "^0.3.3",
-    "animate.css": "^4.1.1"
+    "vue3-carousel": "^0.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

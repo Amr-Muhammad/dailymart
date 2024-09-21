@@ -1,5 +1,5 @@
 <template>
-  <div class="flex gap-2 container flex-col items-start">
+  <div class="flex flex-col items-start">
     <!-- Header Section -->
     <header
       class="flex flex-col md:px-8 pt-32 pb-12 text-6xl font-black leading-tight text-emerald-900 bg-white min-h-[226px] max-md:px-5 max-md:pt-24 max-md:max-w-full max-md:text-4xl">
@@ -13,8 +13,10 @@
       </div>
     </header>
     <!-- Main Content Section -->
+    <!-- <main
+      class="flex flex-col items-center pb-7 w-full bg-zinc-50 shadow-[0px_4px_4px_rgba(0,0,0,0)] max-md:mt-10 max-md:max-w-full px-5"> -->
     <main
-      class="flex flex-col items-center pb-7 md:ml-5 w-full bg-zinc-50 shadow-[0px_4px_4px_rgba(0,0,0,0)] max-md:mt-10 max-md:max-w-full">
+      class="flex flex-col items-center pb-7 w-full max-md:mt-10 max-md:max-w-full px-5">
       <div class="cards-container m-10 w-full" ref="productSection">
         <div class="card-grid">
           <div v-for="(card, id) in paginatedCards" :key="id" class="relative card bg-base-100 shadow-xl group">
@@ -77,9 +79,6 @@ export default {
       return Math.ceil(this.filteredCards.length / this.itemsPerPage);
     },
   },
-  mounted() {
-    this.fetchProducts();
-  },
   methods: {
     async fetchProducts() {
       try {
@@ -114,6 +113,9 @@ export default {
         this.scrollToTop();
       }
     },
+  },
+  mounted() {
+    this.fetchProducts();
   },
 };
 </script>

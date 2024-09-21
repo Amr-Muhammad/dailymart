@@ -14,9 +14,9 @@ module.exports = {
     require('daisyui'),
   ],
   daisyui: {
-    themes: [
-      // 'light', // You can specify 'light' or other themes like 'dark', 'cupcake', etc.
-    ]
+    themes: ["light"], // Or specify a custom theme
+    base: true,        // Ensure base styles are enabled
+    utils: true,       // Make sure utilities like skeleton are included
   }
   ,
   // Enable JIT mode (optional, for faster builds and smaller CSS files)

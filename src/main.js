@@ -128,6 +128,15 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
     linkActiveClass: 'router-link-active',
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            // When using the back/forward buttons, savedPosition helps restore scroll
+            return savedPosition;
+        } else {
+            // Scroll to top when navigating to a new route
+            return { top: 0 ,behavior:'smooth'};
+        }
+    }
 })
 
 const firebaseConfig = {
