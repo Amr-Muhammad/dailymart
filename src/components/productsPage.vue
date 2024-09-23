@@ -13,7 +13,7 @@
 
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
 
-                    <p class="text-lg md:text-2xl font-bold text-stone-900 w-fit">Explore Our categories</p>
+                    <p class="text-lg md:text-2xl font-bold text-stone-900 w-fit">Explore Our Categories</p>
 
                     <div class="search-input relative lg:w-1/5 flex items-center justify-end md:mt-0 mt-5">
 
@@ -118,17 +118,18 @@
 
                                 <div class="card-body p-5">
 
-                                    <h2 :title="product[1].english_name" class="card-title text-start text-[18px] font-semibold">{{
-                                        product[1].english_name.length > 15 ?
-                                            product[1].english_name.slice(0, 15).split().join('') + '...' :
-                                            product[1].english_name
+                                    <h2 :title="product[1].english_name"
+                                        class="card-title text-start text-[18px] font-semibold">{{
+                                            product[1].english_name.length > 15 ?
+                                                product[1].english_name.slice(0, 15).split().join('') + '...' :
+                                                product[1].english_name
                                         }}</h2>
 
                                     <h2 :title="product[1].description" class="card-title text-start text-sm">{{
                                         product[1].description.length > 25 ?
                                             product[1].description.slice(0, 25).split().join('') + '...' :
                                             product[1].description
-                                        }}</h2>
+                                    }}</h2>
 
                                     <div class="price flex gap-3">
                                         <div class="after text-lg text-red-500 font-bold">
@@ -343,25 +344,14 @@ export default {
             this.user = await service.methods.getLoggedUser(this.userId)
             this.subscribed = this.user.planid
         }
-        // async fetchFirstPage() {
-        //     const url = `https://dailymart-5c550-default-rtdb.firebaseio.com/products.json?orderBy="$key"&limitToFirst=20`;
-        //     const res = (await axios.get(url)).data;
-        //     this.products = Object.values(res); // Convert the fetched object into an array of products
-        //     this.lastVisibleProduct = Object.keys(res)[Object.keys(res).length - 1]; // Get the last product key for pagination
-        //     console.log(this.products);
-        //     console.log(this.lastVisibleProduct);
-        // },
-        // async fetchNextPage() {
-        //     const res = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/products.json?orderBy="$key"&limitToFirst=20&startAt="${this.lastVisibleProduct}"`)).data;
-        //     delete res[Object.keys(res)[0]]
-        //     this.products = res
-        // },
-    },
+    }
+    ,
     mounted() {
         this.categoryId = this.$route.params.id
         this.isUserSubscribed()
         this.getAllProducts()
-    },
+    }
+    ,
     watch: {
         searchQueryProducts: function () {
             this.getAllProducts()
@@ -388,19 +378,11 @@ export default {
 }
 
 .card:hover .cart-btn {
-
-    /* da 1 */
     color: white !important;
     background-color: #252525;
-
-    /* aw da */
-    /* background-color:rgb(220 252 231); */
-
 }
 
 .card:hover .stroke-current {
-
-    /* m3 da 1 */
     color: white !important;
 }
 
@@ -418,7 +400,6 @@ export default {
     position: absolute;
     left: 107%;
     background-color: rgba(0, 0, 0, 0.1);
-    /* background-color: rgba(0, 0, 0, 0.3); */
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border-radius: 5px;

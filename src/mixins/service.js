@@ -18,10 +18,13 @@ export default {
             return (await (axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${userId}.json`, object))).data
         }
         ,
-        async getAllProducts(searchQuery, categoryId, boycottOrNot) {
+        async getAllProducts(searchQuery, categoryId, notBoycott, admin) {
             this.products = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/products.json')).data
-
-            if (!boycottOrNot) {
+            if (admin == 'admin') {
+                this.products = Object.entries(this.products).filter(item => item[1].english_name.toLowerCase().includes(searchQuery.toLowerCase()))
+                return this.products
+            }
+            if (!notBoycott) {
                 if (searchQuery) {
                     this.products = this.products.filter(item => item[1].english_name.toLowerCase().includes(searchQuery.toLowerCase()))
                 }
@@ -38,6 +41,8 @@ export default {
 
                 if (searchQuery) {
                     this.products = this.products.filter(item => item[1].english_name.toLowerCase().includes(searchQuery.toLowerCase()))
+
+
                 }
                 return this.products
             }

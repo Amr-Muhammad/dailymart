@@ -118,7 +118,6 @@ const routes = [
     { path: '/weeklyProducts', component: WeeklyOrderProducts }, //eh da!!!
 
 
-
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
 
 ]
@@ -134,7 +133,7 @@ const router = createRouter({
             return savedPosition;
         } else {
             // Scroll to top when navigating to a new route
-            return { top: 0 ,behavior:'smooth'};
+            return { top: 0, behavior: 'smooth' };
         }
     }
 })

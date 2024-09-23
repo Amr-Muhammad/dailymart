@@ -2,7 +2,7 @@
     <div class="editProduct pt-10">
         <div class="flex w-8/12 lg:w-4/12 justify-center mx-auto shadow-md p-5 rounded-lg">
 
-            <form class="w-full" @submit.prevent="addProduct()">
+            <form class="w-full" @submit.prevent="productId ? editProduct() : addProduct()">
 
                 <h2 v-if="productId" class="text-3xl font-bold mb-6 text-center font-serif">Edit Product</h2>
                 <h2 v-if="!productId" class="text-3xl font-bold mb-6 text-center font-serif">Add new Product</h2>
@@ -46,6 +46,7 @@
                 </select>
 
                 <div class="mb-6">
+
                     <!-- Sale -->
                     <div class="sale flex items-center gap-3 w-full ">
                         <label class="font-bold" for="sale">Onsale?</label>
@@ -85,7 +86,6 @@
                     </div>
                 </div>
 
-
                 <button v-if="productId" class="mainGreenBtn block mx-auto">Edit Product</button>
                 <button v-if="!productId" class="mainGreenBtn block mx-auto">Add Product</button>
             </form>
@@ -121,6 +121,8 @@ export default {
     methods: {
         async getProduct() {
             this.product = await service.methods.getProduct(this.productId)
+            console.log(this.product);
+
             this.productDetails = {
                 arabic_name: this.product.arabic_name,
                 availability: this.product.availability,
@@ -131,16 +133,14 @@ export default {
                 favorite: this.product.favorite,
                 image_url: this.product.image_url,
                 new: this.product.new,
-                onsale: this.product.onsale.split('%')[0],
+                onsale: this.product.onsale ? this.product.onsale.split('%')[0] : '',
                 price: this.product.price,
             },
                 this.productDetails.onsale != '' ? this.checked = true : '';
-
-
         },
         async editProduct() {
             try {
-                if (this.productDetails.onsale) {
+                if (this.productDetails.onsale != '') {
                     this.productDetails.onsale = `${this.productDetails.onsale}%`;
                 }
                 console.log(await service.methods.editProdcut(this.productId, this.productDetails));

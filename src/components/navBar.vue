@@ -243,7 +243,7 @@ export default {
 
             subscribed: null,
             userId: 'bab69910f7dc80c',
-            user: null
+            // user: null
         }
     },
     mounted() {
@@ -256,10 +256,7 @@ export default {
         //     }
         // })
         //     ,
-        this.getProfilePicture()
-        this.isUserSubscribed()
-
-
+        this.getLoggedUserData()
     },
     methods: {
         async logOut() {
@@ -268,23 +265,26 @@ export default {
             // console.log(res);
             this.$router.push('./loginPage')
         },
-        async getProfilePicture() {
-            let user = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')).data
-            if (user.profilePicture) {
-                this.userImage = user.profilePicture
+        async getLoggedUserData() {
+
+            this.user = await service.methods.getLoggedUser(this.userId)
+
+
+            // let user = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')).data
+            if (this.user.profilePicture) {
+                this.userImage = this.user.profilePicture
             }
             else {
-                if (user.gender == 'male') {
+                if (this.user.gender == 'male') {
                     this.userImage = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
                 } else {
                     this.userImage = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
                 }
             }
-        },
 
-        async isUserSubscribed() {
-            this.user = await service.methods.getLoggedUser(this.userId)
             this.subscribed = this.user.planid
+
+
         }
     }
 }
