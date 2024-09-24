@@ -50,6 +50,9 @@ import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import ManageUsers from './components/manageUsers.vue';
 import AdminAccount from './components/adminAccount.vue';
 import ManageMyPlan from './components/manageMyPlan.vue';
+import CardCharts from './components/AdminCrdsCharts.vue'
+import AdminChartsDashboard from './components/AdminDashboard.vue'
+
 
 
 const routes = [
@@ -116,9 +119,8 @@ const routes = [
     // { path: '/AdminListItem', component: AdminListItem },
 
     { path: '/weeklyProducts', component: WeeklyOrderProducts }, //eh da!!!
-
-
-
+    {path:'/AdminChartsDashboard' , component:AdminChartsDashboard},
+    {path:'/CardCharts', component:CardCharts},
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
 
 ]
