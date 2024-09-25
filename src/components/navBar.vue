@@ -55,7 +55,8 @@
                 </ul>
             </div>
 
-            <div v-if="loading" class="skeleton w-36 h-8 rounded-md"></div>
+            <div v-if="isUserDataLoading" class="skeleton w-36 h-8 rounded-md"></div>
+            
             <div v-else-if="loggedUserId" class="userIcons">
                 <div class="cart-wishlist-wOrders me-5 flex gap-3">
                     <router-link :to="loggedUserData.planid ? '/useraccount/weeklyorders' : '/PlansWrapperComponent'">
@@ -271,23 +272,38 @@ export default {
     async mounted() {
         document.addEventListener('click', this.handleClickOutsideDropdown)
 
-        if (localStorage.getItem('userId')) {
-            this.userId = localStorage.getItem('userId')
-            this.userData = await this.getLoggedUserData()
+        // if (localStorage.getItem('userId')) {
+        //     this.userId = localStorage.getItem('userId')
+        //     this.userData = await this.getLoggedUserData()
 
 
-            if (!this.userData.profilePicture) {
-                if (this.userData.gender == 'male') {
-                    this.userData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+        //     if (!this.userData.profilePicture) {
+        //         if (this.userData.gender == 'male') {
+        //             this.userData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+        //         }
+        //         else {
+        //             this.userData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
+        //         }
+        //         await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${this.userId}.json`, { profilePicture: this.userData.profilePicture })
+        //     }
+        //     this.$store.dispatch('setUserData', [this.userId, this.userData])
+        // }
+        // this.loading = false
+
+
+        if (!this.isUserDataLoading) {
+            if (!this.loggedUserData.profilePicture) {
+                if (this.loggedUserData.gender == 'male') {
+                    this.loggedUserData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
                 }
                 else {
-                    this.userData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
+                    this.loggedUserData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
                 }
-                await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${this.userId}.json`, { profilePicture: this.userData.profilePicture })
+                await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${this.userId}.json`, { profilePicture: this.loggedUserData.profilePicture })
             }
-            this.$store.dispatch('setUserData', [this.userId, this.userData])
         }
-        this.loading = false
+
+
     },
     methods: {
         async getLoggedUserData() {
@@ -307,7 +323,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['loggedUserId', 'loggedUserData'])
+        ...mapState(['loggedUserId', 'loggedUserData', 'isUserDataLoading'])
     }
 }
 

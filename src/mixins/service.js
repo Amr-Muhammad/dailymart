@@ -107,15 +107,8 @@ export default {
             await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`, noOfOrders)
         },
 
-        // async getPP(loggedUser) {
-        //     if (loggedUser[1].profilePicture) {
-
-        //     }
-        // },
-
-
+        
         //Admin
-
         async deleteProduct(productId) {
             return (await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}/.json`)).data
         },
