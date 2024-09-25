@@ -2,16 +2,20 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { initializeApp } from "firebase/app";
 import { createRouter, createWebHistory } from 'vue-router'
+import store from './store'
+// import { getAuth } from 'firebase/auth';
+
 import "@/assets/styles/output.css";
+import 'animate.css';
+
 import HomePage from './components/homePage.vue';
 import UserAccount from './components/userAccount.vue';
 import UserProfile from './components/userProfile.vue';
 import userWishlist from './components/userWishlist.vue';
 import userWeeklyOrders from './components/userWeeklyOrders.vue';
 import MyOrders from './components/myOrders.vue';
-import LoginPage from './components/loginPage.vue';
+import LoginPage from './components/loginPage.vue'; //Should be deleted!
 import TestComponent from './components/testComponent.vue';
-// import { getAuth } from 'firebase/auth';
 
 // Menna Pages
 import SignPage from './components/signPage.vue';
@@ -21,45 +25,30 @@ import ErrorPage from './components/errorPage.vue';
 import ManageProducts from './components/manageProducts.vue';
 import EditDeleteProducts from './components/edit-deleteProducts.vue';
 
-import Cart from './components/Cart.vue';
 import CategroyPage from './components/categroyPage.vue';
-import ProductDetails from './components/productDetails.vue';
 // Second Page
 import ProductDetail from './components/productdetail.vue';
 
 
 //farha
-import 'animate.css';
 import EmailGetHelp from './components/EmailGetHelp.vue'
 import ImpactHeading from './components/ChartsHeadre.vue'
 import BoycottWrapper from './components/BoycottingWrapper.vue'
-// import BoycottProducts from './components/BoycottingProducts.vue'
-// import RollerCoasterCarousel from './components/BoycottingCaroselLogo.vue'
 import PlansWrapperComponent from './components/PlansWrapper.vue'
-// import TopPicksForYou from './components/TopPicks.vue'
-// import HowItWorks from './components/HowItWorks.vue'
-// import PlansCrds from './components/PlansCrds.vue'
-// import FAQSection from './components/FaqPlans.vue'
-// import AdminForm from './components/AdminForm.vue'
 import AdminMangement from './components/AdminMangement.vue'
-// import AdminListItem from './components/AdminListItem.vue'
 import manageAdmins from './components/manageAdmins.vue'
-import WeeklyOrderProducts from './components/weeklyOrderProducts.vue';
 import UsersList from './components/manageUsers.vue';
 import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import ManageUsers from './components/manageUsers.vue';
 import AdminAccount from './components/adminAccount.vue';
 import ManageMyPlan from './components/manageMyPlan.vue';
+import Cart from './components/Cart.vue';
+
 
 
 const routes = [
     { path: '/', component: HomePage },
-    {
-        path: '/homePage', component: HomePage
-        // , meta: {
-        //     requiresAuth: true
-        // }
-    },
+    { path: '/homePage', component: HomePage, meta: { requiresAuth: true } },
     {
         path: '/useraccount',
         component: UserAccount,
@@ -70,8 +59,6 @@ const routes = [
             { path: 'weeklyorders/:id?', component: userWeeklyOrders },
             { path: 'myorders', component: MyOrders },
             { path: 'manageMyPlan', component: ManageMyPlan },
-            // { path: 'AdminMangement', component: AdminMangement }, //wrapper
-            // { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder },
         ]
     },
     {
@@ -85,7 +72,9 @@ const routes = [
             { path: 'manageAdmins', component: manageAdmins }, //wrapper
             { path: 'AdminMangement', component: AdminMangement }, //wrapper
             { path: 'manageusers', component: UsersList },
-            { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder }
+            { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder },
+            { path: 'manageProducts', component: ManageProducts },
+            { path: 'editDelete/:id?', component: EditDeleteProducts },
         ]
     },
     { path: '/loginpage', component: LoginPage },
@@ -93,30 +82,14 @@ const routes = [
     { path: '/productsPage/:id', component: ProductsPage },
     { path: '/offersPage', component: OffersPage },
     { path: '/test', component: TestComponent },
-    { path: '/manageProducts', component: ManageProducts },
-    { path: '/editDelete/:id?', component: EditDeleteProducts },
     { path: '/cart', component: Cart },
     { path: '/CategroyPage', component: CategroyPage },
-    { path: '/productDetailes', component: ProductDetails },
-    // Second Page
     { path: '/productdetail/:id', component: ProductDetail },
-
     //farha
     { path: '/ImpactHeading', component: ImpactHeading }, //wrapper
     { path: '/BoycottWrapper', component: BoycottWrapper }, //wrapper
-    // { path: '/BoycottProducts', component: BoycottProducts },
-    // { path: '/RollerCoasterCarousel', component: RollerCoasterCarousel },
     { path: '/PlansWrapperComponent', component: PlansWrapperComponent }, //wrapper
-    // { path: '/TopPicksForYou', component: TopPicksForYou },
-    // { path: '/HowItWorks', component: HowItWorks },
-    // { path: '/PlansCrds', component: PlansCrds },
-    // { path: '/', component: FAQSection },
     { path: '/EmailGetHelp', component: EmailGetHelp }, //wrapper
-    // { path: '/AdminForm', component: AdminForm },
-    // { path: '/AdminListItem', component: AdminListItem },
-
-    { path: '/weeklyProducts', component: WeeklyOrderProducts }, //eh da!!!
-
 
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
 
@@ -151,7 +124,7 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(store).use(router).mount('#app')
 
 
 

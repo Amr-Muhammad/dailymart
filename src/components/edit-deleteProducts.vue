@@ -1,11 +1,11 @@
 <template>
     <div class="editProduct pt-10">
-        <div class="flex w-8/12 lg:w-4/12 justify-center mx-auto shadow-md p-5 rounded-lg">
+        <div class="flex w-8/12 lg:w-6/12 justify-center mx-auto  p-5 rounded-lg">
 
             <form class="w-full" @submit.prevent="productId ? editProduct() : addProduct()">
 
                 <h2 v-if="productId" class="text-3xl font-bold mb-6 text-center font-serif">Edit Product</h2>
-                <h2 v-if="!productId" class="text-3xl font-bold mb-6 text-center font-serif">Add new Product</h2>
+                <h2 v-if="!productId" class="text-3xl font-bold mb-6 text-center font-serif">Create a New Product</h2>
 
                 <div class="input-pair mb-6">
                     <label class="font-bold" for="">Product Name</label>
@@ -135,6 +135,8 @@ export default {
                 new: this.product.new,
                 onsale: this.product.onsale ? this.product.onsale.split('%')[0] : '',
                 price: this.product.price,
+                submittedAt: this.product.submittedAt,
+                submittedBy: this.product.submittedBy
             },
                 this.productDetails.onsale != '' ? this.checked = true : '';
         },

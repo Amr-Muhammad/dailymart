@@ -658,6 +658,7 @@
 <script>
 import service from '@/mixins/service';
 import Swal from 'sweetalert2';
+import { mapState } from 'vuex';
 
 export default {
     data() {
@@ -672,6 +673,9 @@ export default {
             clickedProducts: {},
             filterdProducts: null
         }
+    },
+    computed: {
+        ...mapState(['loggedUserId','loggedUserData'])
     }
     ,
     methods: {
@@ -700,10 +704,10 @@ export default {
 
             let flag = null
             try {
-                flag = await service.methods.getSpeificProduct(this.userId, productId, 'cart')
+                flag = await service.methods.getSpeificProduct(this.loggedUserId, productId, 'cart')
                 if (flag) {
                     try {
-                        await service.methods.patchQuantity(this.userId, productId, 'cart', '+')
+                        await service.methods.patchQuantity(this.loggedUserId, productId, 'cart', '+')
                     }
                     catch (err) {
                         console.log(err);
@@ -711,7 +715,7 @@ export default {
                 }
                 else {
                     try {
-                        await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, {
+                        await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, {
                             ...product,
                             quantity: 1
                         }, 'cart')
@@ -778,7 +782,7 @@ export default {
         ,
         async addToWishlist(productId, product) {
             try {
-                await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, product, 'wishlist')
+                await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, product, 'wishlist')
             }
             catch (err) {
                 console.log(err);
@@ -828,10 +832,10 @@ export default {
         async addToWeeklyOrder(productId, product) {
             let flag = null
             try {
-                flag = await service.methods.getSpeificProduct(this.userId, productId, 'weeklyorders')
+                flag = await service.methods.getSpeificProduct(this.loggedUserId, productId, 'weeklyorders')
                 if (flag) {
                     try {
-                        await service.methods.patchQuantity(this.userId, productId, 'weeklyorders', '+')
+                        await service.methods.patchQuantity(this.loggedUserId, productId, 'weeklyorders', '+')
                     }
                     catch (err) {
                         console.log(err);
@@ -839,7 +843,7 @@ export default {
                 }
                 else {
                     try {
-                        await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, {
+                        await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, {
                             ...product,
                             addedAt: new Date(),
                             quantity: 1
@@ -898,27 +902,23 @@ export default {
         }
         ,
         async isUserSubscribed() {
-            this.user = await service.methods.getLoggedUser(this.userId)
+            this.user = await service.methods.getLoggedUser(this.loggedUserId)
             this.subscribed = this.user.planid
         }
     }
     ,
     async mounted() {
-        this.isUserSubscribed()
+        console.log(this.loggedUserData);
+        
+        // this.isUserSubscribed()
         this.getCategories()
         this.getAllProducts()
     }
     ,
     watch: {
         searchQueryProducts: function () {
-            // this.getAllProducts()
-            console.log(this.searchQueryProducts);
-
             this.filterdProducts = this.products.filter(item => item[1].english_name.toLowerCase().includes(this.searchQueryProducts.toLocaleLowerCase()))
-            console.log(this.products);
-
             console.log(this.filterdProducts);
-
         },
         searchQueryCategories: function () {
             this.getCategories()

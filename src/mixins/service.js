@@ -1,4 +1,5 @@
 import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
     data() {
@@ -9,6 +10,7 @@ export default {
             wishlist: null
         }
     },
+
     methods: {
         async getLoggedUser(userId) {
             return (await (axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${userId}.json`))).data
@@ -81,7 +83,7 @@ export default {
             if (sign == '+') {
                 modifiedQuantity = quantity + 1
             }
-            else {
+            else if (sign == '-') {
                 modifiedQuantity = quantity - 1
             }
             if (modifiedQuantity == 0) {
@@ -105,6 +107,12 @@ export default {
             await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`, noOfOrders)
         },
 
+        // async getPP(loggedUser) {
+        //     if (loggedUser[1].profilePicture) {
+
+        //     }
+        // },
+
 
         //Admin
 
@@ -122,4 +130,7 @@ export default {
         }
 
     },
+    computed: {
+        ...mapState(['loggedUserData'])
+    }
 }

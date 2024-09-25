@@ -15,7 +15,8 @@
                 <div>
                     <p>
                         Welcome
-                        <span class="primaryPink font-semibold">Amr!</span>
+                        <span class="primaryPink font-semibold">{{ loggedUserData.firstName +' '+ loggedUserData.lastName
+                            }}</span>
                     </p>
                 </div>
 
@@ -64,8 +65,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
-    name: 'userAccount'
+    name: 'userAccount',
+    computed: {
+        ...mapState(['loggedUserData'])
+    }
 }
 </script>
 
