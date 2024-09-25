@@ -53,7 +53,7 @@
 
                         <div v-if="!productId" class="flex">
                             <input v-model="checked" type="checkbox" name="sale" id="sale" class="me-3">
-                            <input v-if="checked" type="number" name="sale" id="sale"
+                            <input v-if="checked" type="number" name="sale" id="sale" v-model="productDetails.onsale"
                                 class="border py-1 px-3 rounded-md" placeholder="Enter sale percentage">
                         </div>
 
@@ -115,13 +115,14 @@ export default {
                 new: false,
                 onsale: '',
                 price: null,
+                submittedAt: new Date(),
+                submittedBy: 'Amr Muhammad'
             }
         }
     },
     methods: {
         async getProduct() {
             this.product = await service.methods.getProduct(this.productId)
-            console.log(this.product);
 
             this.productDetails = {
                 arabic_name: this.product.arabic_name,
@@ -146,6 +147,7 @@ export default {
                     this.productDetails.onsale = `${this.productDetails.onsale}%`;
                 }
                 console.log(await service.methods.editProdcut(this.productId, this.productDetails));
+                this.$router.push('/adminaccount/manageproducts')
             }
             catch (err) {
                 console.log(err);
@@ -153,10 +155,11 @@ export default {
         },
         async addProduct() {
             try {
-                if (this.productDetails.onsale) {
+                if (this.productDetails.onsale != '') {
                     this.productDetails.onsale = `${this.productDetails.onsale}%`;
                 }
                 console.log(await service.methods.addProdcut(this.productDetails));
+                this.$router.push('/adminaccount/manageproducts')
             }
             catch (err) {
                 console.log(err);

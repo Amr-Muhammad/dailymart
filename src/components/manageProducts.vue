@@ -129,7 +129,7 @@
 
             <tbody v-if="filterdProducts">
                 <tr v-for="product in filterdProducts" :key="product">
-                    <td>{{ product[0] }}</td>
+                    <td>{{ product[0].slice(0, 10) }}</td>
                     <td class="flex justify-center"><img class="w-14" :src="product[1].image_url"
                             :alt="product[1].english_name"></td>
                     <td>{{ product[1].english_name }}</td>
@@ -156,17 +156,20 @@
 
             <tbody v-else>
                 <tr v-for="product in products" :key="product">
-                    <td>{{ product[0] }}</td>
+                    <td>{{ product[0].slice(0, 10) }}</td>
                     <td class="flex justify-center"><img class="w-14" :src="product[1].image_url"
-                            :alt="product[1].english_name"></td>
+                            :alt="product[1].english_name">
+                    </td>
                     <td>{{ product[1].english_name }}</td>
                     <td :class="product[1].onsale ? 'text-red-500' : ''">{{ product[1].onsale ? product[1].onsale :
                         '----'
-                        }}</td>
+                        }}
+                    </td>
                     <td :class="product[1].new ? 'text-green-500' : '----'">{{ product[1].new ? 'New' : '' }}</td>
                     <td>{{ product[1].boycott ? 'Boycott' : '----' }}</td>
                     <td>{{ product[1].catId.split('_')[1].charAt(0).toUpperCase() +
-                        product[1].catId.split('_')[1].slice(1) }}</td>
+                        product[1].catId.split('_')[1].slice(1) }}
+                    </td>
                     <td>{{ product[1].availability ? product[1].availability : '----' }}</td>
                     <td class="italic">{{ product[1].submittedBy }}</td>
                     <td>{{ product[1].submittedAt.split('T')[0] }}</td>
@@ -204,6 +207,7 @@ export default {
             try {
                 this.products = await service.methods.getAllProducts(this.searchQueryProducts, '', '', 'admin')
                 console.log(this.products);
+
             }
             catch (err) {
                 console.log(err);
