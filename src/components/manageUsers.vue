@@ -24,7 +24,7 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     <tr v-for="user in users" :key="user[0]">
 
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ user[1].name }}</td>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ user[1].firstName +user[1].lastName  }}</td>
 
                         <td class="px-6 py-4 text-sm text-gray-500">{{ user[1].email }}</td>
 
@@ -86,26 +86,22 @@ export default {
     },
     methods: {
         async fetchUsers() {
-            this.users = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users.json`)).data
+            this.users = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer.json`)).data
             this.users = Object.entries(this.users)
-        },
-        async ordersStatus() {
-            await axios.get(``)
-
         },
         viewUserProducts(userId) {
             this.$router.push(`./adminweeklyorder/${userId}`);
         },
         async approveOrder(userId) {
-            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${userId}.json`, { orderStatus: 'Approved' })
+            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, { orderStatus: 'Approved' })
             location.reload()
         },
         async rejectOrder(userId) {
-            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${userId}.json`, { orderStatus: 'Rejected' })
+            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, { orderStatus: 'Rejected' })
             location.reload()
         },
         async deleteItem(userId) {
-            await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${userId}.json`)
+            await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`)
             this.fetchUsers()
         }
     },

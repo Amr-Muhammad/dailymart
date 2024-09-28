@@ -1,6 +1,6 @@
 export default {
-    user:{
-        canAccess:[
+    user: {
+        canAccess: [
             '/',
             '/homePage',
             '/productsPage/:id',
@@ -15,12 +15,12 @@ export default {
             '/ImpactHeading',
         ]
     },
-    admin:{
-        canAccess:[
+    admin: {
+        canAccess: [
             '/adminaccount',
         ]
     },
-    delivery:{
-        canAccess:[]
+    delivery: {
+        canAccess: []
     },
 }

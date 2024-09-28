@@ -1,76 +1,82 @@
 <template>
-    <div class="-my-36">
+    <div class="h-screen flex items-center relative">
+        <!-- Uncomment el goz2 da w a5ly height el div ely t7tha  4/6 bdl 5-->
+        <!-- <div class="absolute top-0 start-24">
+            <img class="w-40" src="../assets/logo1 - Copy.png" alt="">
+        </div> -->
         <div
-            class="signContainer relative max-w-full h-screen grid-cols[1fr] overflow-hidden bg-white before before:content-[''] before:absolute before:-translate-y-2/4 before:w-[2000px] before:h-[4000px] before:bg-green-800 before:right-2/4 before:duration-[800ms] before:ease-in-out before:z-[6]">
+            class="signContainer mx-auto relative w-10/12 border-2 h-5/6 grid-cols[1fr] overflow-hidden bg-white before before:content-[''] before:absolute before:-translate-y-2/4 before:w-[2000px] before:h-[4000px] before:bg-green-800 before:right-2/4 before:duration-[800ms] before:ease-in-out before:z-[6] rounded-xl">
 
             <section class="forms-cont absolute w-full h-full top-0 left-0">
                 <div
                     class="signin-signup absolute z-[5] top-[95%] lg:top-2/4 left-1/2 lg:left-3/4 w-full md:w-6/12 duration-[1000ms] ease-in-out -translate-x-1/2 -translate-y-full md:-translate-y-1/2 grid">
 
                     <form @submit.prevent="signinForm()"
-                        class="signin-form col-[1_/_span_2] row-[1_/_span_2] z-[2] duration-[100ms] delay-[500ms] overflow-hidden px-10">
-                        <h1 class="text-center text-4xl mb-8 font-bold">Sign In</h1>
-                        <div ref="notExistMsg"
-                            class="hidden w-fit mx-auto flex-col items-center text-red-600 justify-center py-3 px-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="size-8">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                            </svg>
-                            <p>Your Email or Password is incorrect</p>
-                        </div>
-                        <label class="input sign-inputs mb-4 relative">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-                                class="h-4 w-4 opacity-70 hidden md:block">
-                                <path
-                                    d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-                                <path
-                                    d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-                            </svg>
-                            <input ref="emailInput" type="email" class="grow " placeholder="Email Address"
-                                v-model="email" @blur="validateEmail" />
-                            <span v-if="emailError"
-                                class="error-msg absolute text-[6px] md:text-[10px] -bottom-[20px] left-0 text-red-700">{{
-                                    emailError }}</span>
-                        </label>
-                        <label class="input sign-inputs">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-                                class="h-4 w-4 opacity-70 hidden md:block">
-                                <path fill-rule="evenodd"
-                                    d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <input ref="passInput" type="password" class="grow" placeholder="Password"
-                                v-model="password" />
-                        </label>
-                        <button onclick="my_modal_1.showModal()"
-                            class="btn border-0 text-stone-600 text-xs shadow-none min-h-0 h-0 hover:text-red-700">Forgot
-                            Password?</button>
-                        <dialog id="my_modal_1" class="modal">
-                            <div class="modal-box bg-white relative">
-                                <h3 class="text-lg font-bold">Reset Password</h3>
-                                <div class="modal-action">
-                                    <form method="dialog" class="w-full flex ">
-                                        <input ref="emailInput" type="email"
-                                            class="grow rounded-md focus:outline-none border-2 border-solid border-stone-400 p-2"
-                                            placeholder="Email Address" v-model="emailReset" />
-                                        <button @click="forgotPassword"
-                                            class="btn ms-5 bg-[#166534] hover:bg-[#0A1E1E] text-white">Reset</button>
-                                        <button a
-                                            class="btn ms-2 text-stone-800 hover:text-red-600 border-none shadow-none absolute top-0 right-0">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                stroke-width="1.5" stroke="currentColor" class="size-4">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M6 18 18 6M6 6l12 12" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                </div>
+                        class="signin-form flex items-center justify-center col-[1_/_span_2] row-[1_/_span_2] z-[2] duration-[100ms] delay-[500ms] overflow-hidden px-10">
+                        <div class="w-10/12">
+                            <h1 class="text-center text-4xl mb-8 font-bold">Sign In</h1>
+                            <div ref="notExistMsg"
+                                class="hidden w-fit mx-auto flex-col items-center text-red-600 justify-center py-3 px-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="size-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                </svg>
+                                <p>Your Email or Password is incorrect</p>
                             </div>
-                        </dialog>
-                        <button
-                            class="signin-btn btn btn-active bg-[#166534] hover:bg-[#0A1E1E] block mx-auto border-0 text-white px-10 mt-5">Sign
-                            In</button>
+                            <label class="input sign-inputs mb-4 relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                    class="h-4 w-4 opacity-70 hidden md:block">
+                                    <path
+                                        d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                                    <path
+                                        d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+                                </svg>
+                                <input ref="emailInput" type="email" class="grow " placeholder="Email Address"
+                                    v-model="email" @blur="validateEmail" />
+                                <span v-if="emailError"
+                                    class="error-msg absolute text-[6px] md:text-[10px] -bottom-[20px] left-0 text-red-700">{{
+                                        emailError }}</span>
+                            </label>
+                            <label class="input sign-inputs">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                    class="h-4 w-4 opacity-70 hidden md:block">
+                                    <path fill-rule="evenodd"
+                                        d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <input ref="passInput" type="password" class="grow" placeholder="Password"
+                                    v-model="password" />
+                            </label>
+                            <button onclick="my_modal_1.showModal()"
+                                class="btn border-0 text-stone-600 text-xs shadow-none min-h-0 h-0 hover:text-red-700">Forgot
+                                Password?</button>
+                            <dialog id="my_modal_1" class="modal">
+                                <div class="modal-box bg-white relative">
+                                    <h3 class="text-lg font-bold">Reset Password</h3>
+                                    <div class="modal-action">
+                                        <form method="dialog" class="w-full flex ">
+                                            <input ref="emailInput" type="email"
+                                                class="grow rounded-md focus:outline-none border-2 border-solid border-stone-400 p-2"
+                                                placeholder="Email Address" v-model="emailReset" />
+                                            <button @click="forgotPassword"
+                                                class="btn ms-5 bg-[#166534] hover:bg-[#0A1E1E] text-white">Reset</button>
+                                            <button a
+                                                class="btn ms-2 text-stone-800 hover:text-red-600 border-none shadow-none absolute top-0 right-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="size-4">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M6 18 18 6M6 6l12 12" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </dialog>
+                            <button
+                                class="signin-btn btn btn-active bg-[#166534] hover:bg-[#0A1E1E] block mx-auto border-0 text-white px-10 mt-5">Sign
+                                In</button>
+                        </div>
                     </form>
 
                     <form @submit.prevent="submitForm()"
@@ -104,7 +110,7 @@
                                     d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                             </svg>
                             <input type="email" class="grow" placeholder="Email Address" v-model="email"
-                                @input="validateEmail" required />
+                                @blur="validateEmail" required />
                             <span v-if="emailError"
                                 class="error-msg absolute text-[6px] lg:text-[10px] -bottom-[20px] left-0 text-red-700">{{
                                     emailError }}</span>
@@ -172,7 +178,7 @@
                             </label>
 
                             <div v-if="!addressFlag" class="flex items-center gap-2">
-                                <svg class="text-green-800" fill="text-green-800" width="25px" height="25px"
+                                <svg class="text-green-500" fill="text-green-500" width="25px" height="25px"
                                     viewBox="0 0 200 200" data-name="Layer 1" id="Layer_1"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)"
                                     stroke="#166534">
@@ -186,15 +192,27 @@
                                         </path>
                                     </g>
                                 </svg>
-                                <p>Your location has been saved</p>
+                                <p class="font-semibold">Your location has been saved</p>
                             </div>
 
                         </div>
 
                         <button v-if="addressFlag" @click="getUserLocation()" type="button"
-                            class="px-8 py-2 bg-blue-900 text-white rounded-md hover:bg-white hover:text-black transition-all duration-200 hover:outline hover:outline-1 text-sm">Share
-                            My
-                            Location Instead</button>
+                            class="flex items-center px-8 py-2 bg-[#F0F2E8] rounded-md hover:bg-white hover:text-black transition-all duration-200 hover:outline hover:outline-1 text-sm">
+                            <span>
+                                <svg fill="#000000" width="25px" height="25px" viewBox="0 0 100 100"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            d="M49,18.92A23.74,23.74,0,0,0,25.27,42.77c0,16.48,17,31.59,22.23,35.59a2.45,2.45,0,0,0,3.12,0c5.24-4.12,22.1-19.11,22.1-35.59A23.74,23.74,0,0,0,49,18.92Zm0,33.71a10,10,0,1,1,10-10A10,10,0,0,1,49,52.63Z">
+                                        </path>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span>Share My Location Instead</span>
+                        </button>
 
                         <div class="my-4 flex items-center">
                             <p class="font-semibold me-8">Gender:</p>
@@ -224,18 +242,20 @@
                 <div
                     class="panel left-panel pointer-events-auto duration-[1000ms] ease-in-out z-[6] flex sm:flex-row md:flex-col md:justify-center items-center text-white md:mt-0">
                     <div class="text transition-transform duration-[900ms] delay-[300ms] ease-in-out">
-                        <h3 class="text-center text-3xl mb-3">Hello, Friend!</h3>
-                        <p class="text-sm">Enter your Info and Start Journey with Us</p>
+                        <h3 class="text-center text-4xl mb-6 font-bold">New Here?</h3>
+                        <p class="text-sm">Sign up and discover a great amount of products to shop!</p>
                         <button id="signup-btn"
-                            class="btn btn-active block mx-auto border-2 border-solid border-white hover:bg-white hover:text-green-950 hover:border-white px-10 mt-5 col-span-2">Sign
-                            Up</button>
+                            class="btn btn-active block mx-auto border-2 border-solid border-white hover:bg-white hover:text-green-950 hover:border-white px-10 mt-5 col-span-2">
+                            <span>Sign Up</span>
+                        </button>
                     </div>
                 </div>
+
                 <div
                     class="panel right-panel pointer-events-none opacity-0 duration-[1000ms] ease-in-out z-[6] flex sm:flex-row md:flex-col md:justify-center items-center text-white">
                     <div
                         class="text transition-transform duration-[900ms] delay-[300ms] ease-in-out translate-x-[800px]">
-                        <h3 class="text-center text-3xl mb-3">Welcome Back!</h3>
+                        <h3 class="text-center text-4xl mb-6 font-bold">Welcome Back!</h3>
                         <p class="text-sm">To Keep Connected with us, Please login with your info</p>
                         <button id="signin-btn"
                             class="btn block mx-auto border-2 border-solid border-white hover:bg-white hover:text-green-950 hover:border-white px-14 mt-5 col-span-2">Sign
@@ -248,9 +268,9 @@
 </template>
 
 <!-- <template>
-    <div class="h-screen bg-blue-950">
+    <div class="h-screen">
         <div
-            class="signContainer relative max-w-full h-[75dvh] grid-cols[1fr] overflow-hidden bg-white before before:content-[''] before:absolute before:-translate-y-2/4 before:w-[2000px] before:h-[4000px] before:bg-green-800 before:right-2/4 before:duration-[800ms] before:ease-in-out before:z-[6]">
+            class="signContainer relative max-w-full h-full grid-cols[1fr] overflow-hidden bg-white before before:content-[''] before:absolute before:-translate-y-2/4 before:w-[2000px] before:h-[4000px] before:bg-green-800 before:right-2/4 before:duration-[800ms] before:ease-in-out before:z-[6]">
 
             <section class="forms-cont absolute w-full h-full top-0 left-0">
                 <div
@@ -435,8 +455,7 @@
 
         </div>
     </div>
-</template>
- -->
+</template> -->
 
 <script>
 // import { onMounted } from 'vue';
@@ -482,8 +501,6 @@ export default {
                 this.emailError = "Please enter a valid email address";
             } else {
                 this.emailError = '';
-                console.log('mfesh error');
-
             }
         },
         validatePasswords() {

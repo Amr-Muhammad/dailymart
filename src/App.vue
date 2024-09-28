@@ -1,10 +1,14 @@
 <template>
-  <navBar></navBar>
-  <div class="mt-[136px] mx-auto">
-    <router-view></router-view>
-  </div>
-  <footerCom></footerCom>
 
+  <div class=" bg-[#F0F2E8]">
+
+    <navBar></navBar>
+    <div :class="$route.name != 'SignPage' ? 'mt-[136px] mx-auto' : ''">
+      <router-view></router-view>
+    </div>
+    <footerCom></footerCom>
+
+  </div>
 </template>
 
 <script>
@@ -41,7 +45,7 @@ export default {
       await this.$store.dispatch('setUserData', [this.userId, userData])
       this.$store.state.isDataLoading = false
     }
-    else{
+    else {
       this.$store.state.isDataLoading = false
     }
 

@@ -74,7 +74,7 @@ export default {
           password: this.password,
           role: 'admin',
         };
-        await axios.post('https://dailymart-5c550-default-rtdb.firebaseio.com/users/admins.json', adminData);
+        await axios.post('https://dailymart-5c550-default-rtdb.firebaseio.com/users/admin.json', adminData);
         this.username = '';
         this.email = '';
         this.password = '';

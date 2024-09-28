@@ -1,5 +1,5 @@
 <template>
-    <div class="relative -mt-6">
+    <div class="relative">
 
         <section class="hero-sec mb-16 bg-cover h-screen">
             <div class=" text-white bg-[#00000080] w-full h-full  p-8 flex flex-col justify-center items-center">
