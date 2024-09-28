@@ -675,7 +675,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['loggedUserId','loggedUserData'])
+        ...mapState(['loggedUserId', 'loggedUserData'])
     }
     ,
     methods: {
@@ -902,15 +902,12 @@ export default {
         }
         ,
         async isUserSubscribed() {
-            this.user = await service.methods.getLoggedUser(this.loggedUserId)
-            this.subscribed = this.user.planid
+            this.subscribed = this.loggedUserData.planid
         }
     }
     ,
     async mounted() {
-        console.log(this.loggedUserData);
-        
-        // this.isUserSubscribed()
+        this.isUserSubscribed()
         this.getCategories()
         this.getAllProducts()
     }

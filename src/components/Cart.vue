@@ -58,40 +58,45 @@
 <script>
 import service from '@/mixins/service';
 import axios from 'axios';
+import { mapState } from 'vuex';
 
 export default {
   name: 'CartProducts',
+
   data() {
     return {
       cart: null,
-      userId: 'bab69910f7dc80c',
     }
   },
+  computed: {
+    ...mapState(['loggedUserId', 'loggedUserData'])
+  },
+
   methods: {
     // formatCurrency(value) {
     //   return `EGP ${value.toFixed(2)}`;
     // }
     // ,
     async getCart() {
-      this.cart = await service.methods.get_cart_wishlist_weekly(this.userId, 'cart')
+      this.cart = await service.methods.get_cart_wishlist_weekly(this.loggedUserId, 'cart')
       if (this.cart) {
         this.cart = Object.entries(this.cart)
       }
     },
     async deleteItem(productId) {
-      await service.methods.deleteItem_cart_wishlist_weekly(this.userId, productId, 'cart')
+      await service.methods.deleteItem_cart_wishlist_weekly(this.loggedUserId, productId, 'cart')
       this.getCart()
     },
     async clearCart() {
-      await service.methods.clear_cart_wishlist_weekly(this.userId, 'cart')
+      await service.methods.clear_cart_wishlist_weekly(this.loggedUserId, 'cart')
       this.getCart()
     },
     async handleCheckout() {
       try {
 
-        const userResponse = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${this.userId}.json`);
+        const userResponse = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${this.loggedUserId}.json`);
 
-        const cart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.userId}.json`)).data
+        const cart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}.json`)).data
 
         let cartArray = []
         for (let i = 0; i < Object.entries(cart).length; i++) {

@@ -4,20 +4,18 @@
         <h2 class="ms-20 text-2xl font-semibold">Edit Your Profile</h2>
     </div>
 
-    <div v-if="!isUserDataLoading" class=" flex justify-center flex-col items-center mt-10 mb-14">
+    <div v-if="loggedUserData != null" class=" flex justify-center flex-col items-center mt-10 mb-14">
         <!-- <img class="w-28 rounded-full border border-black"
             src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" alt="">  -->
         <img class="object-fill w-28 h-28 rounded-full border-[3px] border-[#1F822E]"
             :src="loggedUserData.profilePicture" alt="">
-        <span v-if="!loggedUserData.profilePicture.includes('iVBOR')" @click="deleteProfilePicture()"
+        <span v-if="!loggedUserData.profilePicture.includes('image/png')" @click="deleteProfilePicture()"
             class="text-red-500 font-semibold text-xs mt-4 cursor-pointer hover:underline">Delete
             Profile Picture</span>
 
-        <!-- <button class="mainGreenBtn my-4">Upload Image</button> -->
         <input @change="uploadImage" type="file"
             class="file-input file-input-sm w-full max-w-xs focus:outline-none my-4" />
         <p class="text-gray-400"> <span class="text-red-500">*</span> Your image should not exceed 10Mb</p>
-        <!-- <input type="file" class="my-4"> -->
     </div>
 
     <div v-else class="w-3/12 mx-auto mb-14">
@@ -33,8 +31,7 @@
         </div>
     </div>
 
-    <div>
-
+    <div v-if="loggedUserData != null">
         <div class="flex md:flex-nowrap flex-wrap lg:gap-24 gap-5 w-10/12 mx-auto justify-center mb-6">
 
             <label class="input input-bordered focus:outline-none flex items-center gap-2 md:w-6/12 w-full bg-gray-100">
@@ -137,7 +134,6 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 
 export default {
-
     data() {
         return {
             firstName: '',
@@ -149,28 +145,41 @@ export default {
     },
 
     computed: {
-        ...mapState(['loggedUserId', 'loggedUserData', 'isUserDataLoading']),
+        ...mapState(['loggedUserId', 'loggedUserData']),
     },
+
     methods: {
         uploadImage(event) {
             let file = event.target.files[0]
+
             if (file.size > 10_000_000) {
                 alert('Your image size is more than 10Mb, please upload another one')
+            }
+
+            else if (file.type.split('/')[1] != 'jpeg' && file.type.split('/')[1] != 'jpg') {
+                alert('Upload your image in jpeg or jpg format')
             }
             else {
                 let reader = new FileReader()
 
                 reader.onload = async (e) => {
-                    await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${this.loggedUserId}.json`, { profilePicture: e.target.result })
-                    location.reload()
+                    await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${this.loggedUserId}.json`, { profilePicture: e.target.result })
+                    this.loggedUserData.profilePicture = e.target.result
                 }
                 reader.readAsDataURL(file)
             }
         },
 
         async deleteProfilePicture() {
-            await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${this.loggedUserId}/profilePicture.json`)
-            location.reload()
+            await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${this.loggedUserId}/profilePicture.json`)
+
+            if (this.loggedUserData.gender == 'male') {
+                this.loggedUserData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+            }
+            else {
+                this.loggedUserData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
+            }
+            await this.$store.dispatch('setUserData', [this.loggedUserId, this.loggedUserData])
         },
 
         getLoggedUserData() {
@@ -179,15 +188,17 @@ export default {
                 this.lastName = this.loggedUserData.lastName
                 this.email = this.loggedUserData.email
                 this.phone = this.loggedUserData.phone
-                this.address = this.loggedUserData.adddres
+                this.address = this.loggedUserData.address
             }
         }
     },
+
     watch: {
         loggedUserData() {
             this.getLoggedUserData()
         }
     },
+
     mounted() {
         if (this.loggedUserData) {
             this.getLoggedUserData()

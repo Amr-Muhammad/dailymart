@@ -440,6 +440,7 @@
 
 <script>
 // import { onMounted } from 'vue';
+import service from '@/mixins/service';
 import axios from 'axios';
 
 export default {
@@ -467,9 +468,9 @@ export default {
             passwordError: '',
             rePasswordError: '',
             apiKey: '3199d0b4fb7e4184b017cfade26c7298',
-            signUpBtn:'',
-            signInBtn:'',
-            signContainer:''
+            signUpBtn: '',
+            signInBtn: '',
+            signContainer: ''
         }
     },
     methods: {
@@ -477,10 +478,12 @@ export default {
             const emailPattern = /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/g;
             this.emailExist = '';
 
-            if (this.email && !emailPattern.test(this.email)) {
+            if (this.email == '' && !emailPattern.test(this.email)) {
                 this.emailError = "Please enter a valid email address";
             } else {
                 this.emailError = '';
+                console.log('mfesh error');
+
             }
         },
         validatePasswords() {
@@ -498,58 +501,24 @@ export default {
                 this.rePasswordError = '';
             }
         },
-        async submitForm() {
+        async validateAdress() {
             let res = (await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(this.address.location)}&key=3199d0b4fb7e4184b017cfade26c7298`)).data
+            console.log(res);
+
             if (res.results[0]) {
                 this.address.latitude = res.results[0].geometry.lat
                 this.address.longitude = res.results[0].geometry.lng
                 console.log(this.address);
             } else {
                 this.addressErrMessage = 'Enter a valid address'
-            }
-
-            this.validateEmail();
-            this.validatePasswords();
-            this.chckPassword();
-
-            if (this.emailError || this.passwordError || this.rePasswordError || this.addressErrMessage) {
+                console.log(this.addressErrMessage);
                 return;
             }
-
-            try {
-                const usersRes = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users.json');
-                const usersData = usersRes.data || {};
-                const emailExists = Object.values(usersData).some(user => user.email === this.email);
-
-                if (emailExists) {
-                    this.emailExist = "This email already exists";
-                    return;
-                } else {
-                    this.emailExist = '';
-                }
-            }
-            catch (err) {
-                console.error("Error checking email existence:", err);
-                return;
-            }
-
-            try {
-                const res = await axios.post('https://dailymart-5c550-default-rtdb.firebaseio.com/users.json', {
-                    firstName: this.firstName,
-                    lastName: this.lastName,
-                    phone: this.phonenumber,
-                    email: this.email,
-                    password: this.password,
-                    gender: this.gender,
-                    role: 'user',
-                    address: this.address,
-                });
-                console.log(res.data);
-                this.signContainer.classList.remove("signup-mode");
-            }
-            catch (error) {
-                console.error("There was an error:", error);
-            }
+        },
+        async submitForm() {
+            this.validateAllInputs()
+            this.checkIfEmailExists()
+            this.addNewUser()
         },
         async signinForm() {
             this.validateEmail();
@@ -557,46 +526,84 @@ export default {
                 return;
             }
 
-            try {
-                const usersRes = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users.json');
-                const usersData = usersRes.data || {};
+            let role = this.$route.params.id
+            if (role == '') {
+                try {
+                    const usersRes = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer.json');
+                    const usersData = usersRes.data || {};
 
+                    let loggedUser = Object.entries(usersData).find(user => user[1].email.toLowerCase() == this.email.toLowerCase() && user[1].password.toLowerCase() == this.password.toLowerCase());
 
-                let loggedUser = Object.entries(usersData).find(user => user[1].email.toLowerCase() == this.email.toLowerCase() && user[1].password.toLowerCase() == this.password.toLowerCase());
-
-                if (loggedUser) {
-                    if (loggedUser[1].profilePicture) {
-                        this.$store.dispatch('setUserData', loggedUser)
-                        this.$router.push("/");
-                    }
-                    else {
-                        if (loggedUser[1].gender == 'male') {
-                            loggedUser[1].profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+                    if (loggedUser) {
+                        if (loggedUser[1].profilePicture) {
+                            this.$store.dispatch('setUserData', loggedUser)
+                            this.$router.push("/");
                         }
                         else {
-                            loggedUser[1].profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
+                            if (loggedUser[1].gender == 'male') {
+                                loggedUser[1].profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+                            }
+                            else {
+                                loggedUser[1].profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
+                            }
+                            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${loggedUser[0]}.json`, { profilePicture: loggedUser[1].profilePicture })
+                            this.$store.dispatch('setUserData', loggedUser)
+                            this.$router.push("/");
                         }
-                        await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${loggedUser[0]}.json`, { profilePicture: loggedUser[1].profilePicture })
                         this.$store.dispatch('setUserData', loggedUser)
                         this.$router.push("/");
                     }
-                    this.$store.dispatch('setUserData', loggedUser)
-                    this.$router.push("/");
+
+                    else {
+                        this.$refs.notExistMsg.classList.add("not-exist");
+                        this.email = '';
+                        this.password = '';
+                    }
+
                 }
-                else {
-                    this.$refs.notExistMsg.classList.add("not-exist");
-                    this.email = '';
-                    this.password = '';
-                    // this.$refs.emailInput.addEventListener("focus", () => {
-                    //     this.$refs.notExistMsg.classList.remove("not-exist");
-                    // })
-                    // this.$refs.passInput.addEventListener("focus", () => {
-                    //     this.$refs.notExistMsg.classList.remove("not-exist");
-                    // })
+                catch (error) {
+                    console.error("There was an error:", error);
                 }
-            } catch (error) {
-                console.error("There was an error:", error);
             }
+            else if (role == 'admin') {
+                try {
+                    const usersRes = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/admin.json');
+                    const usersData = usersRes.data || {};
+                    let loggedUser = Object.entries(usersData).find(user => user[1].email.toLowerCase() == this.email.toLowerCase() && user[1].password.toLowerCase() == this.password.toLowerCase());
+                    if (loggedUser) {
+                        this.$router.push('/adminaccount')
+                    }
+                    else {
+                        this.$refs.notExistMsg.classList.add("not-exist");
+                        this.email = '';
+                        this.password = '';
+                    }
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            }
+
+            else if (role == 'delivery') {
+                try {
+                    const usersRes = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/delivery.json');
+                    const usersData = usersRes.data || {};
+                    let loggedUser = Object.entries(usersData).find(user => user[1].email.toLowerCase() == this.email.toLowerCase() && user[1].password.toLowerCase() == this.password.toLowerCase());
+                    if (loggedUser) {
+                        this.$router.push('/adminaccount')
+                    }
+                    else {
+                        this.$refs.notExistMsg.classList.add("not-exist");
+                        this.email = '';
+                        this.password = '';
+                    }
+                }
+                catch (err) {
+                    console.log(err);
+                }
+            }
+
+
         },
         async forgotPassword() {
             try {
@@ -638,6 +645,53 @@ export default {
             }
             else {
                 alert("This browser doesn't support live location")
+            }
+        },
+        async checkIfEmailExists(role) {
+            try {
+                const usersRes = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${role}.json`);
+                const usersData = usersRes.data || {};
+                const emailExists = Object.values(usersData).some(user => user.email === this.email);
+
+                if (emailExists) {
+                    this.emailExist = "This email already exists";
+                    return;
+                } else {
+                    this.emailExist = '';
+                }
+            }
+            catch (err) {
+                console.error("Error checking email existence:", err);
+                return;
+            }
+        },
+        async addNewUser() {
+            try {
+                let res = await service.methods.addUser('customer', {
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    phone: this.phonenumber,
+                    email: this.email.toLowerCase(),
+                    password: this.password,
+                    gender: this.gender,
+                    role: 'user',
+                    address: this.address,
+                })
+                console.log(res)
+                this.signContainer.classList.remove("signup-mode");
+            }
+            catch (error) {
+                console.error("There was an error:", error);
+            }
+        },
+        validateAllInputs() {
+            this.validateAdress()
+            this.validateEmail();
+            this.validatePasswords();
+            this.chckPassword();
+
+            if (this.emailError || this.passwordError || this.rePasswordError || this.addressErrMessage) {
+                return;
             }
         }
     },

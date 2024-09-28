@@ -3,7 +3,7 @@
     <div>
 
         <div class="container mx-auto">
-            <div class="flex justify-between">
+            <div v-if="loggedUserData" class="flex justify-between">
 
                 <div class="breadcrumbs text-sm">
                     <ul>
@@ -56,6 +56,7 @@
                         </transition>
                     </router-view> -->
                 </rightSection>
+
             </div>
         </div>
 

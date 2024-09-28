@@ -1,10 +1,12 @@
-import { createApp } from 'vue'
 import App from './App.vue'
+import { createApp } from 'vue'
 import { initializeApp } from "firebase/app";
 import { createRouter, createWebHistory } from 'vue-router'
 import store from './store'
-// import { getAuth } from 'firebase/auth';
+import service from './mixins/service';
+import axios from 'axios';
 
+import roles from './roles';
 import "@/assets/styles/output.css";
 import 'animate.css';
 
@@ -15,7 +17,6 @@ import userWishlist from './components/userWishlist.vue';
 import userWeeklyOrders from './components/userWeeklyOrders.vue';
 import MyOrders from './components/myOrders.vue';
 import LoginPage from './components/loginPage.vue'; //Should be deleted!
-import TestComponent from './components/testComponent.vue';
 
 // Menna Pages
 import SignPage from './components/signPage.vue';
@@ -26,7 +27,6 @@ import ManageProducts from './components/manageProducts.vue';
 import EditDeleteProducts from './components/edit-deleteProducts.vue';
 
 import CategroyPage from './components/categroyPage.vue';
-// Second Page
 import ProductDetail from './components/productdetail.vue';
 
 
@@ -37,12 +37,48 @@ import BoycottWrapper from './components/BoycottingWrapper.vue'
 import PlansWrapperComponent from './components/PlansWrapper.vue'
 import AdminMangement from './components/AdminMangement.vue'
 import manageAdmins from './components/manageAdmins.vue'
-import UsersList from './components/manageUsers.vue';
-import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import ManageUsers from './components/manageUsers.vue';
+import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import AdminAccount from './components/adminAccount.vue';
-import ManageMyPlan from './components/manageMyPlan.vue';
+// import ManageMyPlan from './components/manageMyPlan.vue';
 import Cart from './components/Cart.vue';
+
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBD8KdPw88r_d0leV3UqO-AEDuJ_jv0Zmg",
+    authDomain: "dailymart-5c550.firebaseapp.com",
+    databaseURL: "https://dailymart-5c550-default-rtdb.firebaseio.com",
+    projectId: "dailymart-5c550",
+    storageBucket: "dailymart-5c550.appspot.com",
+    messagingSenderId: "609429849774",
+    appId: "1:609429849774:web:b4ed4d2106fe70a4780f3f",
+    measurementId: "G-CPQVNJ36EH"
+};
+
+async function checkForUser() {
+    if (localStorage.getItem('userId')) {
+        console.log(localStorage.getItem('userId'));
+
+        let userId = localStorage.getItem('userId')
+        let userData = await service.methods.getLoggedUser(userId)
+        if (!userData.profilePicture) {
+            if (userData.gender == 'male') {
+                userData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+            }
+            else {
+                userData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
+            }
+            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, { profilePicture: userData.profilePicture })
+        }
+        await store.dispatch('setUserData', [userId, userData])
+        store.state.isDataLoading = false
+
+    }
+    else {
+        store.state.isDataLoading = false
+    }
+}
 
 
 
@@ -58,7 +94,7 @@ const routes = [
             { path: 'wishlist', component: userWishlist },
             { path: 'weeklyorders/:id?', component: userWeeklyOrders },
             { path: 'myorders', component: MyOrders },
-            { path: 'manageMyPlan', component: ManageMyPlan },
+            // { path: 'manageMyPlan', component: ManageMyPlan },
         ]
     },
     {
@@ -71,26 +107,36 @@ const routes = [
             { path: 'myorders', component: MyOrders },
             { path: 'manageAdmins', component: manageAdmins }, //wrapper
             { path: 'AdminMangement', component: AdminMangement }, //wrapper
-            { path: 'manageusers', component: UsersList },
             { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder },
             { path: 'manageProducts', component: ManageProducts },
             { path: 'editDelete/:id?', component: EditDeleteProducts },
         ]
     },
     { path: '/loginpage', component: LoginPage },
-    { path: '/signPage', name: "SignPage", component: SignPage },
+    {
+        path: '/signPage/:id?',
+        name: 'SignPage',
+        component: SignPage,
+        beforeEnter: (to, from, next) => {
+            const validateId = ['', 'user', 'admin', 'delivery']
+            if (validateId.includes(to.params.id)) {
+                next()
+            }
+            else {
+                next({ name: 'ErrorPage' })
+            }
+        }
+    },
     { path: '/productsPage/:id', component: ProductsPage },
     { path: '/offersPage', component: OffersPage },
-    { path: '/test', component: TestComponent },
     { path: '/cart', component: Cart },
     { path: '/CategroyPage', component: CategroyPage },
     { path: '/productdetail/:id', component: ProductDetail },
     //farha
-    { path: '/ImpactHeading', component: ImpactHeading }, //wrapper
-    { path: '/BoycottWrapper', component: BoycottWrapper }, //wrapper
-    { path: '/PlansWrapperComponent', component: PlansWrapperComponent }, //wrapper
+    { path: '/ImpactHeading', component: ImpactHeading }, //wrapper  anyone
+    { path: '/BoycottWrapper', component: BoycottWrapper }, //wrapper anyone
+    { path: '/PlansWrapperComponent', component: PlansWrapperComponent }, //wrapper anyone
     { path: '/EmailGetHelp', component: EmailGetHelp }, //wrapper
-
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
 
 ]
@@ -111,36 +157,39 @@ const router = createRouter({
     }
 })
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBD8KdPw88r_d0leV3UqO-AEDuJ_jv0Zmg",
-    authDomain: "dailymart-5c550.firebaseapp.com",
-    databaseURL: "https://dailymart-5c550-default-rtdb.firebaseio.com",
-    projectId: "dailymart-5c550",
-    storageBucket: "dailymart-5c550.appspot.com",
-    messagingSenderId: "609429849774",
-    appId: "1:609429849774:web:b4ed4d2106fe70a4780f3f",
-    measurementId: "G-CPQVNJ36EH"
-};
+router.beforeEach((to, from, next) => {
+    if (store.state.loggedUserData) {
+        const userRole = store.state.loggedUserData.role
+        const allowedRoutes = roles[userRole].canAccess
+
+        if (allowedRoutes.includes('/' + to.path.split('/')[1])) {
+            next()
+        }
+        else if (to.path.split('/')[1].includes('signPage')) {
+            next('/')
+        }
+        else {
+            next({ name: 'ErrorPage' })
+        }
+    }
+    else {
+        if (to.path.includes(`/signPage`) || to.path.includes(`/homePage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/ImpactHeading`)) {
+            next()
+        }
+        else {
+            if (to.path !== '/') {
+                next('/'); // Redirect to home page for any other route
+            } else {
+                next('/signPage'); // If already on home, do nothing
+            }
+        }
+    }
+})
+
 initializeApp(firebaseConfig);
-
-
-createApp(App).use(store).use(router).mount('#app')
-
-
-
-
-// router.beforeEach((to, from, next) => {
-//     // console.log(getAuth());
-
-//     if (to.matched.some(record => record.meta.requiresAuth)) {
-//         if (getAuth().currentUser) {
-//             next();
-//         } else {
-//             alert("You don't have access")
-//             next('/loginPage')
-//         }
-//     }
-//     else {
-//         next()
-//     }
-// })
+checkForUser().then(() => {
+    const app = createApp(App);
+    app.use(router);
+    app.use(store);
+    app.mount('#app');
+});

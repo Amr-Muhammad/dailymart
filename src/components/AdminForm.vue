@@ -35,7 +35,7 @@
 
 <script>
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 export default {
   name: 'AdminForm',
@@ -59,27 +59,29 @@ export default {
           this.errorMessage = 'Password must be at least 8 characters long and include letters, numbers, and special characters.';
           return;
         }
-        const response = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/admins.json');
+        const response = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/admin.json');
         const existingAdmins = response.data || {};
         const emails = Object.values(existingAdmins).map(admin => admin.email);
         if (emails.includes(this.email)) {
           this.errorMessage = 'This email is already in use. Please use a different email.';
           return;
         }
-        const newAdminId = uuidv4();
+        // const newAdminId = uuidv4();
         const adminData = {
-          id: newAdminId,
+          // id: newAdminId,
           username: this.username,
           email: this.email,
           password: this.password,
+          role: 'admin',
         };
-        await axios.post('https://dailymart-5c550-default-rtdb.firebaseio.com/admins.json', adminData);
+        await axios.post('https://dailymart-5c550-default-rtdb.firebaseio.com/users/admins.json', adminData);
         this.username = '';
         this.email = '';
         this.password = '';
         this.errorMessage = '';
         console.log('Admin added successfully');
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Error adding admin:', error);
       }
     },

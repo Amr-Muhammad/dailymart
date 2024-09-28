@@ -10,11 +10,6 @@
             <div class="navbar-center hidden lgScreen:flex gap-y-2 lgScreen:gap-y-0 ms-20">
 
                 <ul class="menu menu-horizontal lg-screen-1st-nav px-1 gap-1">
-                    <!-- <li>
-                        <router-link to="/homePage" class="lg-screen-nav">Home</router-link>
-
-                    </li> -->
-
                     <router-link to="/homePage" class="lg-screen-nav flex items-center">
                         <li class="font-semibold">HOME</li>
                     </router-link>
@@ -30,33 +25,12 @@
                     <router-link to="/EmailGetHelp" class="lg-screen-nav flex items-center">
                         <li class="font-semibold">CONTACT US</li>
                     </router-link>
-
-
-
-                    <!-- <li>
-                        <router-link to="/CategroyPage" class="lg-screen-nav">Explore</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/offersPage" class="lg-screen-nav">Offers</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/PlansWrapperComponent" class="lg-screen-nav">Plans</router-link>
-                    </li>
-                    <li>
-
-                        <router-link to="/EmailGetHelp" class="lg-screen-nav">Contact Us</router-link>
-                    </li> -->
-
-                    <!-- <li v-if="!isLogged">
-                        <router-link to="/loginpage">Login</router-link>
-                    </li> -->
-
-
                 </ul>
+
             </div>
 
-            <div v-if="isUserDataLoading" class="skeleton w-36 h-8 rounded-md"></div>
-            
+            <div v-if="isDataLoading" class="skeleton w-36 h-8 rounded-md"></div>
+
             <div v-else-if="loggedUserId" class="userIcons">
                 <div class="cart-wishlist-wOrders me-5 flex gap-3">
                     <router-link :to="loggedUserData.planid ? '/useraccount/weeklyorders' : '/PlansWrapperComponent'">
@@ -86,7 +60,7 @@
                             aria-labelledby="options-menu">
                             <router-link @click="isDropdownOpen = !isDropdownOpen" to="/useraccount"
                                 class="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
-                                User Accoun
+                                User Account
                             </router-link>
                             <button @click="logOut()"
                                 class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -131,7 +105,7 @@
 
             </div>
 
-            <div v-else-if="!loggedUserId">
+            <div v-else>
                 <router-link to="/signPage">
                     <button class="bg-white text-black px-6 py-1 rounded-md">Login</button>
                 </router-link>
@@ -253,8 +227,6 @@
 </template>
 
 <script>
-import service from '@/mixins/service';
-import axios from 'axios';
 import { mapState } from 'vuex';
 
 export default {
@@ -266,49 +238,15 @@ export default {
             userId: null,
             userData: null,
             isDropdownOpen: false,
-            loading: true
         }
     },
     async mounted() {
         document.addEventListener('click', this.handleClickOutsideDropdown)
-
-        // if (localStorage.getItem('userId')) {
-        //     this.userId = localStorage.getItem('userId')
-        //     this.userData = await this.getLoggedUserData()
-
-
-        //     if (!this.userData.profilePicture) {
-        //         if (this.userData.gender == 'male') {
-        //             this.userData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
-        //         }
-        //         else {
-        //             this.userData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
-        //         }
-        //         await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${this.userId}.json`, { profilePicture: this.userData.profilePicture })
-        //     }
-        //     this.$store.dispatch('setUserData', [this.userId, this.userData])
-        // }
-        // this.loading = false
-
-
-        if (!this.isUserDataLoading) {
-            if (!this.loggedUserData.profilePicture) {
-                if (this.loggedUserData.gender == 'male') {
-                    this.loggedUserData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
-                }
-                else {
-                    this.loggedUserData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
-                }
-                await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${this.userId}.json`, { profilePicture: this.loggedUserData.profilePicture })
-            }
+        if (this.loggedUserData) {
+            this.loading = false
         }
-
-
     },
     methods: {
-        async getLoggedUserData() {
-            return await service.methods.getLoggedUser(this.userId)
-        },
         async logOut() {
             this.isDropdownOpen = !this.isDropdownOpen
             this.$store.dispatch('logout')
@@ -323,7 +261,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['loggedUserId', 'loggedUserData', 'isUserDataLoading'])
+        ...mapState(['loggedUserId', 'loggedUserData', 'isDataLoading'])
     }
 }
 
@@ -335,11 +273,11 @@ export default {
     color: blue;
 }
 
-/* .router-link-exact-active,
-    .router-link-active {
-                background-color: white;
-        color: #166534;
-        border-radius: 0.250rem;
-        
-    } */
+.router-link-exact-active,
+.router-link-active {
+    background-color: white;
+    color: #166534;
+    border-radius: 0.250rem;
+
+}
 </style>

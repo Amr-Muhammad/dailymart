@@ -13,11 +13,11 @@ export default {
 
     methods: {
         async getLoggedUser(userId) {
-            return (await (axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${userId}.json`))).data
+            return (await (axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`))).data
         }
         ,
         async planSubscribe(userId, object) {
-            return (await (axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${userId}.json`, object))).data
+            return (await (axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, object))).data
         }
         ,
         async getAllProducts(searchQuery, categoryId, notBoycott, admin) {
@@ -107,7 +107,11 @@ export default {
             await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`, noOfOrders)
         },
 
-        
+        async addUser(role, userData) {
+            return (await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${role}/.json`, userData)).data
+        },
+
+
         //Admin
         async deleteProduct(productId) {
             return (await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}/.json`)).data
@@ -123,6 +127,7 @@ export default {
         }
 
     },
+    
     computed: {
         ...mapState(['loggedUserData'])
     }

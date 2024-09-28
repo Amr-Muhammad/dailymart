@@ -181,11 +181,12 @@
 
                                 <div class="card-body p-5">
 
-                                    <h2 :title="product[1].english_name" class="card-title text-start text-[18px] font-semibold">{{
-                                        product[1].english_name.length > 15 ?
-                                            product[1].english_name.slice(0, 15).split().join('') + '...' :
-                                            product[1].english_name
-                                    }}</h2>
+                                    <h2 :title="product[1].english_name"
+                                        class="card-title text-start text-[18px] font-semibold">{{
+                                            product[1].english_name.length > 15 ?
+                                                product[1].english_name.slice(0, 15).split().join('') + '...' :
+                                                product[1].english_name
+                                        }}</h2>
 
                                     <h2 :title="product[1].description" class="card-title text-start text-sm">{{
                                         product[1].description.length > 25 ?
@@ -285,6 +286,7 @@
 <script>
 import service from '@/mixins/service';
 import Swal from 'sweetalert2';
+import { mapState } from 'vuex';
 
 export default {
     name: 'offersPage',
@@ -297,6 +299,9 @@ export default {
             subscribed: null,
             clickedProducts: {}
         }
+    },
+    computed: {
+        ...mapState(['loggedUserData', 'loggedUserId'])
     },
     methods: {
         async getAllProducts() {
@@ -315,10 +320,10 @@ export default {
 
             let flag = null
             try {
-                flag = await service.methods.getSpeificProduct(this.userId, productId, 'cart')
+                flag = await service.methods.getSpeificProduct(this.loggedUserId, productId, 'cart')
                 if (flag) {
                     try {
-                        await service.methods.patchQuantity(this.userId, productId, 'cart', '+')
+                        await service.methods.patchQuantity(this.loggedUserId, productId, 'cart', '+')
                     }
                     catch (err) {
                         console.log(err);
@@ -327,7 +332,7 @@ export default {
                 }
                 else {
                     try {
-                        await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, {
+                        await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, {
                             ...product,
                             quantity: 1
                         }, 'cart')
@@ -398,7 +403,7 @@ export default {
         async addToWishlist(productId, product, event) {
             event.target.style.cursor = 'wait'
             try {
-                await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, product, 'wishlist')
+                await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, product, 'wishlist')
             }
             catch (err) {
                 console.log(err);
@@ -454,10 +459,10 @@ export default {
             event.target.style.cursor = 'wait'
             let flag = null
             try {
-                flag = await service.methods.getSpeificProduct(this.userId, productId, 'weeklyorders')
+                flag = await service.methods.getSpeificProduct(this.loggedUserId, productId, 'weeklyorders')
                 if (flag) {
                     try {
-                        await service.methods.patchQuantity(this.userId, productId, 'weeklyorders', '+')
+                        await service.methods.patchQuantity(this.loggedUserId, productId, 'weeklyorders', '+')
                     }
                     catch (err) {
                         console.log(err);
@@ -465,7 +470,7 @@ export default {
                 }
                 else {
                     try {
-                        await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, {
+                        await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, {
                             ...product,
                             addedAt: new Date(),
                             quantity: 1
@@ -527,8 +532,7 @@ export default {
         }
         ,
         async isUserSubscribed() {
-            this.user = await service.methods.getLoggedUser(this.userId)
-            this.subscribed = this.user.planid
+            this.subscribed = this.loggedUserData.planid
         }
     }
     ,
@@ -537,7 +541,7 @@ export default {
         this.getAllProducts()
         // service.methods.getNextFriday()
     },
-    watch:{
+    watch: {
         searchQueryProducts: function () {
             this.getAllProducts()
         },

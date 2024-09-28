@@ -243,6 +243,7 @@
 
 <script>
 import service from '@/mixins/service';
+import { mapState } from 'vuex';
 
 export default {
     name: 'productsPage',
@@ -251,13 +252,15 @@ export default {
             products: null,
             categoryId: null,
             searchQueryProducts: '',
-            userId: 'bab69910f7dc80c',
             subscribed: null,
             user: null,
             clickedProducts: {}
 
             // lastVisibleProduct: null,
         }
+    },
+    computed: {
+        ...mapState(['loggedUserId', 'loggedUserData'])
     }
     ,
     methods: {
@@ -275,10 +278,10 @@ export default {
         async addToCart(productId, product) {
             let flag = null
             try {
-                flag = await service.methods.getSpeificProduct(this.userId, productId, 'cart')
+                flag = await service.methods.getSpeificProduct(this.loggedUserId, productId, 'cart')
                 if (flag) {
                     try {
-                        await service.methods.patchQuantity(this.userId, productId, 'cart', '+')
+                        await service.methods.patchQuantity(this.loggedUserId, productId, 'cart', '+')
                     }
                     catch (err) {
                         console.log(err);
@@ -286,7 +289,7 @@ export default {
                 }
                 else {
                     try {
-                        await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, {
+                        await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, {
                             ...product,
                             quantity: 1
                         }, 'cart')
@@ -303,7 +306,7 @@ export default {
         ,
         async addToWishlist(productId, product) {
             try {
-                await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, product, 'wishlist')
+                await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, product, 'wishlist')
             }
             catch (err) {
                 console.log(err);
@@ -313,10 +316,10 @@ export default {
         async addToWeeklyOrder(productId, product) {
             let flag = null
             try {
-                flag = await service.methods.getSpeificProduct(this.userId, productId, 'weeklyorders')
+                flag = await service.methods.getSpeificProduct(this.loggedUserId, productId, 'weeklyorders')
                 if (flag) {
                     try {
-                        await service.methods.patchQuantity(this.userId, productId, 'weeklyorders', '+')
+                        await service.methods.patchQuantity(this.loggedUserId, productId, 'weeklyorders', '+')
                     }
                     catch (err) {
                         console.log(err);
@@ -324,7 +327,7 @@ export default {
                 }
                 else {
                     try {
-                        await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, {
+                        await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, {
                             ...product,
                             addedAt: new Date(),
                             quantity: 1
@@ -341,8 +344,7 @@ export default {
         }
         ,
         async isUserSubscribed() {
-            this.user = await service.methods.getLoggedUser(this.userId)
-            this.subscribed = this.user.planid
+            this.subscribed = this.loggedUserData.planid
         }
     }
     ,
