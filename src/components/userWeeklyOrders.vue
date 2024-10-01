@@ -1,6 +1,6 @@
 <template>
 
-    <div class="mx-20 flex justify-between">
+    <div class="mx-10 flex justify-between">
         <h2 class=" text-2xl font-semibold">Weekly Orders</h2>
         <!-- <p v-if="products != null" class="font-semibold italic">Your orders are expected to be delivered by friday, {{
             nextFriday }} , {{ days
@@ -92,12 +92,12 @@
 
 <script>
 import service from '@/mixins/service';
+import { mapState } from 'vuex';
 
 export default {
     data() {
         return {
             products: null,
-            userId: 'bab69910f7dc80c',
             days: null,
             hours: null,
             minutes: null,
@@ -107,9 +107,12 @@ export default {
             subscribed: null
         }
     },
+    computed: {
+        ...mapState(['loggedUserId', 'loggedUserData'])
+    },
     methods: {
         async getWeeklyOrder() {
-            this.products = await service.methods.get_cart_wishlist_weekly(this.userId, 'weeklyorders')
+            this.products = await service.methods.get_cart_wishlist_weekly(this.loggedUserId, 'weeklyorders')
             if (this.products) {
                 this.products = Object.entries(this.products)
             }
@@ -117,7 +120,7 @@ export default {
         ,
         async deleteItem(productId) {
             try {
-                await service.methods.deleteItem_cart_wishlist_weekly(this.userId, productId, 'weeklyorders')
+                await service.methods.deleteItem_cart_wishlist_weekly(this.loggedUserId, productId, 'weeklyorders')
                 this.getWeeklyOrder()
             }
             catch (err) {
@@ -126,7 +129,7 @@ export default {
         }
         ,
         async patchQuantity(productId, sign) {
-            await service.methods.patchQuantity(this.userId, productId, 'weeklyorders', sign)
+            await service.methods.patchQuantity(this.loggedUserId, productId, 'weeklyorders', sign)
             this.getWeeklyOrder()
         }
         ,
@@ -147,7 +150,7 @@ export default {
             this.nextFriday = `${day}-${month}-${year}`;
         },
         async getLoggedUser() {
-            this.user = await service.methods.getLoggedUser(this.userId)
+            this.user = await service.methods.getLoggedUser(this.loggedUserId)
         },
         async successfulSubscribe() {
             this.subscribed = this.$route.params.id
@@ -157,7 +160,7 @@ export default {
                     planid: 'a1b2c3_subscription',
                     subscriptionStartDate: new Date()
                 }
-                await service.methods.planSubscribe(this.userId, subscribeData)
+                await service.methods.planSubscribe(this.loggedUserId, subscribeData)
                 location.assign('/useraccount/weeklyorders')
             }
         }

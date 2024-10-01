@@ -13,7 +13,7 @@
 
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
 
-                    <p class="text-lg md:text-2xl font-bold text-stone-900 w-fit">Explore Our categories</p>
+                    <p class="text-lg md:text-2xl font-bold text-stone-900 w-fit">Explore Our Categories</p>
 
                     <div class="search-input relative lg:w-1/5 flex items-center justify-end md:mt-0 mt-5">
 
@@ -118,17 +118,18 @@
 
                                 <div class="card-body p-5">
 
-                                    <h2 :title="product[1].english_name" class="card-title text-start text-[18px] font-semibold">{{
-                                        product[1].english_name.length > 15 ?
-                                            product[1].english_name.slice(0, 15).split().join('') + '...' :
-                                            product[1].english_name
+                                    <h2 :title="product[1].english_name"
+                                        class="card-title text-start text-[18px] font-semibold">{{
+                                            product[1].english_name.length > 15 ?
+                                                product[1].english_name.slice(0, 15).split().join('') + '...' :
+                                                product[1].english_name
                                         }}</h2>
 
                                     <h2 :title="product[1].description" class="card-title text-start text-sm">{{
                                         product[1].description.length > 25 ?
                                             product[1].description.slice(0, 25).split().join('') + '...' :
                                             product[1].description
-                                        }}</h2>
+                                    }}</h2>
 
                                     <div class="price flex gap-3">
                                         <div class="after text-lg text-red-500 font-bold">
@@ -242,6 +243,8 @@
 
 <script>
 import service from '@/mixins/service';
+import Swal from 'sweetalert2';
+import { mapState } from 'vuex';
 
 export default {
     name: 'productsPage',
@@ -250,20 +253,19 @@ export default {
             products: null,
             categoryId: null,
             searchQueryProducts: '',
-            userId: 'bab69910f7dc80c',
             subscribed: null,
             user: null,
             clickedProducts: {}
-
-            // lastVisibleProduct: null,
         }
+    },
+    computed: {
+        ...mapState(['loggedUserId', 'loggedUserData'])
     }
     ,
     methods: {
         async getAllProducts() {
             try {
                 this.products = await service.methods.getAllProducts(this.searchQueryProducts, this.categoryId, true)
-                console.log(this.products);
 
             }
             catch (err) {
@@ -274,10 +276,10 @@ export default {
         async addToCart(productId, product) {
             let flag = null
             try {
-                flag = await service.methods.getSpeificProduct(this.userId, productId, 'cart')
+                flag = await service.methods.getSpeificProduct(this.loggedUserId, productId, 'cart')
                 if (flag) {
                     try {
-                        await service.methods.patchQuantity(this.userId, productId, 'cart', '+')
+                        await service.methods.patchQuantity(this.loggedUserId, productId, 'cart', '+')
                     }
                     catch (err) {
                         console.log(err);
@@ -285,7 +287,7 @@ export default {
                 }
                 else {
                     try {
-                        await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, {
+                        await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, {
                             ...product,
                             quantity: 1
                         }, 'cart')
@@ -298,24 +300,104 @@ export default {
             catch (err) {
                 console.log(err);
             }
+            finally {
+                Swal.fire({
+                    html: `<div class="flex items-center gap-2">
+                                <svg class="text-green-800" fill="#ffffff"  width="25px" height="25px" viewBox="0 0 200 200" data-name="Layer 1" id="Layer_1"
+                                xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)" stroke="#166534">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                <title></title>
+                                    <path
+                                        d="M100,15a85,85,0,1,0,85,85A84.93,84.93,0,0,0,100,15Zm0,150a65,65,0,1,1,65-65A64.87,64.87,0,0,1,100,165Zm25-91.5-29,35L76,94c-4.5-3.5-10.5-2.5-14,2s-2.5,10.5,2,14c6,4.5,12.5,9,18.5,13.5,4.5,3,8.5,7.5,14,8,1.5,0,3.5,0,5-1l3-3,22.5-27c4-5,8-9.5,12-14.5,3-4,4-9,.5-13L138,71.5c-3.5-2.5-9.5-2-13,2Z">
+                                    </path>
+                                    </g>
+                                    </svg>
+                                    <p>Product successfully added to your <span class="font-semibold">Cart<span/>.</p>
+                                      </div>`
+                    ,
+                    position: "top",
+                    showConfirmButton: false,
+                    background: '#166534',
+                    timer: 1500,
+                    width: 'auto', // Keeps the width flexible
+                    padding: '0.5rem', // Slight padding for a slim look
+                    color: '#fff', // White text color
+                    showClass: {
+                        popup: `
+                                animate__animated
+                                animate__fadeInDown
+                                animate__faster
+    `
+                    },
+                    hideClass: {
+                        popup: `
+                            animate__animated
+                            animate__fadeOutUp
+                            animate__faster
+    `
+                    }
+                });
+            }
         }
         ,
         async addToWishlist(productId, product) {
             try {
-                await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, product, 'wishlist')
+                await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, product, 'wishlist')
             }
             catch (err) {
                 console.log(err);
+            }
+            finally {
+                Swal.fire({
+                    html: `<div class="flex items-center gap-2">
+                                <svg class="text-green-800" fill="#ffffff"  width="25px" height="25px" viewBox="0 0 200 200" data-name="Layer 1" id="Layer_1"
+                                xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)" stroke="#166534">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                <title></title>
+                                    <path
+                                        d="M100,15a85,85,0,1,0,85,85A84.93,84.93,0,0,0,100,15Zm0,150a65,65,0,1,1,65-65A64.87,64.87,0,0,1,100,165Zm25-91.5-29,35L76,94c-4.5-3.5-10.5-2.5-14,2s-2.5,10.5,2,14c6,4.5,12.5,9,18.5,13.5,4.5,3,8.5,7.5,14,8,1.5,0,3.5,0,5-1l3-3,22.5-27c4-5,8-9.5,12-14.5,3-4,4-9,.5-13L138,71.5c-3.5-2.5-9.5-2-13,2Z">
+                                    </path>
+                                    </g>
+                                    </svg>
+                                    <p>Product successfully added to your <span class="font-semibold">Wishlist<span/>.</p>
+                                      </div>`
+                    ,
+                    position: "top",
+                    showConfirmButton: false,
+                    background: '#166534',
+                    timer: 1500,
+                    width: 'auto', // Keeps the width flexible
+                    padding: '0.5rem', // Slight padding for a slim look
+                    color: '#fff', // White text color
+                    showClass: {
+                        popup: `
+                                animate__animated
+                                animate__fadeInDown
+                                animate__faster
+    `
+                    },
+                    hideClass: {
+                        popup: `
+                            animate__animated
+                            animate__fadeOutUp
+                            animate__faster
+    `
+                    }
+                });
             }
         }
         ,
         async addToWeeklyOrder(productId, product) {
             let flag = null
             try {
-                flag = await service.methods.getSpeificProduct(this.userId, productId, 'weeklyorders')
+                flag = await service.methods.getSpeificProduct(this.loggedUserId, productId, 'weeklyorders')
                 if (flag) {
                     try {
-                        await service.methods.patchQuantity(this.userId, productId, 'weeklyorders', '+')
+                        await service.methods.patchQuantity(this.loggedUserId, productId, 'weeklyorders', '+')
                     }
                     catch (err) {
                         console.log(err);
@@ -323,7 +405,7 @@ export default {
                 }
                 else {
                     try {
-                        await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, {
+                        await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, {
                             ...product,
                             addedAt: new Date(),
                             quantity: 1
@@ -337,31 +419,59 @@ export default {
             catch (err) {
                 console.log(err);
             }
+            finally {
+                Swal.fire({
+                    html: `<div class="flex items-center gap-2">
+                                <svg class="text-green-800" fill="#ffffff"  width="25px" height="25px" viewBox="0 0 200 200" data-name="Layer 1" id="Layer_1"
+                                xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)" stroke="#166534">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                <title></title>
+                                    <path
+                                        d="M100,15a85,85,0,1,0,85,85A84.93,84.93,0,0,0,100,15Zm0,150a65,65,0,1,1,65-65A64.87,64.87,0,0,1,100,165Zm25-91.5-29,35L76,94c-4.5-3.5-10.5-2.5-14,2s-2.5,10.5,2,14c6,4.5,12.5,9,18.5,13.5,4.5,3,8.5,7.5,14,8,1.5,0,3.5,0,5-1l3-3,22.5-27c4-5,8-9.5,12-14.5,3-4,4-9,.5-13L138,71.5c-3.5-2.5-9.5-2-13,2Z">
+                                    </path>
+                                    </g>
+                                    </svg>
+                                    <p>Product successfully added to your <span class="font-semibold">Weekly Order List<span/>.</p>
+                                      </div>`
+                    ,
+                    position: "top",
+                    showConfirmButton: false,
+                    background: '#166534',
+                    timer: 1500,
+                    width: 'auto', // Keeps the width flexible
+                    padding: '0.5rem', // Slight padding for a slim look
+                    color: '#fff', // White text color
+                    showClass: {
+                        popup: `
+                                animate__animated
+                                animate__fadeInDown
+                                animate__faster
+    `
+                    },
+                    hideClass: {
+                        popup: `
+                            animate__animated
+                            animate__fadeOutUp
+                            animate__faster
+    `
+                    }
+                });
+            }
         }
         ,
         async isUserSubscribed() {
-            this.user = await service.methods.getLoggedUser(this.userId)
-            this.subscribed = this.user.planid
+            this.subscribed = this.loggedUserData.planid
         }
-        // async fetchFirstPage() {
-        //     const url = `https://dailymart-5c550-default-rtdb.firebaseio.com/products.json?orderBy="$key"&limitToFirst=20`;
-        //     const res = (await axios.get(url)).data;
-        //     this.products = Object.values(res); // Convert the fetched object into an array of products
-        //     this.lastVisibleProduct = Object.keys(res)[Object.keys(res).length - 1]; // Get the last product key for pagination
-        //     console.log(this.products);
-        //     console.log(this.lastVisibleProduct);
-        // },
-        // async fetchNextPage() {
-        //     const res = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/products.json?orderBy="$key"&limitToFirst=20&startAt="${this.lastVisibleProduct}"`)).data;
-        //     delete res[Object.keys(res)[0]]
-        //     this.products = res
-        // },
-    },
+    }
+    ,
     mounted() {
         this.categoryId = this.$route.params.id
         this.isUserSubscribed()
         this.getAllProducts()
-    },
+    }
+    ,
     watch: {
         searchQueryProducts: function () {
             this.getAllProducts()
@@ -388,19 +498,11 @@ export default {
 }
 
 .card:hover .cart-btn {
-
-    /* da 1 */
     color: white !important;
     background-color: #252525;
-
-    /* aw da */
-    /* background-color:rgb(220 252 231); */
-
 }
 
 .card:hover .stroke-current {
-
-    /* m3 da 1 */
     color: white !important;
 }
 
@@ -418,7 +520,6 @@ export default {
     position: absolute;
     left: 107%;
     background-color: rgba(0, 0, 0, 0.1);
-    /* background-color: rgba(0, 0, 0, 0.3); */
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border-radius: 5px;

@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <h2 class="ms-20 text-2xl font-semibold ">Your Wishlist
+        <h2 class="ms-10 text-2xl font-semibold ">Your Wishlist
             <span class="text-gray-400 text-[16px]">
                 <span>({{ itemsNumber }} </span>
                 <span> items)</span>
@@ -140,18 +140,21 @@
 
 <script>
 import service from '@/mixins/service';
+import { mapState } from 'vuex';
 
 export default {
     data() {
         return {
             wishlist: null,
             itemsNumber: null,
-            userId: 'bab69910f7dc80c'
         }
+    },
+    computed: {
+        ...mapState(['loggedUserId', 'loggedUserData'])
     },
     methods: {
         async getWishlist() {
-            this.wishlist = await service.methods.get_cart_wishlist_weekly(this.userId, 'wishlist')
+            this.wishlist = await service.methods.get_cart_wishlist_weekly(this.loggedUserId, 'wishlist')
             if (this.wishlist) {
                 this.wishlist = Object.entries(this.wishlist)
                 this.itemsNumber = this.wishlist.length
@@ -161,11 +164,11 @@ export default {
             }
         },
         async deleteItem(productId) {
-            await service.methods.deleteItem_cart_wishlist_weekly(this.userId, productId, 'wishlist')
+            await service.methods.deleteItem_cart_wishlist_weekly(this.loggedUserId, productId, 'wishlist')
             this.getWishlist()
         },
         async addToCart(productId, product) {
-            console.log(await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, product, 'cart'));
+            console.log(await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, product, 'cart'));
         },
     },
     mounted() {

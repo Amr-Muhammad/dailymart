@@ -1,17 +1,22 @@
-import { createApp } from 'vue'
 import App from './App.vue'
+import { createApp } from 'vue'
 import { initializeApp } from "firebase/app";
 import { createRouter, createWebHistory } from 'vue-router'
+import store from './store'
+import service from './mixins/service';
+import axios from 'axios';
+
+// import roles from './roles';
 import "@/assets/styles/output.css";
+import 'animate.css';
+
 import HomePage from './components/homePage.vue';
 import UserAccount from './components/userAccount.vue';
 import UserProfile from './components/userProfile.vue';
 import userWishlist from './components/userWishlist.vue';
 import userWeeklyOrders from './components/userWeeklyOrders.vue';
 import MyOrders from './components/myOrders.vue';
-import LoginPage from './components/loginPage.vue';
-import TestComponent from './components/testComponent.vue';
-// import { getAuth } from 'firebase/auth';
+import LoginPage from './components/loginPage.vue'; //Should be deleted!
 
 // Menna Pages
 import SignPage from './components/signPage.vue';
@@ -21,48 +26,71 @@ import ErrorPage from './components/errorPage.vue';
 import ManageProducts from './components/manageProducts.vue';
 import EditDeleteProducts from './components/edit-deleteProducts.vue';
 
-import Cart from './components/Cart.vue';
 import CategroyPage from './components/categroyPage.vue';
-import ProductDetails from './components/productDetails.vue';
-// Second Page
 import ProductDetail from './components/productdetail.vue';
 
 
 //farha
-import 'animate.css';
 import EmailGetHelp from './components/EmailGetHelp.vue'
 import ImpactHeading from './components/ChartsHeadre.vue'
 import BoycottWrapper from './components/BoycottingWrapper.vue'
-// import BoycottProducts from './components/BoycottingProducts.vue'
-// import RollerCoasterCarousel from './components/BoycottingCaroselLogo.vue'
 import PlansWrapperComponent from './components/PlansWrapper.vue'
-// import TopPicksForYou from './components/TopPicks.vue'
-// import HowItWorks from './components/HowItWorks.vue'
-// import PlansCrds from './components/PlansCrds.vue'
-// import FAQSection from './components/FaqPlans.vue'
-// import AdminForm from './components/AdminForm.vue'
 import AdminMangement from './components/AdminMangement.vue'
-// import AdminListItem from './components/AdminListItem.vue'
 import manageAdmins from './components/manageAdmins.vue'
-import WeeklyOrderProducts from './components/weeklyOrderProducts.vue';
-import UsersList from './components/manageUsers.vue';
-import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import ManageUsers from './components/manageUsers.vue';
+import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import AdminAccount from './components/adminAccount.vue';
-import ManageMyPlan from './components/manageMyPlan.vue';
+
 import CardCharts from './components/AdminCrdsCharts.vue'
 import AdminChartsDashboard from './components/AdminDashboard.vue'
 
 
+// import ManageMyPlan from './components/manageMyPlan.vue';
+import Cart from './components/Cart.vue';
+import DeliveryOrders from './components/deliveryOrders.vue';
+
+
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBD8KdPw88r_d0leV3UqO-AEDuJ_jv0Zmg",
+    authDomain: "dailymart-5c550.firebaseapp.com",
+    databaseURL: "https://dailymart-5c550-default-rtdb.firebaseio.com",
+    projectId: "dailymart-5c550",
+    storageBucket: "dailymart-5c550.appspot.com",
+    messagingSenderId: "609429849774",
+    appId: "1:609429849774:web:b4ed4d2106fe70a4780f3f",
+    measurementId: "G-CPQVNJ36EH"
+};
+
+async function checkForUser() {
+    if (localStorage.getItem('userId') && localStorage.getItem('role')) {
+        let userId = localStorage.getItem('userId')
+        let role = localStorage.getItem('role')
+        let userData = await service.methods.getLoggedUser(userId, role)
+
+        if (!userData.profilePicture) {
+
+            if (userData.gender == 'male') {
+                userData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+            }
+            else {
+                userData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
+            }
+            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${role}/${userId}.json`, { profilePicture: userData.profilePicture })
+        }
+        await store.dispatch('setUserData', [userId, userData])
+        store.state.isDataLoading = false
+
+    }
+    else {
+        store.state.isDataLoading = false
+    }
+}
 
 const routes = [
     { path: '/', component: HomePage },
-    {
-        path: '/homePage', component: HomePage
-        // , meta: {
-        //     requiresAuth: true
-        // }
-    },
+    { path: '/homePage', component: HomePage, meta: { requiresAuth: true } },
     {
         path: '/useraccount',
         component: UserAccount,
@@ -72,9 +100,7 @@ const routes = [
             { path: 'wishlist', component: userWishlist },
             { path: 'weeklyorders/:id?', component: userWeeklyOrders },
             { path: 'myorders', component: MyOrders },
-            { path: 'manageMyPlan', component: ManageMyPlan },
-            // { path: 'AdminMangement', component: AdminMangement }, //wrapper
-            // { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder },
+            // { path: 'manageMyPlan', component: ManageMyPlan },
         ]
     },
     {
@@ -87,34 +113,38 @@ const routes = [
             { path: 'myorders', component: MyOrders },
             { path: 'manageAdmins', component: manageAdmins }, //wrapper
             { path: 'AdminMangement', component: AdminMangement }, //wrapper
-            { path: 'manageusers', component: UsersList },
-            { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder }
+            { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder },
+            { path: 'manageProducts', component: ManageProducts },
+            { path: 'editDelete/:id?', component: EditDeleteProducts },
         ]
     },
+    { path: '/deliveryOrders', component: DeliveryOrders },
     { path: '/loginpage', component: LoginPage },
-    { path: '/signPage', name: "SignPage", component: SignPage },
+    {
+        path: '/signPage/:id?',
+        name: 'SignPage',
+        component: SignPage,
+        beforeEnter: (to, from, next) => {
+            const validateId = ['', 'user', 'admin', 'delivery']
+            if (validateId.includes(to.params.id)) {
+                next()
+            }
+            else {
+                next({ name: 'ErrorPage' })
+            }
+        }
+    },
     { path: '/productsPage/:id', component: ProductsPage },
     { path: '/offersPage', component: OffersPage },
-    { path: '/test', component: TestComponent },
-    { path: '/manageProducts', component: ManageProducts },
-    { path: '/editDelete/:id?', component: EditDeleteProducts },
     { path: '/cart', component: Cart },
     { path: '/CategroyPage', component: CategroyPage },
-    { path: '/productDetailes', component: ProductDetails },
-    // Second Page
     { path: '/productdetail/:id', component: ProductDetail },
-
     //farha
-    { path: '/ImpactHeading', component: ImpactHeading }, //wrapper
-    { path: '/BoycottWrapper', component: BoycottWrapper }, //wrapper
-    // { path: '/BoycottProducts', component: BoycottProducts },
-    // { path: '/RollerCoasterCarousel', component: RollerCoasterCarousel },
-    { path: '/PlansWrapperComponent', component: PlansWrapperComponent }, //wrapper
-    // { path: '/TopPicksForYou', component: TopPicksForYou },
-    // { path: '/HowItWorks', component: HowItWorks },
-    // { path: '/PlansCrds', component: PlansCrds },
-    // { path: '/', component: FAQSection },
+    { path: '/ImpactHeading', component: ImpactHeading }, //wrapper  anyone
+    { path: '/BoycottWrapper', component: BoycottWrapper }, //wrapper anyone
+    { path: '/PlansWrapperComponent', component: PlansWrapperComponent }, //wrapper anyone
     { path: '/EmailGetHelp', component: EmailGetHelp }, //wrapper
+
     // { path: '/AdminForm', component: AdminForm },
     // { path: '/AdminListItem', component: AdminListItem },
 
@@ -124,7 +154,6 @@ const routes = [
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
 
 ]
-
 
 const router = createRouter({
     history: createWebHistory(),
@@ -136,41 +165,44 @@ const router = createRouter({
             return savedPosition;
         } else {
             // Scroll to top when navigating to a new route
-            return { top: 0 ,behavior:'smooth'};
+            return { top: 0, behavior: 'smooth' };
         }
     }
 })
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBD8KdPw88r_d0leV3UqO-AEDuJ_jv0Zmg",
-    authDomain: "dailymart-5c550.firebaseapp.com",
-    databaseURL: "https://dailymart-5c550-default-rtdb.firebaseio.com",
-    projectId: "dailymart-5c550",
-    storageBucket: "dailymart-5c550.appspot.com",
-    messagingSenderId: "609429849774",
-    appId: "1:609429849774:web:b4ed4d2106fe70a4780f3f",
-    measurementId: "G-CPQVNJ36EH"
-};
-initializeApp(firebaseConfig);
-
-
-createApp(App).use(router).mount('#app')
-
-
-
-
 // router.beforeEach((to, from, next) => {
-//     // console.log(getAuth());
+//     if (store.state.loggedUserData) {
+//         const userRole = store.state.loggedUserData.role
+//         const allowedRoutes = roles[userRole].canAccess
 
-//     if (to.matched.some(record => record.meta.requiresAuth)) {
-//         if (getAuth().currentUser) {
-//             next();
-//         } else {
-//             alert("You don't have access")
-//             next('/loginPage')
+//         if (allowedRoutes.includes('/' + to.path.split('/')[1])) {
+//             next()
+//         }
+//         else if (to.path.split('/')[1].includes('signPage')) {
+//             next('/')
+//         }
+//         else {
+//             next({ name: 'ErrorPage' })
 //         }
 //     }
 //     else {
-//         next()
+//         if (to.path.includes(`/signPage`) || to.path.includes(`/homePage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/ImpactHeading`) || to.path.includes(`/BoycottWrapper`)) {
+//             next()
+//         }
+//         else {
+//             if (to.path !== '/') {
+//                 next('/'); // Redirect to home page for any other route
+//             } else {
+//                 next('/signPage'); // If already on home, do nothing
+//             }
+//         }
 //     }
 // })
+
+initializeApp(firebaseConfig);
+checkForUser().then(() => {
+    const app = createApp(App);
+    app.use(router);
+    app.use(store);
+    app.mount('#app');
+});

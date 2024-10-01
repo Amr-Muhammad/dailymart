@@ -85,7 +85,7 @@
 
       <div class="space-y-4">
         <div v-for="review in getReviews" :key="review" class="border-t pt-4">
-          
+
           <div class="flex items-center mb-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
               stroke="currentColor" class="size-7 stroke-stone-700	me-1">

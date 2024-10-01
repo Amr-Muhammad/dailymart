@@ -1,11 +1,11 @@
 <template>
     <div class="editProduct pt-10">
-        <div class="flex w-8/12 lg:w-4/12 justify-center mx-auto shadow-md p-5 rounded-lg">
+        <div class="flex w-8/12 lg:w-6/12 justify-center mx-auto  p-5 rounded-lg">
 
-            <form class="w-full" @submit.prevent="addProduct()">
+            <form class="w-full" @submit.prevent="productId ? editProduct() : addProduct()">
 
                 <h2 v-if="productId" class="text-3xl font-bold mb-6 text-center font-serif">Edit Product</h2>
-                <h2 v-if="!productId" class="text-3xl font-bold mb-6 text-center font-serif">Add new Product</h2>
+                <h2 v-if="!productId" class="text-3xl font-bold mb-6 text-center font-serif">Create a New Product</h2>
 
                 <div class="input-pair mb-6">
                     <label class="font-bold" for="">Product Name</label>
@@ -46,13 +46,14 @@
                 </select>
 
                 <div class="mb-6">
+
                     <!-- Sale -->
                     <div class="sale flex items-center gap-3 w-full ">
                         <label class="font-bold" for="sale">Onsale?</label>
 
                         <div v-if="!productId" class="flex">
                             <input v-model="checked" type="checkbox" name="sale" id="sale" class="me-3">
-                            <input v-if="checked" type="number" name="sale" id="sale"
+                            <input v-if="checked" type="number" name="sale" id="sale" v-model="productDetails.onsale"
                                 class="border py-1 px-3 rounded-md" placeholder="Enter sale percentage">
                         </div>
 
@@ -85,7 +86,6 @@
                     </div>
                 </div>
 
-
                 <button v-if="productId" class="mainGreenBtn block mx-auto">Edit Product</button>
                 <button v-if="!productId" class="mainGreenBtn block mx-auto">Add Product</button>
             </form>
@@ -115,12 +115,15 @@ export default {
                 new: false,
                 onsale: '',
                 price: null,
+                submittedAt: new Date(),
+                submittedBy: 'Amr Muhammad'
             }
         }
     },
     methods: {
         async getProduct() {
             this.product = await service.methods.getProduct(this.productId)
+
             this.productDetails = {
                 arabic_name: this.product.arabic_name,
                 availability: this.product.availability,
@@ -131,19 +134,20 @@ export default {
                 favorite: this.product.favorite,
                 image_url: this.product.image_url,
                 new: this.product.new,
-                onsale: this.product.onsale.split('%')[0],
+                onsale: this.product.onsale ? this.product.onsale.split('%')[0] : '',
                 price: this.product.price,
+                submittedAt: this.product.submittedAt,
+                submittedBy: this.product.submittedBy
             },
                 this.productDetails.onsale != '' ? this.checked = true : '';
-
-
         },
         async editProduct() {
             try {
-                if (this.productDetails.onsale) {
+                if (this.productDetails.onsale != '') {
                     this.productDetails.onsale = `${this.productDetails.onsale}%`;
                 }
                 console.log(await service.methods.editProdcut(this.productId, this.productDetails));
+                this.$router.push('/adminaccount/manageproducts')
             }
             catch (err) {
                 console.log(err);
@@ -151,10 +155,11 @@ export default {
         },
         async addProduct() {
             try {
-                if (this.productDetails.onsale) {
+                if (this.productDetails.onsale != '') {
                     this.productDetails.onsale = `${this.productDetails.onsale}%`;
                 }
                 console.log(await service.methods.addProdcut(this.productDetails));
+                this.$router.push('/adminaccount/manageproducts')
             }
             catch (err) {
                 console.log(err);

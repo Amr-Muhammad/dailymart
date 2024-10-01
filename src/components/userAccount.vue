@@ -1,75 +1,88 @@
 <template>
 
-    <div>
+    <div class="container mx-auto py-10">
+        <!-- <div v-if="loggedUserData" class="flex justify-between">
 
-        <div class="container mx-auto">
-            <div class="flex justify-between">
-
-                <div class="breadcrumbs text-sm">
-                    <ul>
-                        <li class=" text-gray-400"><router-link to="/homePage">Home</router-link></li>
-                        <li>My Account</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <p>
-                        Welcome
-                        <span class="primaryPink font-semibold">Amr!</span>
-                    </p>
-                </div>
-
+            <div class="breadcrumbs text-sm">
+                <ul>
+                    <li class=" text-gray-400"><router-link to="/homePage">Home</router-link></li>
+                    <li>My Account</li>
+                </ul>
             </div>
 
-            <div class="flex mt-16 flex-wrap justify-center">
+            <div>
+                <p>
+                    Welcome
+                    <span class="primaryPink font-semibold">{{ loggedUserData.firstName + ' ' + loggedUserData.lastName
+                        }}</span>
+                </p>
+            </div>
 
-                <leftSection class="md:w-2/12">
-                    <div>
-                        <h1 class="font-bold">Manage My Account</h1>
-                        <ul class="ms-10 mt-4 flex gap-7 md:block mb-5 md:mb-0">
-                            <li class="mb-[6px] text-gray-400">
-                                <router-link to="/useraccount/userprofile">My Profile</router-link>
-                            </li>
-                            <li class="mb-[6px] text-gray-400">
-                                <router-link to="/useraccount/weeklyorders">Weekly Orders</router-link>
-                            </li>
-                            <li class="mb-[6px] text-gray-400">
-                                <router-link to="/useraccount/wishlist">My Wishlist</router-link>
-                            </li>
-                            <li class="mb-[6px] text-gray-400">
-                                <router-link to="/useraccount/manageMyPlan">My Plan</router-link>
-                            </li>
-                            <li class="mb-[6px] text-gray-400">
-                                <router-link to="/useraccount/myorders">My Orders</router-link>
-                            </li>
-                        </ul>
-                    </div>
-                </leftSection>
+        </div> -->
 
-                <rightSection class="md:w-10/12 shadow-2xl py-14 mx-auto">
+        <div class="flex flex-wrap justify-between rounded-2xl">
+
+            <leftSection class="md:w-2/12 py-8 px-4 bg-[#598369]">
+                <h1 class="font-bold text-center text-white text-xl">Account Management</h1>
+                <hr class="my-4 border">
+                <ul class="flex gap-7 md:block mb-5 md:mb-0">
+
+                    <router-link to="/useraccount/userprofile" class="block mt-2 px-4 py-1 rounded-full text-white">My
+                        Profile</router-link>
+
+                    <router-link to="/useraccount/weeklyorders"
+                        class="block mt-2 px-4 py-1 rounded-full text-white">Weekly
+                        Orders</router-link>
+
+                    <router-link to="/useraccount/wishlist" class="block mt-2 px-4 py-1 rounded-full text-white">My
+                        Wishlist</router-link>
+
+                    <router-link to="/useraccount/myorders" class="block mt-2 px-4 py-1 rounded-full text-white">My
+                        Orders</router-link>
+
+                    <!-- <router-link to="/useraccount/manageMyPlan">
+                            <li class="mb-[6px] text-gray-400">
+                                My Plan
+                            </li>
+                        </router-link> -->
+
+                </ul>
+            </leftSection>
+
+            <rightSection class="md:w-10/12">
+                <div class="ms-7 bg-white py-14 shadow-x">
                     <router-view></router-view>
-                    <!-- <router-view v-slot="{ Component }">
+                </div>
+                <!-- <router-view v-slot="{ Component }">
                         <transition enter-active-class="animate__animated animate__fadeInLeft"
                             leave-active-class="animate__animated animate__fadeOutLeft" mode="out-in">
                             <component :is="Component" />
                         </transition>
                     </router-view> -->
-                </rightSection>
-            </div>
+            </rightSection>
+
         </div>
-
     </div>
-
 
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
-    name: 'userAccount'
+    name: 'userAccount',
+    computed: {
+        ...mapState(['loggedUserData'])
+    }
 }
 </script>
 
 <style scoped>
+.router-link-active {
+    background-color: white;
+    color: black;
+}
+
 .route-enter-from {
     opacity: 0;
     transform: translateX(-100px);

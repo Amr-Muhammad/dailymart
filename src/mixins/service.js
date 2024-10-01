@@ -1,4 +1,5 @@
 import axios from "axios";
+// import { mapState } from "vuex";
 
 export default {
     data() {
@@ -9,19 +10,23 @@ export default {
             wishlist: null
         }
     },
+
     methods: {
-        async getLoggedUser(userId) {
-            return (await (axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${userId}.json`))).data
+        async getLoggedUser(userId, role) {
+            return (await (axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${role}/${userId}.json`))).data
         }
         ,
         async planSubscribe(userId, object) {
-            return (await (axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${userId}.json`, object))).data
+            return (await (axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, object))).data
         }
         ,
-        async getAllProducts(searchQuery, categoryId, boycottOrNot) {
+        async getAllProducts(searchQuery, categoryId, notBoycott, admin) {
             this.products = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/products.json')).data
-
-            if (!boycottOrNot) {
+            if (admin == 'admin') {
+                this.products = Object.entries(this.products).filter(item => item[1].english_name.toLowerCase().includes(searchQuery.toLowerCase()))
+                return this.products
+            }
+            if (!notBoycott) {
                 if (searchQuery) {
                     this.products = this.products.filter(item => item[1].english_name.toLowerCase().includes(searchQuery.toLowerCase()))
                 }
@@ -38,6 +43,8 @@ export default {
 
                 if (searchQuery) {
                     this.products = this.products.filter(item => item[1].english_name.toLowerCase().includes(searchQuery.toLowerCase()))
+
+
                 }
                 return this.products
             }
@@ -76,7 +83,7 @@ export default {
             if (sign == '+') {
                 modifiedQuantity = quantity + 1
             }
-            else {
+            else if (sign == '-') {
                 modifiedQuantity = quantity - 1
             }
             if (modifiedQuantity == 0) {
@@ -96,13 +103,20 @@ export default {
             nextFriday.setHours(23, 59, 59, 999) // Set the time to 11:59:59 PM
             return nextFriday;
         },
+        
         async ordered(productId, noOfOrders) {
             await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`, noOfOrders)
         },
 
+        async addUser(role, userData) {
+            return (await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${role}/.json`, userData)).data
+        },
+        async updateWeeklyOrderStatus(userId, orderStatusObj) {
+            axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, orderStatusObj)
+        },
+
 
         //Admin
-
         async deleteProduct(productId) {
             return (await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}/.json`)).data
         },
@@ -114,7 +128,16 @@ export default {
         },
         async addProdcut(product) {
             return (await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/.json`, product)).data
-        }
+        },
 
+        
+        // delivery
+        async getDeliveryOrders() {
+            return (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/orders.json`)).data
+        }
     },
+
+    // computed: {
+    //     ...mapState(['loggedUserData'])
+    // }
 }

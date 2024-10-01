@@ -2,6 +2,7 @@
 
     <div class="container mx-auto">
 
+        <!-- Categories -->
         <div class="categories pt-10 mb-12 text-center">
 
             <!-- Categories Search -->
@@ -62,6 +63,7 @@
 
         </div>
 
+        <!-- Products -->
         <div class="products pt-10 mb-12 text-center">
 
             <!-- Products Search -->
@@ -99,15 +101,18 @@
             <!-- Products -->
             <section>
 
-                <div v-if="products != null" class="flex flex-wrap">
-                    <div v-for="(product, index) in products" :key="index"
+
+                <div v-if="filterdProducts" class="flex flex-wrap">
+
+                    <div v-for="(product, index) in filterdProducts" :key="index"
                         class="bg-base-100 rounded-sm cursor-pointer mb-8 w-full lg:w-1/5 md:w-4/12 sm:w-6/12 gap-3 p-3">
 
                         <div
                             class="card border rounded-md hover:scale-[1.01] transition-all hover:shadow-lg duration-300">
 
-                            <router-link :to="`/productdetail/${product[0]}`">
 
+                            <router-link :to="`/productdetail/${product[0]}`">
+                                
                                 <figure class="bg-stone-50 p-5 relative ">
 
                                     <div class="w-full flex justify-center relative">
@@ -149,7 +154,6 @@
                                                     </g>
                                                 </svg>
                                             </div>
-
 
                                         </div>
 
@@ -270,6 +274,185 @@
                         </div>
 
                     </div>
+
+                </div>
+
+                <div v-else>
+                    <div v-if="products != null" class="flex flex-wrap">
+                        <div v-for="(product, index) in products" :key="index"
+                            class="bg-base-100 rounded-sm cursor-pointer mb-8 w-full lg:w-1/5 md:w-4/12 sm:w-6/12 gap-3 p-3">
+
+                            <div
+                                class="card border rounded-md hover:scale-[1.01] transition-all hover:shadow-lg duration-300">
+
+                                <router-link :to="`/productdetail/${product[0]}`">
+
+                                    <figure class="bg-stone-50 p-5 relative ">
+
+                                        <div class="w-full flex justify-center relative">
+                                            <img :src="product[1].image_url" alt="" class="w-1/2 h-[180px]" />
+
+                                            <div class="sideNav">
+
+                                                <div title="Add to Wishlist"
+                                                    class="bg-white p-1 rounded-full flex items-center justify-center">
+                                                    <svg @click="addToWishlist(product[0], product[1], $event)"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="size-4 cursor-pointer hover:fill-[#DB4444] ms-auto hover:text-[#DB4444] block mx-auto">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                                    </svg>
+                                                </div>
+
+                                                <div title="Add to Weekly Order"
+                                                    v-if="subscribed && product[1].availability != 0"
+                                                    class="bg-white p-1 rounded-full flex items-center justify-center">
+                                                    <svg svg class="hover:scale-[1.1]"
+                                                        @click="addToWeeklyOrder(product[0], product[1], $event)"
+                                                        width="20px" height="20px" viewBox="0 0 24 24" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                            stroke-linejoin="round">
+                                                        </g>
+                                                        <g id="SVGRepo_iconCarrier">
+                                                            <g opacity="0.5">
+                                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                    d="M2.25 6C2.25 5.58579 2.58579 5.25 3 5.25H21C21.4142 5.25 21.75 5.58579 21.75 6C21.75 6.41421 21.4142 6.75 21 6.75H3C2.58579 6.75 2.25 6.41421 2.25 6ZM2.25 10C2.25 9.58579 2.58579 9.25 3 9.25H21C21.4142 9.25 21.75 9.58579 21.75 10C21.75 10.4142 21.4142 10.75 21 10.75H3C2.58579 10.75 2.25 10.4142 2.25 10ZM2.25 14C2.25 13.5858 2.58579 13.25 3 13.25H10C10.4142 13.25 10.75 13.5858 10.75 14C10.75 14.4142 10.4142 14.75 10 14.75H3C2.58579 14.75 2.25 14.4142 2.25 14ZM2.25 18C2.25 17.5858 2.58579 17.25 3 17.25H10C10.4142 17.25 10.75 17.5858 10.75 18C10.75 18.4142 10.4142 18.75 10 18.75H3C2.58579 18.75 2.25 18.4142 2.25 18Z"
+                                                                    fill="#000000"></path>
+                                                            </g>
+                                                            <path
+                                                                d="M14 15.0361C14 16.2709 15.4849 17.5789 16.5203 18.3408C16.9546 18.6603 17.1717 18.8201 17.5 18.8201C17.8283 18.8201 18.0454 18.6603 18.4797 18.3408C19.5151 17.5789 21 16.2709 21 15.0361C21 13.0282 19.0749 12.2786 17.5 13.8296C15.9251 12.2786 14 13.0282 14 15.0361Z"
+                                                                fill="#000000"></path>
+                                                        </g>
+                                                    </svg>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="badges absolute top-3 px-3 w-full flex gap-1 justify-between">
+                                            <div v-if="product[1].new"
+                                                class="badge text-xs badge-secondary rounded-md bg-green-800 text-white py-1">
+                                                NEW
+                                            </div>
+                                            <div v-if="product[1].availability == 0"
+                                                class="badge text-xs badge-secondary rounded-md bg-green-800 text-white py-1">
+                                                Not
+                                                Available In Stock
+                                            </div>
+                                            <div v-if="product[1].onsale && product[1].availability > 0"
+                                                class="badge text-xs badge-secondary rounded-md bg-[#DB4444] text-white py-1">
+                                                {{
+                                                    product[1].onsale }}</div>
+                                            <div class="ms-auto flex-col justify-between h-full items-center gap-2">
+
+                                            </div>
+                                        </div>
+
+                                    </figure>
+
+                                    <div class="card-body p-5">
+
+                                        <h2 :title="product[1].english_name"
+                                            class="card-title text-start text-[18px] font-semibold">{{
+                                                product[1].english_name.length > 15 ?
+                                                    product[1].english_name.slice(0, 15).split().join('') + '...' :
+                                                    product[1].english_name
+                                            }}</h2>
+
+                                        <h2 :title="product[1].description" class="card-title text-start text-sm">{{
+                                            product[1].description.length > 25 ?
+                                                product[1].description.slice(0, 25).split().join('') + '...' :
+                                                product[1].description
+                                        }}</h2>
+
+                                        <div class="price flex gap-3">
+                                            <div class="after text-lg text-red-500 font-bold">
+                                                {{ product[1].onsale.split('%').length ==
+                                                    2 ? product[1].price - (product[1].onsale.split('%')[0] *
+                                                        product[1].price /
+                                                        100) :
+                                                    product[1].price
+                                                }}<span class="text-xs  font-normal"> L.E</span>
+                                            </div>
+                                            <div v-if="product[1].onsale && product[1].availability > 0"
+                                                class="before text-lg text-stone-400 relative before:content-[''] before:absolute before:bg-[#a8a29e] before:block before:w-0.5 before:h-7 before:rotate-90 before:left-4 before:top-0">
+                                                {{ product[1].price }}<span class="text-xs font-normal"> L.E</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="rating rating-sm ">
+                                            <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
+                                                :checked="false" class="mask mask-star-2 bg-amber-400 me-1" />
+                                        </div>
+                                    </div>
+
+                                </router-link>
+
+                                <div v-if="product[1].availability != 0"
+                                    class="cart-btn group border w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
+                                    <button @click="addToCart(product[0], product[1])"
+                                        :disabled="clickedProducts[product[0]]"
+                                        class="flex items-center justify-center gap-2 w-full p-2">
+                                        <template v-if="clickedProducts[product[0]]">
+                                            <span>Adding to cart ...</span>
+                                            <span class="loading loading-spinner w-[30px]"></span>
+                                        </template>
+                                        <template v-else>
+                                            Add To Cart
+                                            <svg class="stroke-current text-black group-hover:text-white" width="30px"
+                                                height="30px" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                transform="matrix(-1, 0, 0, 1, 0, 0)">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke="" stroke-width="1"></g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <path
+                                                        d="M7.5 18C8.32843 18 9 18.6716 9 19.5C9 20.3284 8.32843 21 7.5 21C6.67157 21 6 20.3284 6 19.5C6 18.6716 6.67157 18 7.5 18Z"
+                                                        stroke="currentColor" stroke-width="0.84"></path>
+                                                    <path
+                                                        d="M16.5 18.0001C17.3284 18.0001 18 18.6716 18 19.5001C18 20.3285 17.3284 21.0001 16.5 21.0001C15.6716 21.0001 15 20.3285 15 19.5001C15 18.6716 15.6716 18.0001 16.5 18.0001Z"
+                                                        stroke="currentColor" stroke-width="0.84"></path>
+                                                    <path
+                                                        d="M2 3L2.26121 3.09184C3.5628 3.54945 4.2136 3.77826 4.58584 4.32298C4.95808 4.86771 4.95808 5.59126 4.95808 7.03836V9.76C4.95808 12.7016 5.02132 13.6723 5.88772 14.5862C6.75412 15.5 8.14857 15.5 10.9375 15.5H12M16.2404 15.5C17.8014 15.5 18.5819 15.5 19.1336 15.0504C19.6853 14.6008 19.8429 13.8364 20.158 12.3075L20.6578 9.88275C21.0049 8.14369 21.1784 7.27417 20.7345 6.69708C20.2906 6.12 18.7738 6.12 17.0888 6.12H11.0235M4.95808 6.12H7"
+                                                        stroke="currentColor" stroke-width="0.84"
+                                                        stroke-linecap="round">
+                                                    </path>
+                                                </g>
+                                            </svg>
+                                        </template>
+                                    </button>
+                                </div>
+
+                                <div v-if="product[1].availability == 0"
+                                    class="cart-btn group border w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
+                                    <button class="hover:text-white w-full p-2 flex items-center justify-center gap-2">
+                                        <svg width="27px" height="27px" viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg" fill="#000000" class="whiteSvg">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round">
+                                            </g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <path
+                                                    d="M12.5 2.2a10.3 10.3 0 1 0 10.3 10.3A10.299 10.299 0 0 0 12.5 2.2zm0 1a9.252 9.252 0 0 1 6.203 2.39L5.59 18.703A9.284 9.284 0 0 1 12.5 3.2zm0 18.6a9.252 9.252 0 0 1-6.203-2.39L19.41 6.297A9.284 9.284 0 0 1 12.5 21.8z">
+                                                </path>
+                                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                            </g>
+                                        </svg>
+                                        <span class="">Comming Soon..!</span>
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Skeleton -->
@@ -304,6 +487,7 @@
 <script>
 import service from '@/mixins/service';
 import Swal from 'sweetalert2';
+import { mapState } from 'vuex';
 
 export default {
     data() {
@@ -312,11 +496,14 @@ export default {
             products: null,
             searchQueryProducts: '',
             searchQueryCategories: '',
-            userId: 'bab69910f7dc80c',
             user: null,
             subscribed: null,
-            clickedProducts: {}
+            clickedProducts: {},
+            filterdProducts: null
         }
+    },
+    computed: {
+        ...mapState(['loggedUserId', 'loggedUserData'])
     }
     ,
     methods: {
@@ -332,7 +519,8 @@ export default {
         ,
         async getAllProducts() {
             try {
-                this.products = await service.methods.getAllProducts(this.searchQueryProducts, '', true)
+                // this.products = await service.methods.getAllProducts(this.searchQueryProducts, '', true)
+                this.products = await service.methods.getAllProducts('', '', true)
             }
             catch (err) {
                 console.log(err);
@@ -344,19 +532,18 @@ export default {
 
             let flag = null
             try {
-                flag = await service.methods.getSpeificProduct(this.userId, productId, 'cart')
+                flag = await service.methods.getSpeificProduct(this.loggedUserId, productId, 'cart')
                 if (flag) {
                     try {
-                        await service.methods.patchQuantity(this.userId, productId, 'cart', '+')
+                        await service.methods.patchQuantity(this.loggedUserId, productId, 'cart', '+')
                     }
                     catch (err) {
                         console.log(err);
                     }
-
                 }
                 else {
                     try {
-                        await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, {
+                        await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, {
                             ...product,
                             quantity: 1
                         }, 'cart')
@@ -364,7 +551,6 @@ export default {
                     catch (err) {
                         console.log(err);
                     }
-
                 }
             }
             catch (err) {
@@ -372,8 +558,7 @@ export default {
             }
             finally {
                 Swal.fire({
-                    html: `
-                                <div class="flex items-center gap-2">
+                    html: `<div class="flex items-center gap-2">
                                 <svg class="text-green-800" fill="#ffffff"  width="25px" height="25px" viewBox="0 0 200 200" data-name="Layer 1" id="Layer_1"
                                 xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)" stroke="#166534">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -386,8 +571,7 @@ export default {
                                     </g>
                                     </svg>
                                     <p>Product successfully added to your shopping cart.</p>
-                                      </div>
-                `
+                                      </div>`
                     ,
                     position: "top",
                     // icon: "success",
@@ -424,18 +608,16 @@ export default {
             }
         }
         ,
-        async addToWishlist(productId, product, event) {
-            event.target.style.cursor = 'wait'
+        async addToWishlist(productId, product) {
             try {
-                await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, product, 'wishlist')
+                await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, product, 'wishlist')
             }
             catch (err) {
                 console.log(err);
             }
             finally {
                 Swal.fire({
-                    html: `
-                                <div class="flex items-center gap-2">
+                    html: `<div class="flex items-center gap-2">
                                 <svg class="text-green-800" fill="#ffffff"  width="25px" height="25px" viewBox="0 0 200 200" data-name="Layer 1" id="Layer_1"
                                 xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)" stroke="#166534">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -448,12 +630,9 @@ export default {
                                     </g>
                                     </svg>
                                     <p>Product successfully added to your Wishlist.</p>
-                                      </div>
-                `
+                                      </div>`
                     ,
                     position: "top",
-                    // icon: "success",
-                    // title: "Product successfully added to your shopping cart",
                     showConfirmButton: false,
                     background: '#166534',
                     timer: 1500,
@@ -475,18 +654,16 @@ export default {
     `
                     }
                 });
-                event.target.style.cursor = 'pointer'
             }
         }
         ,
-        async addToWeeklyOrder(productId, product, event) {
-            event.target.style.cursor = 'wait'
+        async addToWeeklyOrder(productId, product) {
             let flag = null
             try {
-                flag = await service.methods.getSpeificProduct(this.userId, productId, 'weeklyorders')
+                flag = await service.methods.getSpeificProduct(this.loggedUserId, productId, 'weeklyorders')
                 if (flag) {
                     try {
-                        await service.methods.patchQuantity(this.userId, productId, 'weeklyorders', '+')
+                        await service.methods.patchQuantity(this.loggedUserId, productId, 'weeklyorders', '+')
                     }
                     catch (err) {
                         console.log(err);
@@ -494,7 +671,7 @@ export default {
                 }
                 else {
                     try {
-                        await service.methods.addTo_cart_wishlist_weekly(this.userId, productId, {
+                        await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, {
                             ...product,
                             addedAt: new Date(),
                             quantity: 1
@@ -504,14 +681,14 @@ export default {
                         console.log(err);
                     }
                 }
+                service.methods.updateWeeklyOrderStatus(this.loggedUserId, { orderStatus: 'Pending' })
             }
             catch (err) {
                 console.log(err);
             }
             finally {
                 Swal.fire({
-                    html: `
-                                <div class="flex items-center gap-2">
+                    html: `<div class="flex items-center gap-2">
                                 <svg class="text-green-800" fill="#ffffff"  width="25px" height="25px" viewBox="0 0 200 200" data-name="Layer 1" id="Layer_1"
                                 xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)" stroke="#166534">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -524,12 +701,9 @@ export default {
                                     </g>
                                     </svg>
                                     <p>Product successfully added to your Weekly Order List.</p>
-                                      </div>
-                `
+                                      </div>`
                     ,
                     position: "top",
-                    // icon: "success",
-                    // title: "Product successfully added to your shopping cart",
                     showConfirmButton: false,
                     background: '#166534',
                     timer: 1500,
@@ -551,13 +725,11 @@ export default {
     `
                     }
                 });
-                event.target.style.cursor = 'pointer'
             }
         }
         ,
         async isUserSubscribed() {
-            this.user = await service.methods.getLoggedUser(this.userId)
-            this.subscribed = this.user.planid
+            this.subscribed = this.loggedUserData.planid
         }
     }
     ,
@@ -565,18 +737,18 @@ export default {
         this.isUserSubscribed()
         this.getCategories()
         this.getAllProducts()
-        // service.methods.getNextFriday()
     }
     ,
     watch: {
         searchQueryProducts: function () {
-            this.getAllProducts()
+            this.filterdProducts = this.products.filter(item => item[1].english_name.toLowerCase().includes(this.searchQueryProducts.toLocaleLowerCase()))
+            console.log(this.filterdProducts);
         },
         searchQueryCategories: function () {
             this.getCategories()
         },
     }
-};
+}
 </script>
 
 <style scoped>
@@ -593,19 +765,11 @@ export default {
 }
 
 .card:hover .cart-btn {
-
-    /* da 1 */
     color: white !important;
     background-color: #252525;
-
-    /* aw da */
-    /* background-color:rgb(220 252 231); */
-
 }
 
 .card:hover .stroke-current {
-
-    /* m3 da 1 */
     color: white !important;
 }
 
@@ -623,7 +787,6 @@ export default {
     position: absolute;
     left: 107%;
     background-color: rgba(0, 0, 0, 0.1);
-    /* background-color: rgba(0, 0, 0, 0.3); */
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border-radius: 5px;

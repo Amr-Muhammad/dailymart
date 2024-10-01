@@ -50,23 +50,30 @@
 
 <script>
 import axios from 'axios';
+import { mapState } from 'vuex';
 
 export default {
   name: 'CartProducts',
+
   data() {
     return {
       cart: null,
+
       userId: 'bab69910f7dc80c', 
       selectedQty: [], 
       customQty: [], 
       customQtyValue: [] 
     }
   },
+  computed: {
+    ...mapState(['loggedUserId', 'loggedUserData'])
+  },
+
   methods: {
     async getCart() {
+
       try {
-        const response = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.userId}.json`);
-        this.cart = response.data;
+        this.cart = await service.methods.get_cart_wishlist_weekly(this.loggedUserId, 'cart')
         if (this.cart) {
           this.cart = Object.entries(this.cart);
           this.selectedQty = this.cart.map(() => 1);  
@@ -75,7 +82,6 @@ export default {
         }
       } catch (error) {
         console.error('Error fetching cart:', error);
-      }
     },
 
     checkQty(index, productId) {
@@ -127,39 +133,49 @@ export default {
     }
   },
     async deleteItem(productId) {
-      try {
-        await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.userId}/${productId}.json`);
-        this.getCart(); 
-      } catch (error) {
-        console.error('Error deleting item:', error);
+
+try {
+      await service.methods.deleteItem_cart_wishlist_weekly(this.loggedUserId, productId, 'cart')
+      this.getCart()
+       } catch (error) {
+            console.error('Error deleting item:', error);
       }
+
     },
 
     async clearCart() {
-      try {
-        await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.userId}.json`);
-        this.getCart(); 
-      } catch (error) {
+
+try {
+      await service.methods.clear_cart_wishlist_weekly(this.loggedUserId, 'cart')
+      this.getCart()
+        } catch (error) {
         console.error('Error clearing cart:', error);
       }
+
     },
 
     async handleCheckout() {
       try {
-        const userResponse = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${this.userId}.json`);
-        const cart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.userId}.json`)).data;
 
-        let cartArray = [];
+        // const userResponse = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${this.loggedUserId}.json`);
+
+        const cart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}.json`)).data
+
+        let cartArray = []
         for (let i = 0; i < Object.entries(cart).length; i++) {
           cartArray.push(Object.entries(cart)[i][1]);
         }
+        // console.log(userResponse);
 
         const user = {
-          name: userResponse.data.name,
-          email: userResponse.data.email
+          // name: userResponse.data.firstName + ' ' + userResponse.data.lastName,
+          // email: userResponse.data.email
+          name: this.loggedUserData.firstName + ' ' + this.loggedUserData.lastName,
+          email: this.loggedUserData.email
         };
 
-        const sessionResponse = await axios.post('https://delight-mart-server.vercel.app/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email });
+        const sessionResponse = await axios.post('https://delight-mart-server.vercel.app/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid });
+        // const sessionResponse = await axios.post('http://localhost:3001/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid });
         const sessionId = sessionResponse.data.id;
 
         const { error } = await this.stripe.redirectToCheckout({ sessionId: sessionId });

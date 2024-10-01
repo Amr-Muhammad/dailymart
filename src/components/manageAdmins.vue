@@ -53,7 +53,7 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const response = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/admins.json');
+        const response = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/admin.json');
         const data = response.data;
         this.users = Object.keys(data).map(key => ({
           firebaseKey: key,
@@ -66,7 +66,7 @@ export default {
     async handleDelete(firebaseKey) {
       try {
         console.log('Attempting to delete user with Firebase key:', firebaseKey);
-        await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/admins/${firebaseKey}.json`);
+        await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/admin/${firebaseKey}.json`);
         this.users = this.users.filter(user => user.firebaseKey !== firebaseKey);
         console.log('Successfully deleted user with Firebase key:', firebaseKey);
       } catch (error) {

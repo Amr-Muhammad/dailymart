@@ -1,26 +1,37 @@
 <template>
 
     <div>
-        <h2 class="ms-20 text-2xl font-semibold">Edit Your Profile</h2>
+        <h2 class="ms-10 text-2xl font-semibold">Edit Your Profile</h2>
     </div>
 
-    <div class=" flex justify-center flex-col items-center mt-10 mb-14">
+    <div v-if="loggedUserData != null" class=" flex justify-center flex-col items-center mt-10 mb-14">
         <!-- <img class="w-28 rounded-full border border-black"
             src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" alt="">  -->
-        <img class="object-fill w-28 h-28 rounded-full border-[3px] border-[#1F822E]" :src="userImage" alt="">
-        <span v-if="exist" @click="deleteProfilePicture()"
+        <img class="object-fill w-28 h-28 rounded-full border-[3px] border-[#1F822E]"
+            :src="loggedUserData.profilePicture" alt="">
+        <span v-if="!loggedUserData.profilePicture.includes('image/png')" @click="deleteProfilePicture()"
             class="text-red-500 font-semibold text-xs mt-4 cursor-pointer hover:underline">Delete
             Profile Picture</span>
 
-        <!-- <button class="mainGreenBtn my-4">Upload Image</button> -->
         <input @change="uploadImage" type="file"
             class="file-input file-input-sm w-full max-w-xs focus:outline-none my-4" />
         <p class="text-gray-400"> <span class="text-red-500">*</span> Your image should not exceed 10Mb</p>
-        <!-- <input type="file" class="my-4"> -->
     </div>
 
-    <div>
+    <div v-else class="w-3/12 mx-auto mb-14">
+        <div class="flex bgblue flex-col gap-4">
+            <div class="flex items-center gap-4 justify-center">
+                <div class="skeleton h-16 w-16 shrink-0 rounded-full"></div>
+                <div class="flex flex-col gap-4">
+                    <div class="skeleton h-4 w-20"></div>
+                    <div class="skeleton h-4 w-28"></div>
+                </div>
+            </div>
+            <div class="skeleton h-32 w-full"></div>
+        </div>
+    </div>
 
+    <div v-if="loggedUserData != null">
         <div class="flex md:flex-nowrap flex-wrap lg:gap-24 gap-5 w-10/12 mx-auto justify-center mb-6">
 
             <label class="input input-bordered focus:outline-none flex items-center gap-2 md:w-6/12 w-full bg-gray-100">
@@ -29,7 +40,7 @@
                     <path
                         d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                 </svg>
-                <input type="text" class="grow" placeholder="First Name" />
+                <input v-model="firstName" type="text" class="grow" placeholder="First Name" />
 
             </label>
 
@@ -39,7 +50,7 @@
                     <path
                         d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                 </svg>
-                <input type="text" class="grow" placeholder="Last Name" />
+                <input v-model="lastName" type="text" class="grow" placeholder="Last Name" />
             </label>
 
         </div>
@@ -54,7 +65,7 @@
                     <path
                         d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                 </svg>
-                <input type="text" class="grow" placeholder="Email" />
+                <input v-model="email" type="text" class="grow" placeholder="Email" />
             </label>
 
             <label class="input input-bordered flex items-center gap-2 md:w-6/12 w-full bg-gray-100">
@@ -67,7 +78,7 @@
                         </path>
                     </g>
                 </svg>
-                <input type="text" class="grow" placeholder="Address" />
+                <input v-model="address.location" type="text" class="grow" placeholder="Address" />
 
             </label>
 
@@ -110,8 +121,8 @@
         </div>
 
         <div class="w-10/12 mx-auto flex justify-end gap-4">
-            <button class="secondaryBtn">Cancel</button>
-            <button class="mainPinkBtn">Save Changes</button>
+            <button class="mainPinkBtn bg-[#598369]">Save Changes</button>
+            <!-- <button class="secondaryBtn border">Cancel</button> -->
         </div>
 
     </div>
@@ -120,53 +131,77 @@
 
 <script>
 import axios from 'axios';
+import { mapState } from 'vuex';
 
 export default {
-
     data() {
         return {
-            userImage: null,
-            exist: null
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            address: {},
         }
+    },
+
+    computed: {
+        ...mapState(['loggedUserId', 'loggedUserData']),
     },
 
     methods: {
         uploadImage(event) {
             let file = event.target.files[0]
+
             if (file.size > 10_000_000) {
                 alert('Your image size is more than 10Mb, please upload another one')
+            }
+
+            else if (file.type.split('/')[1] != 'jpeg' && file.type.split('/')[1] != 'jpg') {
+                alert('Upload your image in jpeg or jpg format')
             }
             else {
                 let reader = new FileReader()
 
-                reader.onload = async function (e) {
-                    await axios.patch('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json', { profilePicture: e.target.result })
-                    location.reload()
+                reader.onload = async (e) => {
+                    await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${this.loggedUserId}.json`, { profilePicture: e.target.result })
+                    this.loggedUserData.profilePicture = e.target.result
                 }
                 reader.readAsDataURL(file)
             }
         },
 
         async deleteProfilePicture() {
-            await axios.delete('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c/profilePicture.json')
-            location.reload()
-        }
-    }
-    ,
+            await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${this.loggedUserId}/profilePicture.json`)
 
-    async mounted() {
-        let user = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')).data
-
-        if (user.profilePicture) {
-            this.userImage = user.profilePicture
-            this.exist = true
-        }
-        else {
-            if (user.gender == 'male') {
-                this.userImage = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
-            } else {
-                this.userImage = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+            if (this.loggedUserData.gender == 'male') {
+                this.loggedUserData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
             }
+            else {
+                this.loggedUserData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
+            }
+            await this.$store.dispatch('setUserData', [this.loggedUserId, this.loggedUserData])
+        },
+
+        getLoggedUserData() {
+            if (this.loggedUserData) {
+                this.firstName = this.loggedUserData.firstName
+                this.lastName = this.loggedUserData.lastName
+                this.email = this.loggedUserData.email
+                this.phone = this.loggedUserData.phone
+                this.address = this.loggedUserData.address
+            }
+        }
+    },
+
+    watch: {
+        loggedUserData() {
+            this.getLoggedUserData()
+        }
+    },
+
+    mounted() {
+        if (this.loggedUserData) {
+            this.getLoggedUserData()
         }
     }
 }

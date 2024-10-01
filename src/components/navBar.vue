@@ -7,14 +7,9 @@
                 <img class="w-14 scale-[3.2] relative translate-y-8" src="../assets/logo1.png" alt="">
             </div>
 
-            <div class="navbar-center hidden lgScreen:flex gap-y-2 lgScreen:gap-y-0 ms-16">
+            <div class="navbar-center hidden lgScreen:flex gap-y-2 lgScreen:gap-y-0 ms-20">
 
                 <ul class="menu menu-horizontal lg-screen-1st-nav px-1 gap-1">
-                    <!-- <li>
-                        <router-link to="/homePage" class="lg-screen-nav">Home</router-link>
-
-                    </li> -->
-
                     <router-link to="/homePage" class="lg-screen-nav flex items-center">
                         <li class="font-semibold">HOME</li>
                     </router-link>
@@ -30,35 +25,15 @@
                     <router-link to="/EmailGetHelp" class="lg-screen-nav flex items-center">
                         <li class="font-semibold">CONTACT US</li>
                     </router-link>
-
-
-
-                    <!-- <li>
-                        <router-link to="/CategroyPage" class="lg-screen-nav">Explore</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/offersPage" class="lg-screen-nav">Offers</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/PlansWrapperComponent" class="lg-screen-nav">Plans</router-link>
-                    </li>
-                    <li>
-
-                        <router-link to="/EmailGetHelp" class="lg-screen-nav">Contact Us</router-link>
-                    </li> -->
-
-                    <!-- <li v-if="!isLogged">
-                        <router-link to="/loginpage">Login</router-link>
-                    </li> -->
-
-
-                    <li v-if="isLogged" @click="logOut()"><a>Log out</a></li>
                 </ul>
+
             </div>
 
-            <div class="userIcons">
+            <div v-if="isDataLoading" class="skeleton w-36 h-8 rounded-md"></div>
+
+            <div v-else-if="loggedUserId" class="userIcons">
                 <div class="cart-wishlist-wOrders me-5 flex gap-3">
-                    <router-link :to="subscribed ? '/useraccount/weeklyorders' : '/PlansWrapperComponent'">
+                    <router-link :to="loggedUserData.planid ? '/useraccount/weeklyorders' : '/PlansWrapperComponent'">
                         <img title="Weekly Orders" class="w-6 filter invert grayscale brightness-0"
                             src="../assets/weeklyOrders.png" />
                     </router-link>
@@ -71,14 +46,31 @@
                     </router-link>
                 </div>
 
-                <div class=" avatar rounded-full text-black">
-                    <div class="w-12 rounded-full">
-                        <router-link to="/useraccount">
-                            <!-- <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" /> -->
-                            <img :src="userImage" />
-                        </router-link>
+                <div ref="avatar" class="relative inline-block text-left">
+                    <div class="avatar rounded-full text-black">
+                        <div class="w-12 rounded-full cursor-pointer" @click="isDropdownOpen = !isDropdownOpen">
+                            <img :src="loggedUserData.profilePicture" />
+                        </div>
+                    </div>
+
+                    <!-- Dropdown menu -->
+                    <div ref="dropdodwn" v-if="isDropdownOpen"
+                        class="absolute right-0 z-10 w-48 mt-2 bg-white rounded-md shadow-lg">
+                        <div class="py-1 flex flex-col" role="menu" aria-orientation="vertical"
+                            aria-labelledby="options-menu">
+                            <router-link @click="isDropdownOpen = !isDropdownOpen" to="/useraccount"
+                                class="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                                User Account
+                            </router-link>
+                            <button @click="logOut()"
+                                class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                role="menuitem">
+                                Logout
+                            </button>
+                        </div>
                     </div>
                 </div>
+
 
                 <div class="dropdown lgScreen:pe-0">
 
@@ -113,6 +105,11 @@
 
             </div>
 
+            <div v-else>
+                <router-link to="/signPage">
+                    <button class="bg-white text-black px-6 py-1 rounded-md">Login</button>
+                </router-link>
+            </div>
         </div>
 
         <div class="navbar bg-[#FBFBFB] text-gray-900 border-b border-stone-400 ">
@@ -230,62 +227,41 @@
 </template>
 
 <script>
-import service from '@/mixins/service';
-import axios from 'axios';
-import { signOut, getAuth } from 'firebase/auth'
+import { mapState } from 'vuex';
 
 export default {
     name: 'navBar',
     data() {
         return {
-            isLogged: false,
             userImage: null,
-
             subscribed: null,
-            userId: 'bab69910f7dc80c',
-            user: null
+            userId: null,
+            userData: null,
+            isDropdownOpen: false,
         }
     },
-    mounted() {
-        // onAuthStateChanged(getAuth(), user => {
-        //     if (user) {
-        //         this.isLogged = true
-        //     }
-        //     else {
-        //         this.isLogged = false
-        //     }
-        // })
-        //     ,
-        this.getProfilePicture()
-        this.isUserSubscribed()
-
-
+    async mounted() {
+        document.addEventListener('click', this.handleClickOutsideDropdown)
+        if (this.loggedUserData) {
+            this.loading = false
+        }
     },
     methods: {
         async logOut() {
-            await signOut(getAuth())
-            // let res = await signOut(getAuth())
-            // console.log(res);
-            this.$router.push('./loginPage')
+            this.isDropdownOpen = !this.isDropdownOpen
+            this.$store.dispatch('logout')
+            this.$router.push('/signPage')
         },
-        async getProfilePicture() {
-            let user = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/bab69910f7dc80c.json')).data
-            if (user.profilePicture) {
-                this.userImage = user.profilePicture
+        handleClickOutsideDropdown(event) {
+            let avatar = this.$refs.avatar
+            let dropdodwn = this.$refs.dropdodwn
+            if (this.isDropdownOpen && dropdodwn && !dropdodwn.contains(event.target) && !avatar.contains(event.target)) {
+                this.isDropdownOpen = false
             }
-            else {
-                if (user.gender == 'male') {
-                    this.userImage = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
-                } else {
-                    this.userImage = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
-                }
-            }
-        },
-
-        async isUserSubscribed() {
-            this.user = await service.methods.getLoggedUser(this.userId)
-            this.subscribed = this.user.planid
         }
+    },
+    computed: {
+        ...mapState(['loggedUserId', 'loggedUserData', 'isDataLoading'])
     }
 }
 
@@ -297,11 +273,11 @@ export default {
     color: blue;
 }
 
-/* .router-link-exact-active,
-    .router-link-active {
-                background-color: white;
-        color: #166534;
-        border-radius: 0.250rem;
-        
-    } */
+.router-link-exact-active,
+.router-link-active {
+    background-color: white;
+    color: #166534;
+    border-radius: 0.250rem;
+
+}
 </style>

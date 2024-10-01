@@ -23,6 +23,17 @@
         class="px-9 py-7 mt-4 w-full tracking-wide leading-none whitespace-nowrap bg-white rounded-xl border border-solid border-zinc-100 max-md:px-5"
         placeholder="Password" />
 
+      <div class="flex gap-6 mt-8 items-center justify-center">
+        <div class="flex items-center gap-3">
+          <label for="male">Male</label>
+          <input v-model="gender" type="radio" name="gender" id="male" value="male">
+        </div>
+        <div class="flex items-center gap-3">
+          <label for="female">Female</label>
+          <input v-model="gender" type="radio" name="gender" id="female" value="female">
+        </div>
+      </div>
+
       <button type="submit"
         class="gap-2.5 self-center hover:bg-emerald-950 px-12 py-4 mt-16 ml-3 max-w-full text-base font-medium bg-green-700 rounded min-h-[56px] text-neutral-50 w-[271px] max-md:px-5 max-md:mt-10">
         Add Admin
@@ -35,7 +46,7 @@
 
 <script>
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 export default {
   name: 'AdminForm',
@@ -45,6 +56,8 @@ export default {
       email: '',
       password: '',
       errorMessage: '',
+      gender: 'male',
+      profilePicture: ''
     };
   },
   methods: {
@@ -59,27 +72,39 @@ export default {
           this.errorMessage = 'Password must be at least 8 characters long and include letters, numbers, and special characters.';
           return;
         }
-        const response = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/admins.json');
+        const response = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/admin.json');
         const existingAdmins = response.data || {};
         const emails = Object.values(existingAdmins).map(admin => admin.email);
         if (emails.includes(this.email)) {
           this.errorMessage = 'This email is already in use. Please use a different email.';
           return;
         }
-        const newAdminId = uuidv4();
+        // const newAdminId = uuidv4();
+
+        if (this.gender == 'male') {
+          this.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+        }
+        else if (this.gender == 'female') {
+          this.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
+        }
+
         const adminData = {
-          id: newAdminId,
+          // id: newAdminId,
           username: this.username,
           email: this.email,
           password: this.password,
+          role: 'admin',
+          gender: this.gender,
+          profilePicture: this.profilePicture
         };
-        await axios.post('https://dailymart-5c550-default-rtdb.firebaseio.com/admins.json', adminData);
+        await axios.post('https://dailymart-5c550-default-rtdb.firebaseio.com/users/admin.json', adminData);
         this.username = '';
         this.email = '';
         this.password = '';
         this.errorMessage = '';
         console.log('Admin added successfully');
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Error adding admin:', error);
       }
     },
