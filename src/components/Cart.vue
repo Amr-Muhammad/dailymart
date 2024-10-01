@@ -1,16 +1,12 @@
 <template>
   <div class="mx-auto p-6 rounded-lg shadow-lg w-6/12">
-
     <h2 class="text-3xl font-bold mb-4 flex items-center">
-      <i class="fas fa-shopping-cart  mr-2"></i>
-      <!-- <img class="w-14 h-14 p-2" src="../assets/add-to-basket.png"/> -->
+      <i class="fas fa-shopping-cart mr-2"></i>
       <p class="mt-2">My Cart</p>
     </h2>
-
     <div v-if="cart != null" class="text-right mt-6">
       <button class="text-red-600 underline hover:text-red-800" @click="clearCart()">Remove all</button>
     </div>
-
     <div v-if="cart != null">
       <div v-for="(item, index) in cart" :key="index"
         class="flex items-center justify-between border-b border-gray-200 py-4">
@@ -21,37 +17,38 @@
             <p class="text-sm text-green-600">In Stock • Availability: {{ item[1].availability }}</p>
             <div class="flex items-center space-x-2 mt-2">
               <label for="quantity" class="text-sm">Qty:</label>
-              <select v-model="item[1].availability" class="border border-gray-300 rounded p-1">
-                <!-- la elah ella allah!!! -->
-                <option v-for="qty in 10" :key="qty" :value="qty">{{ qty }}</option>
-              </select>
+              <div v-if="!customQty[index]">
+                <select v-model="selectedQty[index]" class="border border-gray-300 rounded p-1"
+                  @change="checkQty(index, item[0])">
+                  <option v-for="qty in 10" :key="qty" :value="qty">{{ qty }}</option>
+                  <option :value="11">10+</option>
+                </select>
+              </div>
+              <div v-else>
+                <input v-model.number="customQtyValue[index]" type="number" min="11"
+                  class="border border-gray-300 rounded p-1 w-16" @blur="updateCustomQty(index, item[0])" />
+              </div>
             </div>
           </div>
         </div>
         <div class="text-right">
-          <!-- <p class="text-lg font-bold">{{ formatCurrency(item.price) }}</p> -->
           <p class="text-lg font-bold">{{ item[1].price }}.00 EGP</p>
           <button @click="deleteItem(item[0])"
-            class="mt-2 pt-1 md:text-md  text-sm flex text-white p-1 rounded-lg bg-red-700 hover:bg-red-800">
-            <i class="fas fa-trash-alt px-5 py-1">
-              <!-- <img class="md:w-6 w-8 md:h-6 h-6 pr-1" src="../assets/delete.png" alt=""> -->
-              DELETE ITEM
-            </i>
+            class="mt-2 pt-1 md:text-md text-sm flex text-white p-1 rounded-lg bg-red-700 hover:bg-red-800">
+            <i class="fas fa-trash-alt px-5 py-1">DELETE ITEM</i>
           </button>
         </div>
       </div>
 
       <button @click="handleCheckout()" class="mainGreenBtn mt-3">Checkout</button>
-
     </div>
 
     <div v-if="cart == null" class="flex items-center justify-center flex-col">
-      <img src="../assets/Empty-removebg-preview.png" alt="">
+      <img src="../assets/Empty-removebg-preview.png" alt="Empty Cart">
       <router-link to="/CategroyPage">
         <button class="mainGreenBtn">Back Shopping?</button>
       </router-link>
     </div>
-
   </div>
 </template>
 
@@ -66,6 +63,11 @@ export default {
   data() {
     return {
       cart: null,
+
+      userId: 'bab69910f7dc80c',
+      selectedQty: [],
+      customQty: [],
+      customQtyValue: []
     }
   },
   computed: {
@@ -73,24 +75,91 @@ export default {
   },
 
   methods: {
-    // formatCurrency(value) {
-    //   return `EGP ${value.toFixed(2)}`;
-    // }
-    // ,
     async getCart() {
-      this.cart = await service.methods.get_cart_wishlist_weekly(this.loggedUserId, 'cart')
-      if (this.cart) {
-        this.cart = Object.entries(this.cart)
+
+      try {
+        this.cart = await service.methods.get_cart_wishlist_weekly(this.loggedUserId, 'cart')
+        if (this.cart) {
+          this.cart = Object.entries(this.cart);
+          this.selectedQty = this.cart.map(() => 1);
+          this.customQtyValue = this.cart.map(() => 0);
+          this.customQty = this.cart.map(() => false);
+        }
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+      }
+    },
+
+    checkQty(index, productId) {
+      if (this.selectedQty[index] === 11) {
+        this.customQty[index] = true;
+      } else {
+        this.customQty[index] = false;
+        this.updateQty(index, productId, this.selectedQty[index]);
+      }
+    },
+
+    async updateQty(index, productId, quantity) {
+      try {
+        // Update the quantity in the Firebase database
+        await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}/${productId}/.json`, {
+          quantity: quantity
+        });
+
+        // Fetch the updated product information from the Firebase database
+        const productResponse = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`);
+        const product = productResponse.data;
+
+        // Update the availability in the cart data by subtracting the selected quantity
+        this.cart[index][1].availability = product.availability - quantity;
+
+        console.log('Quantity and availability updated successfully');
+      } catch (error) {
+        console.error('Error updating quantity and availability:', error);
+      }
+    },
+
+    async updateCustomQty(index, productId) {
+      const customQuantity = this.customQtyValue[index];
+      if (customQuantity >= 11) {
+        try {
+          await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}/${productId}/.json`, {
+            quantity: customQuantity
+          });
+
+          const productResponse = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`);
+          const product = productResponse.data;
+
+          this.cart[index][1].availability = product.availability - customQuantity;
+
+          console.log('Custom quantity and availability updated successfully');
+        } catch (error) {
+          console.error('Error updating custom quantity and availability:', error);
+        }
       }
     },
     async deleteItem(productId) {
-      await service.methods.deleteItem_cart_wishlist_weekly(this.loggedUserId, productId, 'cart')
-      this.getCart()
+
+      try {
+        await service.methods.deleteItem_cart_wishlist_weekly(this.loggedUserId, productId, 'cart')
+        this.getCart()
+      } catch (error) {
+        console.error('Error deleting item:', error);
+      }
+
     },
+
     async clearCart() {
-      await service.methods.clear_cart_wishlist_weekly(this.loggedUserId, 'cart')
-      this.getCart()
+
+      try {
+        await service.methods.clear_cart_wishlist_weekly(this.loggedUserId, 'cart')
+        this.getCart()
+      } catch (error) {
+        console.error('Error clearing cart:', error);
+      }
+
     },
+
     async handleCheckout() {
       try {
 
@@ -100,7 +169,7 @@ export default {
 
         let cartArray = []
         for (let i = 0; i < Object.entries(cart).length; i++) {
-          cartArray.push(Object.entries(cart)[i][1])
+          cartArray.push(Object.entries(cart)[i][1]);
         }
         // console.log(userResponse);
 
@@ -110,16 +179,12 @@ export default {
           name: this.loggedUserData.firstName + ' ' + this.loggedUserData.lastName,
           email: this.loggedUserData.email
         };
-        console.log(user);
-        console.log(cartArray);
 
         const sessionResponse = await axios.post('https://delight-mart-server.vercel.app/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid });
         // const sessionResponse = await axios.post('http://localhost:3001/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid });
         const sessionId = sessionResponse.data.id;
 
-        const { error } = await this.stripe.redirectToCheckout({
-          sessionId: sessionId
-        });
+        const { error } = await this.stripe.redirectToCheckout({ sessionId: sessionId });
 
         if (error) {
           console.error('Error redirecting to checkout:', error);
@@ -129,16 +194,14 @@ export default {
       }
     }
   },
-
   async mounted() {
-    this.getCart()
+    this.getCart();
+
     if (!window.Stripe) {
       const script = document.createElement('script');
       script.src = 'https://js.stripe.com/v3/';
       script.onload = () => {
         this.stripe = window.Stripe('pk_test_51PtX5uLbeudqBLeNmUwmj2P6zWbDPnbu4xUktC6XRsyZ4To6giHWQG083GNF0jfu90KCGgygSmcGSi1dzPjUhDql00oJveYLCq');
-        console.log(this.stripe);
-
       }
       document.head.appendChild(script);
     } else {

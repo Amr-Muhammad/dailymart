@@ -16,9 +16,9 @@
             <p class="text-sm font-semibold text-green-600">{{ card.subtitle }}</p>
             <h3 class="text-2xl font-bold text-gray-800 mt-2">{{ card.title }}</h3>
             <p class="text-gray-600 mt-2">{{ card.description }}</p>
-            <a :href="card.buttonLink" class="inline-block mt-4 text-green-600 hover:text-green-800 font-medium">
+            <router-link :to="card.buttonLink" class="inline-block mt-4 text-green-600 hover:text-green-800 font-medium">
               {{ card.buttonText }}
-            </a>
+            </router-link>
           </div>
         </div>
       </div>
@@ -39,7 +39,7 @@
             title: 'Shop Fresh Groceries Today',
             description: 'Find everything you need',
             buttonText: 'Shop Now',
-            buttonLink: '#'
+            buttonLink: '/CategroyPage'
           },
           {
             imageSrc: require('../assets/Imagelummi (1).png'),
@@ -47,7 +47,7 @@
             title: 'Best Deals on Groceries',
             description: 'Save more every day',
             buttonText: 'Explore Deals',
-            buttonLink: '#'
+            buttonLink: '/offersPage'
           },
           {
             imageSrc:require('../assets/Imageummi (2).png'),
@@ -55,7 +55,7 @@
             title: 'Groceries at Your Doorstep',
             description: 'Fast and reliable delivery',
             buttonText: 'Order Now',
-            buttonLink: '#'
+            buttonLink: '/signPage'
           }
         ]
       };

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center">
+  <div class="flex p-10 justify-center">
    <div class=" max-w-auto w-[500px] p-6 bg-white rounded-lg shadow-lg">
      <h2 class="text-2xl md:text-4xl font-semibold text-gray-800 mb-4">Contact Us</h2>
      <form @submit.prevent="sendEmail" class="space-y-4">
