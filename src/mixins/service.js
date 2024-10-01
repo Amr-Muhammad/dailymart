@@ -1,5 +1,5 @@
 import axios from "axios";
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 
 export default {
     data() {
@@ -12,8 +12,8 @@ export default {
     },
 
     methods: {
-        async getLoggedUser(userId) {
-            return (await (axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`))).data
+        async getLoggedUser(userId, role) {
+            return (await (axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${role}/${userId}.json`))).data
         }
         ,
         async planSubscribe(userId, object) {
@@ -103,12 +103,16 @@ export default {
             nextFriday.setHours(23, 59, 59, 999) // Set the time to 11:59:59 PM
             return nextFriday;
         },
+        
         async ordered(productId, noOfOrders) {
             await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`, noOfOrders)
         },
 
         async addUser(role, userData) {
             return (await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${role}/.json`, userData)).data
+        },
+        async updateWeeklyOrderStatus(userId, orderStatusObj) {
+            axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, orderStatusObj)
         },
 
 
@@ -124,11 +128,16 @@ export default {
         },
         async addProdcut(product) {
             return (await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/.json`, product)).data
-        }
+        },
 
+        
+        // delivery
+        async getDeliveryOrders() {
+            return (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/orders.json`)).data
+        }
     },
-    
-    computed: {
-        ...mapState(['loggedUserData'])
-    }
+
+    // computed: {
+    //     ...mapState(['loggedUserData'])
+    // }
 }

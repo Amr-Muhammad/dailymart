@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <h2 class="ms-20 text-2xl font-semibold">Edit Your Profile</h2>
+        <h2 class="ms-10 text-2xl font-semibold">Edit Your Profile</h2>
     </div>
 
     <div v-if="loggedUserData != null" class=" flex justify-center flex-col items-center mt-10 mb-14">
@@ -121,8 +121,8 @@
         </div>
 
         <div class="w-10/12 mx-auto flex justify-end gap-4">
-            <button class="secondaryBtn">Cancel</button>
-            <button class="mainPinkBtn">Save Changes</button>
+            <button class="mainPinkBtn bg-[#598369]">Save Changes</button>
+            <!-- <button class="secondaryBtn border">Cancel</button> -->
         </div>
 
     </div>

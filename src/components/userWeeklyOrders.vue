@@ -1,6 +1,6 @@
 <template>
 
-    <div class="mx-20 flex justify-between">
+    <div class="mx-10 flex justify-between">
         <h2 class=" text-2xl font-semibold">Weekly Orders</h2>
         <!-- <p v-if="products != null" class="font-semibold italic">Your orders are expected to be delivered by friday, {{
             nextFriday }} , {{ days

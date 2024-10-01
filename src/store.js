@@ -12,6 +12,7 @@ let store = createStore({
             state.loggedUserId = loggedUser[0]
             state.loggedUserData = loggedUser[1]
             localStorage.setItem('userId', loggedUser[0])
+            localStorage.setItem('role', loggedUser[1].role)
         },
         LOGOUT(state) {
             state.loggedUserId = null

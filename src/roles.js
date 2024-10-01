@@ -1,5 +1,5 @@
 export default {
-    user: {
+    customer: {
         canAccess: [
             '/',
             '/homePage',

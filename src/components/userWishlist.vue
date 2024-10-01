@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <h2 class="ms-20 text-2xl font-semibold ">Your Wishlist
+        <h2 class="ms-10 text-2xl font-semibold ">Your Wishlist
             <span class="text-gray-400 text-[16px]">
                 <span>({{ itemsNumber }} </span>
                 <span> items)</span>

@@ -23,6 +23,17 @@
         class="px-9 py-7 mt-4 w-full tracking-wide leading-none whitespace-nowrap bg-white rounded-xl border border-solid border-zinc-100 max-md:px-5"
         placeholder="Password" />
 
+      <div class="flex gap-6 mt-8 items-center justify-center">
+        <div class="flex items-center gap-3">
+          <label for="male">Male</label>
+          <input v-model="gender" type="radio" name="gender" id="male" value="male">
+        </div>
+        <div class="flex items-center gap-3">
+          <label for="female">Female</label>
+          <input v-model="gender" type="radio" name="gender" id="female" value="female">
+        </div>
+      </div>
+
       <button type="submit"
         class="gap-2.5 self-center hover:bg-emerald-950 px-12 py-4 mt-16 ml-3 max-w-full text-base font-medium bg-green-700 rounded min-h-[56px] text-neutral-50 w-[271px] max-md:px-5 max-md:mt-10">
         Add Admin
@@ -45,6 +56,8 @@ export default {
       email: '',
       password: '',
       errorMessage: '',
+      gender: 'male',
+      profilePicture: ''
     };
   },
   methods: {
@@ -67,12 +80,22 @@ export default {
           return;
         }
         // const newAdminId = uuidv4();
+
+        if (this.gender == 'male') {
+          this.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
+        }
+        else if (this.gender == 'female') {
+          this.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
+        }
+
         const adminData = {
           // id: newAdminId,
           username: this.username,
           email: this.email,
           password: this.password,
           role: 'admin',
+          gender: this.gender,
+          profilePicture: this.profilePicture
         };
         await axios.post('https://dailymart-5c550-default-rtdb.firebaseio.com/users/admin.json', adminData);
         this.username = '';

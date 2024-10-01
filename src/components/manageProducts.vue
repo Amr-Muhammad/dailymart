@@ -120,6 +120,7 @@
                 <th>Product Name</th>
                 <th>Sale</th>
                 <th>New</th>
+                <th>Price</th>
                 <th>Boycott</th>
                 <th>Category</th>
                 <th>Availability</th>
@@ -137,6 +138,7 @@
                         '----'
                         }}</td>
                     <td :class="product[1].new ? 'text-green-500' : '----'">{{ product[1].new ? 'New' : '' }}</td>
+                    <td>{{ product[1].price }} EGP</td>
                     <td>{{ product[1].boycott ? 'Boycott' : '----' }}</td>
                     <td>{{ product[1].catId.split('_')[1].charAt(0).toUpperCase() +
                         product[1].catId.split('_')[1].slice(1) }}</td>
@@ -166,6 +168,7 @@
                         }}
                     </td>
                     <td :class="product[1].new ? 'text-green-500' : '----'">{{ product[1].new ? 'New' : '' }}</td>
+                    <td>{{ product[1].price }} EGP</td>
                     <td>{{ product[1].boycott ? 'Boycott' : '----' }}</td>
                     <td>{{ product[1].catId.split('_')[1].charAt(0).toUpperCase() +
                         product[1].catId.split('_')[1].slice(1) }}

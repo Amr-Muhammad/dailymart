@@ -198,7 +198,7 @@
                         </div>
 
                         <button v-if="addressFlag" @click="getUserLocation()" type="button"
-                            class="flex items-center px-8 py-2 bg-[#F0F2E8] rounded-md hover:bg-white hover:text-black transition-all duration-200 hover:outline hover:outline-1 text-sm">
+                            class="flex items-center px-8 py-2 bg-[#F0F2E8] rounded-md hover:bg-white hover:text-black transition-all duration-200 hover:outline hover:outline-1 text-sm justify-center">
                             <span>
                                 <svg fill="#000000" width="25px" height="25px" viewBox="0 0 100 100"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -533,7 +533,7 @@ export default {
             }
         },
         async submitForm() {
-            this.validateAllInputs()
+            await this.validateAllInputs()
             this.checkIfEmailExists()
             this.addNewUser()
         },
@@ -544,7 +544,9 @@ export default {
             }
 
             let role = this.$route.params.id
-            if (role == '') {
+            console.log(role);
+
+            if (role == '' || role == 'user') {
                 try {
                     const usersRes = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer.json');
                     const usersData = usersRes.data || {};
@@ -563,7 +565,7 @@ export default {
                             else {
                                 loggedUser[1].profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
                             }
-                            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${loggedUser[0]}.json`, { profilePicture: loggedUser[1].profilePicture })
+                            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${loggedUser[0]}.json`, { profilePicture: loggedUser[1].profilePicture })
                             this.$store.dispatch('setUserData', loggedUser)
                             this.$router.push("/");
                         }
@@ -588,6 +590,7 @@ export default {
                     const usersData = usersRes.data || {};
                     let loggedUser = Object.entries(usersData).find(user => user[1].email.toLowerCase() == this.email.toLowerCase() && user[1].password.toLowerCase() == this.password.toLowerCase());
                     if (loggedUser) {
+                        this.$store.dispatch('setUserData', loggedUser)
                         this.$router.push('/adminaccount')
                     }
                     else {
@@ -691,7 +694,7 @@ export default {
                     email: this.email.toLowerCase(),
                     password: this.password,
                     gender: this.gender,
-                    role: 'user',
+                    role: 'customer',
                     address: this.address,
                 })
                 console.log(res)
@@ -701,8 +704,8 @@ export default {
                 console.error("There was an error:", error);
             }
         },
-        validateAllInputs() {
-            this.validateAdress()
+        async validateAllInputs() {
+            await this.validateAdress()
             this.validateEmail();
             this.validatePasswords();
             this.chckPassword();

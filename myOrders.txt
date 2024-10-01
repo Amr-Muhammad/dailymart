@@ -1,0 +1,61 @@
+<template>
+
+    <div>
+        <h2 class="ms-20 text-3xl font-semibold">Your Orders</h2>
+    </div>
+
+    <div class="items-wrapper w-full px-4 mt-10">
+
+        <div class="flex flex-wrap items-center  my-7 mx-16 p-3 rounded-lg shadow-md bg-white">
+
+            <div class="w-full md:w-1/4 flex justify-center mb-4 md:mb-0">
+                <img class="w-6/12 max-w-xs" src="../assets/6223000504383_-_47_-_57g-1-removebg-preview.png"
+                    alt="Big Chips">
+            </div>
+
+            <div class="w-full md:w-2/4 flex flex-col md:items-start text-center md:text-left mb-4 md:mb-0">
+                <div class="text-lg font-semibold mb-2">Big Chips</div>
+                <p class=" font-semibold mb-2 text-[16px]">10.00 E£</p>
+                <p class=" font-semibold bg-gray-300 px-4 py-1 text-[12px] text-white rounded-full">Processing</p>
+            </div>
+
+
+        </div>
+
+        <hr class="w-10/12 mx-auto my-4 border-gray-300">
+
+    </div>
+
+    <div class="items-wrapper w-full px-4 mt-10">
+
+        <div class="flex flex-wrap items-center  my-7 mx-16 p-3 rounded-lg shadow-md bg-white">
+
+            <div class="w-full md:w-1/4 flex justify-center mb-4 md:mb-0">
+                <img class="w-6/12 max-w-xs" src="../assets/6223000504383_-_47_-_57g-1-removebg-preview.png"
+                    alt="Big Chips">
+            </div>
+
+            <div class="w-full md:w-2/4 flex flex-col md:items-start text-center md:text-left mb-4 md:mb-0">
+                <div class="text-lg font-semibold mb-2">Big Chips</div>
+                <p class=" font-semibold mb-2 text-[16px]">10.00 E£</p>
+                <p class=" font-semibold bg-[#1F822E] px-4 py-1 text-[12px] text-white rounded-full">Delivered</p>
+
+            </div>
+
+
+        </div>
+
+        <hr class="w-10/12 mx-auto my-4 border-gray-300">
+
+    </div>
+
+
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style scoped></style>

@@ -42,6 +42,7 @@ import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import AdminAccount from './components/adminAccount.vue';
 // import ManageMyPlan from './components/manageMyPlan.vue';
 import Cart from './components/Cart.vue';
+import DeliveryOrders from './components/deliveryOrders.vue';
 
 
 
@@ -57,19 +58,20 @@ const firebaseConfig = {
 };
 
 async function checkForUser() {
-    if (localStorage.getItem('userId')) {
-        console.log(localStorage.getItem('userId'));
-
+    if (localStorage.getItem('userId') && localStorage.getItem('role')) {
         let userId = localStorage.getItem('userId')
-        let userData = await service.methods.getLoggedUser(userId)
+        let role = localStorage.getItem('role')
+        let userData = await service.methods.getLoggedUser(userId, role)
+
         if (!userData.profilePicture) {
+
             if (userData.gender == 'male') {
                 userData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
             }
             else {
                 userData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
             }
-            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, { profilePicture: userData.profilePicture })
+            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${role}/${userId}.json`, { profilePicture: userData.profilePicture })
         }
         await store.dispatch('setUserData', [userId, userData])
         store.state.isDataLoading = false
@@ -79,8 +81,6 @@ async function checkForUser() {
         store.state.isDataLoading = false
     }
 }
-
-
 
 const routes = [
     { path: '/', component: HomePage },
@@ -112,6 +112,7 @@ const routes = [
             { path: 'editDelete/:id?', component: EditDeleteProducts },
         ]
     },
+    { path: '/deliveryOrders', component: DeliveryOrders },
     { path: '/loginpage', component: LoginPage },
     {
         path: '/signPage/:id?',
@@ -140,7 +141,6 @@ const routes = [
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
 
 ]
-
 
 const router = createRouter({
     history: createWebHistory(),
@@ -173,7 +173,7 @@ const router = createRouter({
 //         }
 //     }
 //     else {
-//         if (to.path.includes(`/signPage`) || to.path.includes(`/homePage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/ImpactHeading`)||to.path.includes(`/BoycottWrapper`)) {
+//         if (to.path.includes(`/signPage`) || to.path.includes(`/homePage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/ImpactHeading`) || to.path.includes(`/BoycottWrapper`)) {
 //             next()
 //         }
 //         else {
