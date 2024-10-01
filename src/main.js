@@ -40,6 +40,7 @@ import manageAdmins from './components/manageAdmins.vue'
 import ManageUsers from './components/manageUsers.vue';
 import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import AdminAccount from './components/adminAccount.vue';
+
 // import ManageMyPlan from './components/manageMyPlan.vue';
 import Cart from './components/Cart.vue';
 import DeliveryOrders from './components/deliveryOrders.vue';
