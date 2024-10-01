@@ -1,7 +1,7 @@
 <template>
-  <header class="flexmobile container md:flex justify-between items-center max-md:mt-10 mx-auto">
-    <div class="md:flex flexmobile relative left-20 flex-col">
-      <h1 class="md:text-5xl font-bold green-color animate__animated animate__backInUp me-3">
+  <header class="flexmobile overflow-hidden gap-5 container md:flex justify-between items-center max-md:mt-10 mx-auto">
+    <div class="md:flex w-1/2 flexmobile  relative left-20 flex-col">
+      <h1 class="md:text-4xl font-bold green-color animate__animated animate__backInUp me-3">
         The Impact of Boycotting Israeli Products in The World
       </h1>
       <p class="mt-3.5 text-xl leading-snug text-emerald-600 ">
@@ -13,8 +13,8 @@
         <span class="gap-2 p-1">Names Of Boycotting Products ?</span>
       </router-link>
     </div>
-    <div class="rounded-xl  max-md:mt-4 animate__animated animate__heartBeat">
-      <img class="rounded-xl " src="../assets/watermelon.png" alt="">
+    <div class="rounded-xl w-1/2 max-w-xl max-md:mt-4 animate__animated animate__heartBeat">
+      <img class="rounded-xl  " src="../assets/watermelon.png" alt="">
     </div>
   </header>
 
