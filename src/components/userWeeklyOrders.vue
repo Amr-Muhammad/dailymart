@@ -11,7 +11,7 @@
 
     <div v-if="products != null" class="items-wrapper w-full px-4 mt-10">
 
-        <div v-for="product in products" :key="product"
+        <div v-for="(product, index) in products" :key="product"
             class="flex flex-wrap items-center justify-between my-7 mx-16 p-3 rounded-lg shadow-md bg-white">
 
             <div class="w-full md:w-1/4 flex justify-center mb-4 md:mb-0">
@@ -23,11 +23,9 @@
             <div class="w-full md:w-2/4 flex flex-col md:items-start text-center md:text-left mb-4 md:mb-0">
                 <div class="text-lg font-semibold mb-2">{{ product[1].english_name }}</div>
                 <div class="rating flex justify-center mb-2">
-                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" disabled />
-                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" disabled />
-                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked disabled />
-                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" disabled />
-                    <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" disabled />
+                    <input v-for="star in 5" :key="star" type="radio" :name="'rating-' + index" 
+                        :class="{'bg-orange-400': star <= allRates[index], 'bg-gray-300': star > allRates[index]}" 
+                        class="mask mask-star-2" disabled />
                 </div>
                 <p class="text-lg font-semibold">{{ product[1].price }}.00 E£</p>
             </div>
@@ -93,6 +91,7 @@
 <script>
 import service from '@/mixins/service';
 import { mapState } from 'vuex';
+import axios from 'axios';
 
 export default {
     data() {
@@ -104,7 +103,10 @@ export default {
             seconds: null,
             nextFriday: null,
             user: null,
-            subscribed: null
+            subscribed: null,
+            commentD: null,
+            prdRate: null,
+            allRates: [],
         }
     },
     computed: {
@@ -115,6 +117,42 @@ export default {
             this.products = await service.methods.get_cart_wishlist_weekly(this.loggedUserId, 'weeklyorders')
             if (this.products) {
                 this.products = Object.entries(this.products)
+
+                for (let i = 0; i < this.products.length; i++) {
+                    this.getProductRate(this.products[i][0])
+                    console.log(this.products[i][0])
+                }
+            }
+        }
+        ,
+        async getProductRate(productId) { 
+            try {
+                const response = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/comments.json')).data;
+                
+                this.commentD = Object.entries(response).filter(item => item[1].productId === productId);
+
+                if (this.commentD.length > 0) {
+                    const totalRatings = this.commentD.reduce((sum, item) => {
+                        return sum + parseFloat(item[1].rating);
+                    }, 0);
+                    
+                    const averageRating = totalRatings / this.commentD.length;
+                    
+                    this.prdRate = averageRating;
+                } else {
+                    this.prdRate = 0;
+                }
+
+                this.allRates.push(Math.round(this.prdRate));
+
+                // console.log(this.allRates)
+                // console.log(this.prdRate)
+                
+            } catch (err) {
+                console.log('Error:', err);
+                this.prdRate = 0;
+                this.allRates.push(this.prdRate);
+                // console.log(this.prdRate)
             }
         }
         ,
