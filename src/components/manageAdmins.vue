@@ -1,47 +1,43 @@
 <template>
-
-  <section class="flex container flex-col text-xs rounded-none text-zinc-500">
-    <h1 class="text-3xl font-bold text-gray-800 pt-6 text-center italic">Manage Admins</h1>
-
-    <main class="mt-20 w-full max-md:mt-10 max-md:max-w-full">
-      <div class="flex gap-5 max-md:flex-col">
-        <div
-          class="flex mx-auto px-16 pt-16 pb-36  rounded-xl border-2 border-solid border-zinc-100 shadow-[0px_20px_30px_rgba(167,209,233,0.45)] flex-col w-10/12">
-          <header
-            class="flex flex-wrap gap-5 justify-between self-center w-full font-bold leading-loose max-w-[814px] max-md:max-w-full">
-            <div class="flex gap-3 whitespace-nowrap">
-              <div class="flex shrink-0 self-start rounded-sm border border-solid border-zinc-500 h-[17px] w-[17px]">
-              </div>
-              <div>ID</div>
-            </div>
-            <div class="flex gap-24 self-start max-md:max-w-full">
-              <div>User Name</div>
-              <div>Email</div>
-              <div>Action</div>
-            </div>
-          </header>
-          <AdminListItem v-for="user in users" :key="user.firebaseKey" :id="user.firebaseKey" :userName="user.username"
-            :email="user.email" :highlighted="user.highlighted" @delete-item="handleDelete" />
-          <router-link to="./AdminMangement"
-            class="gap-2.5 text-center hover:bg-emerald-950 self-center px-12 py-4 mt-16 mb-0 ml-3.5 max-w-full text-base font-medium bg-green-700 rounded min-h-[56px] text-neutral-50 w-[271px] max-md:px-5 max-md:mt-10 max-md:mb-2.5">
-            Back To Add Admin
-          </router-link>
-        </div>
-      </div>
-    </main>
+  <section class="p-6">
+    <h1 class="text-3xl font-bold text-gray-800 mb-12 text-center italic">Manage Admins</h1>
+    <div class="w-full overflow-x-auto">
+      <table id="table" class="text-center w-full bg-white border">
+        <thead class="bg-slate-50 border">
+          <tr>
+            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">User Name</th>
+            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in users" :key="user.firebaseKey" class="border">
+            <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ user.firebaseKey }}</td>
+            <td class="px-6 py-4 text-sm text-gray-500">{{ user.username }}</td>
+            <td class="px-6 py-4 text-sm text-gray-500">{{ user.email }}</td>
+            <td class="px-6 py-4 text-sm text-gray-500 flex justify-center">
+              <button @click="handleDelete(user.firebaseKey)" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flex justify-center mt-8">
+      <router-link to="./AdminMangement" class="gap-2.5 text-white text-center hover:bg-emerald-950 px-6 py-3 text-base font-medium bg-green-700 rounded w-full sm:w-auto">
+        Back To Add Admin
+      </router-link>
+    </div>
   </section>
-
 </template>
 
 <script>
 import axios from 'axios';
-import AdminListItem from './AdminListItem.vue';
 
 export default {
   name: 'AdminList',
-  components: {
-    AdminListItem,
-  },
   data() {
     return {
       users: [],
@@ -65,10 +61,8 @@ export default {
     },
     async handleDelete(firebaseKey) {
       try {
-        console.log('Attempting to delete user with Firebase key:', firebaseKey);
         await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/admin/${firebaseKey}.json`);
         this.users = this.users.filter(user => user.firebaseKey !== firebaseKey);
-        console.log('Successfully deleted user with Firebase key:', firebaseKey);
       } catch (error) {
         console.error('Error deleting user:', error);
       }
@@ -76,3 +70,19 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+@media (max-width: 640px) {
+  .overflow-x-auto {
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch; 
+  }
+  table {
+    min-width: 400px; 
+  }
+
+  th, td {
+    min-width: 80px; 
+  }
+}
+</style>

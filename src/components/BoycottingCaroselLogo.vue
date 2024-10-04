@@ -1,5 +1,5 @@
 <template>
-    <div class="carousel-container w-full overflow-hidden">
+    <div class="carousel-container p-14 w-full overflow-hidden">
       <div
         class="carousel-wrapper flex"
         :style="wrapperStyle"

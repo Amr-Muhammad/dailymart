@@ -1,48 +1,61 @@
 <template>
-  <div class="mx-auto p-6 rounded-lg shadow-lg w-6/12">
+  <div class="mx-auto animate__animated animate__backInDown bg-white m-14 p-6 rounded-lg shadow-lg w- md:w-6/12">
     <h2 class="text-3xl font-bold mb-4 flex items-center">
       <i class="fas fa-shopping-cart mr-2"></i>
       <p class="mt-2">My Cart</p>
     </h2>
     <div v-if="cart != null" class="text-right mt-6">
-      <button class="text-red-600 underline hover:text-red-800" @click="clearCart()">Remove all</button>
+      <button class="text-red-600 hover:text-red-800" @click="clearCart()">Remove all</button>
     </div>
-    <div v-if="cart != null">
-      <div v-for="(item, index) in cart" :key="index"
-        class="flex items-center justify-between border-b border-gray-200 py-4">
+    <div class="bg-[#F0F2E8] p-4" v-if="cart != null">
+      <div
+        v-for="(item, index) in cart"
+        :key="index"
+        class="flex blocked-item items-center justify-between border-b border-white py-4 mb-4" 
+      >
         <div class="flex items-center space-x-4">
-          <img :src="item[1].image_url" alt="Product Image" class="w-20 h-20 object-cover rounded">
-          <div>
+          <img 
+  :src="item[1].image_url" 
+  alt="Product Image" 
+  class="w-24 mb-10 h-24 object-cover rounded" 
+  style="object-fit: contain;"  >
+          <div class="flex flex-col">
             <h3 class="text-lg font-semibold">{{ item[1].english_name }}</h3>
             <p class="text-sm text-green-600">In Stock • Availability: {{ item[1].availability }}</p>
-            <div class="flex items-center space-x-2 mt-2">
-              <label for="quantity" class="text-sm">Qty:</label>
-              <div v-if="!customQty[index]">
-                <select v-model="selectedQty[index]" class="border border-gray-300 rounded p-1"
-                  @change="checkQty(index, item[0])">
-                  <option v-for="qty in 10" :key="qty" :value="qty">{{ qty }}</option>
-                  <option :value="11">10+</option>
-                </select>
-              </div>
-              <div v-else>
-                <input v-model.number="customQtyValue[index]" type="number" min="11"
-                  class="border border-gray-300 rounded p-1 w-16" @blur="updateCustomQty(index, item[0])" />
-              </div>
-            </div>
+            <p class="text-md pt-6 text-emerald-600">each : {{ item[1].price }} EGP</p>
           </div>
         </div>
+        <div class="flex items-center space-x-4">
+          <div v-if="!customQty[index]">
+            <select v-model="selectedQty[index]" class="border border-gray-300 rounded p-1" @change="handleQtyChange(index, item[0])">
+              <option v-for="qty in 10" :key="qty" :value="qty">{{ qty }}</option>
+              <option :value="11">10+</option>
+            </select>
+          </div>
+          <div  v-else>
+  <input v-model.number="tempCustomQtyValue[index]"
+    type="number"
+    min="11"
+    placeholder="11"
+    class="border  border-gray-300 rounded p-1 w-16"
+  />
+  <button @click="updateCustomQty(index, item[0])" class="ml-2 text-sm bg-emerald-950 hover:bg-emerald-800 text-white rounded px-2">Update</button>
+</div>
+        </div>
         <div class="text-right">
-          <p class="text-lg font-bold">{{ item[1].price }}.00 EGP</p>
-          <button @click="deleteItem(item[0])"
-            class="mt-2 pt-1 md:text-md text-sm flex text-white p-1 rounded-lg bg-red-700 hover:bg-red-800">
-            <i class="fas fa-trash-alt px-5 py-1">DELETE ITEM</i>
+          <div class="text-lg font-bold">{{ calculateItemPrice(index) }}.00 EGP</div>
+          <button @click="deleteItem(item[0])" class="mt-2 pt-1 md:text-md text-sm flex text-white p-1 rounded-lg bg-red-700 hover:bg-red-800">
+            <p class="px-5 py-1">DELETE ITEM</p>
           </button>
         </div>
       </div>
-
-      <button @click="handleCheckout()" class="mainGreenBtn mt-3">Checkout</button>
+      <div class="text-right mt-6">
+        <p class="text-lg font-bold">Total: {{ calculateTotalPrice() }}.00 EGP</p>
+      </div>
+      <div class="flex justify-center">
+        <button @click="handleCheckout()" class="mainGreenBtn mt-3">Checkout</button>
+      </div>  
     </div>
-
     <div v-if="cart == null" class="flex items-center justify-center flex-col">
       <img src="../assets/Empty-removebg-preview.png" alt="Empty Cart">
       <router-link to="/CategroyPage">
@@ -63,22 +76,23 @@ export default {
   data() {
     return {
       cart: null,
-
       userId: 'bab69910f7dc80c',
       selectedQty: [],
       customQty: [],
-      customQtyValue: []
-    }
+      customQtyValue: [],
+      tempCustomQtyValue: [],
+      isPriceUpdated: [] 
+    };
   },
+
   computed: {
-    ...mapState(['loggedUserId', 'loggedUserData'])
+    ...mapState(['loggedUserId', 'loggedUserData']),
   },
 
   methods: {
     async getCart() {
-
       try {
-        this.cart = await service.methods.get_cart_wishlist_weekly(this.loggedUserId, 'cart')
+        this.cart = await service.methods.get_cart_wishlist_weekly(this.loggedUserId, 'cart');
         if (this.cart) {
           this.cart = Object.entries(this.cart);
           this.selectedQty = this.cart.map(() => 1);
@@ -90,113 +104,131 @@ export default {
       }
     },
 
-    checkQty(index, productId) {
+    calculateItemPrice(index) {
+  const price = this.cart[index][1].price;
+  const selectedQuantity = this.selectedQty[index];
+  if (selectedQuantity === 11 && !this.isPriceUpdated[index]) {
+    return 0;
+  }
+  if (selectedQuantity === 11 && this.isPriceUpdated[index]) {
+    const confirmedCustomQty = this.customQtyValue[index] || 0;
+    return price * confirmedCustomQty;
+  }
+
+  return price * selectedQuantity;
+},
+
+    calculateTotalPrice() {
+      return this.cart.reduce((total, item, index) => {
+        const price = Number(item[1].price) || 0;
+        let quantity = Number(this.selectedQty[index]) || 0;
+        if (quantity === 11) {
+          quantity = Number(this.tempCustomQtyValue[index]) || 0;
+        }
+        return total + (price * quantity);
+      }, 0);
+    },
+
+    handleQtyChange(index, productId) {
+      const availability = this.cart[index][1].availability;
       if (this.selectedQty[index] === 11) {
-        this.customQty[index] = true;
+        this.customQty[index] = true; 
+      } else if (this.selectedQty[index] > availability) {
+        this.selectedQty[index] = availability; 
+        this.updateQty(index, productId, availability);
       } else {
-        this.customQty[index] = false;
+        this.customQty[index] = false; 
         this.updateQty(index, productId, this.selectedQty[index]);
       }
     },
 
     async updateQty(index, productId, quantity) {
       try {
-        // Update the quantity in the Firebase database
         await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}/${productId}/.json`, {
-          quantity: quantity
+          quantity: quantity,
         });
-
-        // Fetch the updated product information from the Firebase database
-        const productResponse = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`);
-        const product = productResponse.data;
-
-        // Update the availability in the cart data by subtracting the selected quantity
-        this.cart[index][1].availability = product.availability - quantity;
-
-        console.log('Quantity and availability updated successfully');
+        console.log('Quantity updated successfully without changing availability');
       } catch (error) {
-        console.error('Error updating quantity and availability:', error);
+        console.error('Error updating quantity:', error);
       }
     },
 
     async updateCustomQty(index, productId) {
-      const customQuantity = this.customQtyValue[index];
-      if (customQuantity >= 11) {
-        try {
-          await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}/${productId}/.json`, {
-            quantity: customQuantity
-          });
+    let customQuantity = this.tempCustomQtyValue[index]; 
+    const availability = this.cart[index][1].availability;
+    if (customQuantity < 11) {
+      customQuantity = 0;
+    }
+    if (customQuantity > availability) {
+      this.customQtyValue[index] = availability;
+      this.tempCustomQtyValue[index] = availability; 
+    } else {
+      this.customQtyValue[index] = customQuantity;
+      this.tempCustomQtyValue[index] = customQuantity; 
+    }
 
-          const productResponse = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`);
-          const product = productResponse.data;
+    this.isPriceUpdated[index] = true;
 
-          this.cart[index][1].availability = product.availability - customQuantity;
+    this.selectedQty[index] = 11;
 
-          console.log('Custom quantity and availability updated successfully');
-        } catch (error) {
-          console.error('Error updating custom quantity and availability:', error);
-        }
-      }
-    },
+    try {
+      await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}/${productId}/.json`, {
+        quantity: this.customQtyValue[index],
+      });
+      console.log('Custom quantity updated successfully');
+    } catch (error) {
+      console.error('Error updating custom quantity:', error);
+    }
+  },
+
+
+
     async deleteItem(productId) {
-
       try {
-        await service.methods.deleteItem_cart_wishlist_weekly(this.loggedUserId, productId, 'cart')
-        this.getCart()
+        await service.methods.deleteItem_cart_wishlist_weekly(this.loggedUserId, productId, 'cart');
+        this.getCart();
       } catch (error) {
         console.error('Error deleting item:', error);
       }
-
     },
 
     async clearCart() {
-
       try {
-        await service.methods.clear_cart_wishlist_weekly(this.loggedUserId, 'cart')
-        this.getCart()
+        await service.methods.clear_cart_wishlist_weekly(this.loggedUserId, 'cart');
+        this.getCart();
       } catch (error) {
         console.error('Error clearing cart:', error);
       }
-
     },
 
     async handleCheckout() {
       try {
+        const cart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}.json`)).data;
 
-        // const userResponse = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${this.loggedUserId}.json`);
-
-        const cart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}.json`)).data
-
-        let cartArray = []
+        let cartArray = [];
         for (let i = 0; i < Object.entries(cart).length; i++) {
           cartArray.push(Object.entries(cart)[i][1]);
         }
-        // console.log(userResponse);
 
         const user = {
-          // name: userResponse.data.firstName + ' ' + userResponse.data.lastName,
-          // email: userResponse.data.email
           name: this.loggedUserData.firstName + ' ' + this.loggedUserData.lastName,
-          email: this.loggedUserData.email
+          email: this.loggedUserData.email,
+          address: this.loggedUserData.address,
         };
 
-        const sessionResponse = await axios.post('https://delight-mart-server.vercel.app/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid });
-        // const sessionResponse = await axios.post('http://localhost:3001/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid });
-        const sessionId = sessionResponse.data.id;
-
-        const { error } = await this.stripe.redirectToCheckout({ sessionId: sessionId });
-
-        if (error) {
-          console.error('Error redirecting to checkout:', error);
-        }
+        await axios.post('https://dailymart-5c550-default-rtdb.firebaseio.com/orders.json', {
+          user: user,
+          items: cartArray,
+        });
+        await service.methods.clear_cart_wishlist_weekly(this.loggedUserId, 'cart');
       } catch (error) {
-        console.error('Error during checkout process:', error);
+        console.error('Error during checkout:', error);
       }
-    }
+    },
   },
-  async mounted() {
-    this.getCart();
 
+  mounted() {
+    this.getCart();
     if (!window.Stripe) {
       const script = document.createElement('script');
       script.src = 'https://js.stripe.com/v3/';
@@ -210,3 +242,10 @@ export default {
   }
 };
 </script>
+<style >
+@media (max-width:640px) {
+  .blocked-item{
+  display: block !important;
+}
+}
+</style>

@@ -2,13 +2,13 @@
   <div class="flex flex-col items-start">
     <!-- Header Section -->
     <header
-      class="flex flex-col md:px-8 pt-32 pb-12 text-6xl font-black leading-tight text-emerald-900 bg-white min-h-[226px] max-md:px-5 max-md:pt-24 max-md:max-w-full max-md:text-4xl">
+      class="flex flex-col md:px-8 pt-24 pb-12 text-6xl font-black leading-tight text-emerald-900  min-h-[226px] max-md:px-5 max-md:pt-24 max-md:max-w-full max-md:text-4xl">
       <div class="flex flex-col items-center px-20 w-full max-w-[1480px] max-md:px-5 max-md:max-w-full max-md:text-4xl">
-        <h1 class="max-w-full md:w-[560px] max-md:max-w-full max-md:text-4xl">Discover Products</h1>
+        <h1 class="max-w-full  md:w-[560px] max-md:max-w-full max-md:text-4xl">Discover Products</h1>
         <div class="relative flex justify-center mt-4 w-full max-w-md">
           <img class="w-14 pr-6 h-10" src="../assets/search (1).png" alt="">
           <input v-model="searchQuery" type="text" placeholder="Search products..."
-            class="w-full text-lg md:text-2xl p- pl-10 border rounded-md" />
+            class="w-full text-lg md:text-2xl  pl-10 border rounded-md" />
         </div>
       </div>
     </header>

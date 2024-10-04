@@ -25,7 +25,6 @@ import OffersPage from './components/offersPage.vue';
 import ErrorPage from './components/errorPage.vue';
 import ManageProducts from './components/manageProducts.vue';
 import EditDeleteProducts from './components/edit-deleteProducts.vue';
-
 import CategroyPage from './components/categroyPage.vue';
 import ProductDetail from './components/productdetail.vue';
 
@@ -40,8 +39,6 @@ import manageAdmins from './components/manageAdmins.vue'
 import ManageUsers from './components/manageUsers.vue';
 import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import AdminAccount from './components/adminAccount.vue';
-
-
 import CardCharts from './components/AdminCrdsCharts.vue'
 import AdminChartsDashboard from './components/AdminDashboard.vue'
 

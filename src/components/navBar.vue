@@ -3,9 +3,9 @@
 
         <div class="navbar text-white w-11/12 mx-auto flex justify-between ">
 
-            <div class="ps-3">
+            <router-link to="/" class="ps-3 notHveActive bg-transparent">
                 <img class="w-14 scale-[3.2] relative translate-y-8" src="../assets/logo1.png" alt="">
-            </div>
+            </router-link>
 
             <div class="navbar-center hidden lgScreen:flex gap-y-2 lgScreen:gap-y-0 ms-20">
 
@@ -273,8 +273,8 @@ export default {
     color: blue;
 }
 
-.router-link-exact-active,
-.router-link-active {
+.router-link-exact-active:not(.notHveActive),
+.router-link-active:not(.notHveActive) {
     background-color: white;
     color: #166534;
     border-radius: 0.250rem;

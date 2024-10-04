@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto">
+    <div class="container overflow-hidden mx-auto">
         <BoycottBanner />
         <RollerCoasterCarousel />
         <BoycottProducts />
