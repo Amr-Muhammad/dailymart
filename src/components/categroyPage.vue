@@ -112,7 +112,7 @@
 
 
                             <router-link :to="`/productdetail/${product[0]}`">
-                                
+
                                 <figure class="bg-stone-50 p-5 relative ">
 
                                     <div class="w-full flex justify-center relative">
