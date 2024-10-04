@@ -89,7 +89,7 @@
     <div class="items-wrapper w-full px-4 mt-10">
 
         <div v-if="wishlist != null">
-            <div v-for="item in wishlist" :key="item[0]"
+            <div v-for="(item, index) in wishlist" :key="item[0]"
                 class="flex flex-wrap items-center justify-between my-7 mx-16 p-3 rounded-lg shadow-md bg-white">
 
                 <div class="w-full md:w-1/4 flex justify-center mb-4 md:mb-0">
@@ -99,11 +99,9 @@
                 <div class="w-full md:w-2/4 flex flex-col md:items-start text-center md:text-left mb-4 md:mb-0">
                     <div class="text-lg font-semibold mb-2">{{ item[1].english_name }}</div>
                     <div class="rating flex justify-center mb-2">
-                        <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
-                        <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
-                        <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
-                        <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
-                        <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+                        <input v-for="star in 5" :key="star" type="radio" name="rating-{{ index }}" 
+                            :class="{'bg-orange-400': star <= allRates[index], 'bg-gray-300': star > allRates[index]}" 
+                            class="mask mask-star-2" disabled />
                     </div>
                     <p class="text-lg font-semibold">{{ item[1].price }} E£</p>
                 </div>
@@ -141,12 +139,16 @@
 <script>
 import service from '@/mixins/service';
 import { mapState } from 'vuex';
+import axios from 'axios';
 
 export default {
     data() {
         return {
             wishlist: null,
             itemsNumber: null,
+            commentD: null,
+            prdRate: null,
+            allRates: [],
         }
     },
     computed: {
@@ -158,9 +160,43 @@ export default {
             if (this.wishlist) {
                 this.wishlist = Object.entries(this.wishlist)
                 this.itemsNumber = this.wishlist.length
+
+                for (let i = 0; i < this.wishlist.length; i++) {
+                    this.getProductRate(this.wishlist[i][0])
+                }
             }
             else {
                 this.itemsNumber = 0
+            }
+        },
+        async getProductRate(productId) { 
+            try {
+                const response = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/comments.json')).data;
+                
+                this.commentD = Object.entries(response).filter(item => item[1].productId === productId);
+
+                if (this.commentD.length > 0) {
+                    const totalRatings = this.commentD.reduce((sum, item) => {
+                        return sum + parseFloat(item[1].rating);
+                    }, 0);
+                    
+                    const averageRating = totalRatings / this.commentD.length;
+                    
+                    this.prdRate = averageRating;
+                } else {
+                    this.prdRate = 0;
+                }
+
+                this.allRates.push(Math.round(this.prdRate));
+
+                // console.log(this.allRates)
+                // console.log(this.prdRate)
+                
+            } catch (err) {
+                console.log('Error:', err);
+                this.prdRate = 0;
+                this.allRates.push(this.prdRate);
+                // console.log(this.prdRate)
             }
         },
         async deleteItem(productId) {
