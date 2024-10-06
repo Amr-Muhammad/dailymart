@@ -67,8 +67,7 @@
                 </svg>
                 <input v-model="email" type="text" class="grow" placeholder="Email" />
             </label>
-
-            <label class="input input-bordered flex items-center gap-2 md:w-6/12 w-full bg-gray-100">
+            <label v-if="address.location!=null" class="input input-bordered flex items-center gap-2 md:w-6/12 w-full bg-gray-100">
                 <svg fill="#4C4C4C" width="25px" height="25px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -78,7 +77,8 @@
                         </path>
                     </g>
                 </svg>
-                <input v-model="address.location" type="text" class="grow" placeholder="Address" />
+                <input v-model="address.location" type="text" class="grow"
+                    placeholder="Address" />
 
             </label>
 
@@ -187,8 +187,8 @@ export default {
                 this.firstName = this.loggedUserData.firstName
                 this.lastName = this.loggedUserData.lastName
                 this.email = this.loggedUserData.email
-                this.phone = this.loggedUserData.phone
-                this.address = this.loggedUserData.address
+                this.phone = this.loggedUserData.phone ? this.loggedUserData.phone : ''
+                this.address = this.loggedUserData.address ? this.loggedUserData.address : ''
             }
         }
     },

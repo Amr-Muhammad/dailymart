@@ -21,6 +21,8 @@ export default {
         ]
     },
     delivery: {
-        canAccess: []
+        canAccess: [
+            '/deliveryOrders'
+        ]
     },
 }

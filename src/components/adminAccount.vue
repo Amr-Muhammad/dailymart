@@ -45,7 +45,7 @@
                     </div>
                 </leftSection>
 
-                <rightSection class="md:w-10/12 shadow-2xl py-14">
+                <rightSection class="md:w-10/12 w-full shadow-2xl py-14">
                     <router-view></router-view>
                 </rightSection>
             </div>
