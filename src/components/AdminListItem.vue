@@ -1,4 +1,19 @@
 <template>
+//
+  <div class="flex items-center gap-4">
+    <!-- ID Section -->
+    <div class="leading-loose whitespace-nowrap">{{ id }}</div>
+
+    <!-- User Info Section -->
+    <div class="leading-loose">{{ userName }}</div>
+    <div class="leading-loose">{{ email }}</div>
+    
+    <!-- Delete Button -->
+    <button @click="deleteItem" class="text-base font-medium text-red-600 hover:text-red-800">
+      Delete
+    </button>
+    //
+//
   <div
     :class="['flex flex-wrap gap-5 justify-between py-5 pr-20 pl-7 mt-8 w-full rounded-xl border border-solid bg-white bg-opacity-10 shadow-[0px_20px_30px_rgba(167,209,233,0.45)] max-md:px-5 max-md:max-w-full', { 'border-green-700': highlighted, 'border-zinc-100': !highlighted }]">
     <div class="flex gap-3 self-start mt-1.5 leading-loose whitespace-nowrap">
@@ -11,6 +26,7 @@
       <div class="leading-loose">{{ email }}</div>
       <button @click="deleteItem" class="text-base font-medium text-red-600 hover:text-red-800">Delete</button>
     </div>
+//
   </div>
 </template>
 
@@ -34,11 +50,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  data() {
-    return {
-      isChecked: false,
-    };
   },
   methods: {
     deleteItem() {
