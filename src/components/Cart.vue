@@ -240,7 +240,7 @@ export default {
       this.stripe = window.Stripe('pk_test_51PtX5uLbeudqBLeNmUwmj2P6zWbDPnbu4xUktC6XRsyZ4To6giHWQG083GNF0jfu90KCGgygSmcGSi1dzPjUhDql00oJveYLCq');
     }
   }
-};
+}
 </script>
 <style >
 @media (max-width:640px) {

@@ -209,8 +209,16 @@
                                     </div>
 
                                     <div class="rating rating-sm ">
-                                        <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
-                                            :checked="false" class="mask mask-star-2 bg-amber-400 me-1" />
+                                        <input 
+                                            v-for="star in 5" 
+                                            :key="star" 
+                                            type="radio" 
+                                            :name="'rating-' + index" 
+                                            :checked="star <= allRates[product[0]]"
+                                            :class="{'bg-orange-400': star <= (allRates[product[0]] || 0), 'bg-gray-300': star > (allRates[product[0]] || 0)}" 
+                                            class="mask mask-star-2" 
+                                            disabled 
+                                        />
                                     </div>
                                 </div>
 
@@ -287,6 +295,7 @@
 import service from '@/mixins/service';
 import Swal from 'sweetalert2';
 import { mapState } from 'vuex';
+import axios from 'axios';
 
 export default {
     name: 'offersPage',
@@ -297,7 +306,8 @@ export default {
             userId: 'bab69910f7dc80c',
             user: null,
             subscribed: null,
-            clickedProducts: {}
+            clickedProducts: {},
+            allRates: {}
         }
     },
     computed: {
@@ -306,12 +316,40 @@ export default {
     methods: {
         async getAllProducts() {
             try {
-                this.products = await service.methods.getAllProducts(this.searchQueryProducts, '', true)
-                this.products = this.products.filter(product => product[1].availability > 0 && product[1].onsale)
 
+                this.products = await service.methods.getAllProducts(this.searchQueryProducts, '', true);
+                this.products = this.products.filter(product => product[1].availability > 0 && product[1].onsale && product[1].boycott == false);
+                
+                this.allRates = {};
+
+                for (let i = 0; i < this.products.length; i++) {
+                    const productId = this.products[i][0];
+                    await this.getProductRate(productId);
+                }
+                
+                console.log(this.allRates);
             }
             catch (err) {
                 console.log(err);
+            }
+        }
+        ,
+        async getProductRate(productId) { 
+            try {
+                const response = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/comments.json')).data;
+                this.commentD = Object.entries(response).filter(item => item[1].productId === productId);
+
+                let prdRate = 0;
+                if (this.commentD.length > 0) {
+                    const totalRatings = this.commentD.reduce((sum, item) => sum + parseFloat(item[1].rating), 0);
+                    prdRate = totalRatings / this.commentD.length; 
+                }
+                
+                this.allRates[productId] = Math.round(prdRate);
+
+            } catch (err) {
+                console.log('Error:', err);
+                this.allRates[productId] = 0; 
             }
         }
         ,

@@ -3,7 +3,7 @@
     <div class="container mx-auto">
 
         <!-- Categories -->
-        <div class="categories pt-10 mb-12 text-center">
+        <div class="categories pt-10 mb-12 text-center bg-white">
 
             <!-- Categories Search -->
             <section class="products-head mb-12 mx-10">
@@ -64,7 +64,7 @@
         </div>
 
         <!-- Products -->
-        <div class="products pt-10 mb-12 text-center">
+        <div class="products pt-10 mb-12 text-center bg-white">
 
             <!-- Products Search -->
             <section class="products-head mb-12 mx-10">
@@ -99,20 +99,20 @@
             </section>
 
             <!-- Products -->
-            <section>
+            <section class="bg-white">
 
 
                 <div v-if="filterdProducts" class="flex flex-wrap">
 
                     <div v-for="(product, index) in filterdProducts" :key="index"
-                        class="bg-base-100 rounded-sm cursor-pointer mb-8 w-full lg:w-1/5 md:w-4/12 sm:w-6/12 gap-3 p-3">
-
+                        class=" rounded-sm cursor-pointer mb-8 w-full lg:w-1/5 md:w-4/12 sm:w-6/12 gap-3 p-3">
+                        <!-- etms7 bg-base-100 -->
                         <div
                             class="card border rounded-md hover:scale-[1.01] transition-all hover:shadow-lg duration-300">
 
 
                             <router-link :to="`/productdetail/${product[0]}`">
-                                
+
                                 <figure class="bg-stone-50 p-5 relative ">
 
                                     <div class="w-full flex justify-center relative">
@@ -219,8 +219,8 @@
 
                             <div v-if="product[1].availability != 0"
                                 class="cart-btn group border w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
+                                <!-- etms7 :disabled="clickedProducts[product[0]]" in the below button -->
                                 <button @click="addToCart(product[0], product[1])"
-                                    :disabled="clickedProducts[product[0]]"
                                     class="flex items-center justify-center gap-2 w-full p-2">
                                     <template v-if="clickedProducts[product[0]]">
                                         <span>Adding to cart ...</span>
@@ -603,7 +603,6 @@ export default {
                         document.body.style.pointerEvents = 'auto'; // Re-enable clicks
                     }
                 });
-                this.clickedProducts[productId] = false
                 delete this.clickedProducts[productId]
             }
         }
