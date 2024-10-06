@@ -85,6 +85,7 @@ async function checkForUser() {
     }
     else {
         store.state.isDataLoading = false
+        localStorage.setItem('role','visitor')
     }
 }
 
@@ -107,7 +108,7 @@ const routes = [
         path: '/adminaccount',
         component: AdminAccount,
         children: [
-            { path: '', redirect: '/adminaccount/manageusers' },
+            { path: '', redirect: '/adminaccount/AdminChartsDashboard' },
             { path: 'manageusers', component: ManageUsers },
             { path: 'weeklyorders', component: userWeeklyOrders },
             { path: 'myorders', component: MyOrders },
@@ -178,18 +179,22 @@ const router = createRouter({
 //         const userRole = store.state.loggedUserData.role
 //         const allowedRoutes = roles[userRole].canAccess
 
+//         // console.log(('/' + to.path.split('/')[1] ));
+//         console.log(to.path);
+
+//         // + (to.path.split('/')[2] ? `/${to.path.split('/')[2]}` : '')
 //         if (allowedRoutes.includes('/' + to.path.split('/')[1])) {
 //             next()
 //         }
 //         else if (to.path.split('/')[1].includes('signPage')) {
 //             next('/')
 //         }
-//         else {
-//             next({ name: 'ErrorPage' })
-//         }
+//         // else {
+//         //     next({ name: 'ErrorPage' })
+//         // }
 //     }
 //     else {
-//         if (to.path.includes(`/signPage`) || to.path.includes(`/homePage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/ImpactHeading`) || to.path.includes(`/BoycottWrapper`)) {
+//         if (to.path.includes(`/signPage`) || to.path.includes(`/CategroyPage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/homePage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/ImpactHeading`) || to.path.includes(`/BoycottWrapper`)) {
 //             next()
 //         }
 //         else {

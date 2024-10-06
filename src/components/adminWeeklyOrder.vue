@@ -40,7 +40,7 @@
 
 
     <div v-if="products != null" class="flex items-center justify-center gap-4 ">
-        <button v-if="status == 'Rejected' ||status == 'Pending'" @click="approveOrder()" class="mainGreenBtn">Approve</button>
+        <button v-if="status == 'Rejected' ||status == 'Pen ding'" @click="approveOrder()" class="mainGreenBtn">Approve</button>
         <button v-if="status == 'Approved' ||status == 'Pending'" @click="rejectOrder()" class="mainPinkBtn">Reject</button>
     </div>
 
@@ -63,6 +63,8 @@ export default {
             this.products = await service.methods.get_cart_wishlist_weekly(this.userId, 'weeklyorders')
             if (this.products) {
                 this.products = Object.entries(this.products)
+                console.log(this.products);
+                
             }
         },
         async approveOrder() {

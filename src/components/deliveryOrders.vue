@@ -16,7 +16,7 @@
                             </h2>
                             <p class="text-gray-500">Customer Name: {{ orderValue.customerName }}</p>
                             <p class="text-gray-500">Address: 123 Elm St, City</p>
-                            <p class="text-gray-500">Total Items: {{ Object.values(orderValue.items).length }}</p>
+                            <!-- <p class="text-gray-500">Total Items: {{ Object.values(orderValue.items).length }}</p> -->
                         </div>
 
                         <div class="xl:flex flex-wrap justify-between items-center">

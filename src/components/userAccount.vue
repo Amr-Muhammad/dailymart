@@ -2,24 +2,29 @@
 
     <div class="container mx-auto py-10 px-5">
 
-        <div class="flex flex-wrap justify-between rounded-2xl">
+        <div class="flex flex-wrap justify-center lg:justify-between rounded-2xl">
 
-            <leftSection class="md:w-2/12 py-8 px-4 bg-[#598369]">
+            <leftSection class="lg:w-2/12 py-8 px-4 bg-[#598369] mb-5 lg:mb-0">
                 <h1 class="font-bold text-center text-white text-xl">Account Management</h1>
                 <hr class="my-4 border">
-                <ul class="flex gap-7 md:block mb-5 md:mb-0">
+                <ul class="flex gap-7 lg:block">
 
-                    <router-link to="/useraccount/userprofile" class="block mt-2 px-4 py-1 rounded-full text-white">My
-                        Profile</router-link>
+                    <router-link to="/useraccount/userprofile"
+                        class="block mt-2 px-4 py-1 rounded-full text-white sm:text-start text-center">
+                        My Profile
+                    </router-link>
 
                     <router-link to="/useraccount/weeklyorders"
-                        class="block mt-2 px-4 py-1 rounded-full text-white">Weekly
-                        Orders</router-link>
+                        class="block mt-2 px-4 py-1 rounded-full text-white sm:text-start text-center">
+                        Weekly Orders
+                    </router-link>
 
-                    <router-link to="/useraccount/wishlist" class="block mt-2 px-4 py-1 rounded-full text-white">My
+                    <router-link to="/useraccount/wishlist"
+                        class="block mt-2 px-4 py-1 rounded-full text-white sm:text-start text-center">My
                         Wishlist</router-link>
 
-                    <router-link to="/useraccount/myorders" class="block mt-2 px-4 py-1 rounded-full text-white">My
+                    <router-link to="/useraccount/myorders"
+                        class="block mt-2 px-4 py-1 rounded-full text-white sm:text-start text-center">My
                         Orders</router-link>
 
                     <!-- <router-link to="/useraccount/manageMyPlan">
@@ -31,7 +36,7 @@
                 </ul>
             </leftSection>
 
-            <rightSection class="md:w-10/12">
+            <rightSection class="lg:w-10/12">
                 <div class="ms-7 bg-white py-14 shadow-x">
                     <router-view></router-view>
                 </div>
@@ -44,7 +49,7 @@
             </rightSection>
 
         </div>
-        
+
     </div>
 
 </template>
