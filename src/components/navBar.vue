@@ -33,15 +33,15 @@
 
             <div v-else-if="loggedUserId" class="userIcons">
                 <div class="cart-wishlist-wOrders me-5 flex gap-3">
-                    <router-link :to="loggedUserData.planid ? '/useraccount/weeklyorders' : '/PlansWrapperComponent'">
+                    <router-link class="notHveActive" :to="loggedUserData.planid ? '/useraccount/weeklyorders' : '/PlansWrapperComponent'">
                         <img title="Weekly Orders" class="w-6 filter invert grayscale brightness-0"
                             src="../assets/weeklyOrders.png" />
                     </router-link>
-                    <router-link to="/useraccount/wishlist">
+                    <router-link class="notHveActive" to="/useraccount/wishlist">
                         <img title="Wishlist" class="w-6 filter invert grayscale brightness-0"
                             src="../assets/wishlist.png" />
                     </router-link>
-                    <router-link to="/cart">
+                    <router-link class="notHveActive" to="/cart">
                         <img title="Cart" class="w-6 filter invert grayscale brightness-0" src="../assets/cart.png" />
                     </router-link>
                 </div>

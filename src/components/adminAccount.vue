@@ -1,8 +1,7 @@
 <template>
 
     <div>
-
-        <div class="container mx-auto">
+        <div class="container mx-auto px-5">
             <div class="flex justify-between">
 
                 <div class="breadcrumbs text-sm">
@@ -22,31 +21,30 @@
             </div>
 
             <div class="flex mt-16 flex-wrap justify-center">
-                <leftSection class="md:w-2/12">
-                    <div>
-                        <h1 class="font-bold">Manage My Account</h1>
-                        <ul class="ms-10 mt-4 flex gap-7 md:block mb-5 md:mb-0">
-                            <li class="mb-[6px] text-gray-400">
-                                <router-link to="/adminaccount/manageusers">Manage Users</router-link>
-                            </li>
-                            <li class="mb-[6px] text-gray-400">
-                                <router-link to="/adminaccount/manageadmins">Manage Admins</router-link>
-                            </li>
-                            <li class="mb-[6px] text-gray-400">
-                                <router-link to="/adminaccount/manageproducts">Manage Products</router-link>
-                            </li>
-                            <li class="mb-[6px] text-gray-400">
-                                <router-link to="/adminaccount/editDelete">Creat a New Product</router-link>
-                            </li>
-                            <!-- <li class="mb-[6px] text-gray-400">
-                                <router-link to="/adminaccount/manageusers">My Orders</router-link>
-                            </li> -->
-                        </ul>
-                    </div>
+                <leftSection class="lg:w-2/12 py-8 px-4 bg-[#598369]">
+                    <h1 class="font-bold text-center text-white text-xl">Manage My Account</h1>
+                    <hr class="my-4 border">
+                    <ul class="flex gap-7 md:block mb-5 md:mb-0">
+                        <router-link class="block mt-2 px-4 py-1 rounded-full text-white"
+                            to="/adminaccount/AdminChartsDashboard">
+                            Dashboard
+                        </router-link>
+                        <router-link class="block mt-2 px-4 py-1 rounded-full text-white"
+                            to="/adminaccount/manageusers">Manage Users</router-link>
+                        <router-link class="block mt-2 px-4 py-1 rounded-full text-white"
+                            to="/adminaccount/manageadmins">Manage Admins</router-link>
+                        <router-link class="block mt-2 px-4 py-1 rounded-full text-white"
+                            to="/adminaccount/manageproducts">Manage Products</router-link>
+                        <router-link class="block mt-2 px-4 py-1 rounded-full text-white"
+                            to="/adminaccount/editDelete">Creat a New Product</router-link>
+                    </ul>
+
                 </leftSection>
 
-                <rightSection class="md:w-10/12 w-full shadow-2xl py-14">
-                    <router-view></router-view>
+                <rightSection class="lg:w-10/12 w-full shadow-2xl">
+                    <div class="ms-7 bg-white py-14 shadow-x">
+                        <router-view></router-view>
+                    </div>
                 </rightSection>
             </div>
         </div>
@@ -62,4 +60,9 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.router-link-active {
+    background-color: white;
+    color: black;
+}
+</style>

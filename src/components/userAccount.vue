@@ -1,24 +1,6 @@
 <template>
 
-    <div class="container mx-auto py-10">
-        <!-- <div v-if="loggedUserData" class="flex justify-between">
-
-            <div class="breadcrumbs text-sm">
-                <ul>
-                    <li class=" text-gray-400"><router-link to="/homePage">Home</router-link></li>
-                    <li>My Account</li>
-                </ul>
-            </div>
-
-            <div>
-                <p>
-                    Welcome
-                    <span class="primaryPink font-semibold">{{ loggedUserData.firstName + ' ' + loggedUserData.lastName
-                        }}</span>
-                </p>
-            </div>
-
-        </div> -->
+    <div class="container mx-auto py-10 px-5">
 
         <div class="flex flex-wrap justify-between rounded-2xl">
 
@@ -62,6 +44,7 @@
             </rightSection>
 
         </div>
+        
     </div>
 
 </template>

@@ -6,7 +6,7 @@ import store from './store'
 import service from './mixins/service';
 import axios from 'axios';
 
-import roles from './roles';
+// import roles from './roles';
 import "@/assets/styles/output.css";
 import 'animate.css';
 
@@ -116,6 +116,7 @@ const routes = [
             { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder },
             { path: 'manageProducts', component: ManageProducts },
             { path: 'editDelete/:id?', component: EditDeleteProducts },
+            { path: 'AdminChartsDashboard', component: AdminChartsDashboard },
         ]
     },
     { path: '/deliveryOrders', component: DeliveryOrders },
@@ -151,7 +152,7 @@ const routes = [
     // { path: '/AdminListItem', component: AdminListItem },
 
     // { path: '/weeklyProducts', component: WeeklyOrderProducts }, //eh da!!!
-    { path: '/AdminChartsDashboard', component: AdminChartsDashboard },
+    // { path: '/AdminChartsDashboard', component: AdminChartsDashboard },
     { path: '/CardCharts', component: CardCharts },
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
 
@@ -172,34 +173,34 @@ const router = createRouter({
     }
 })
 
-router.beforeEach((to, from, next) => {
-    if (store.state.loggedUserData) {
-        const userRole = store.state.loggedUserData.role
-        const allowedRoutes = roles[userRole].canAccess
+// router.beforeEach((to, from, next) => {
+//     if (store.state.loggedUserData) {
+//         const userRole = store.state.loggedUserData.role
+//         const allowedRoutes = roles[userRole].canAccess
 
-        if (allowedRoutes.includes('/' + to.path.split('/')[1])) {
-            next()
-        }
-        else if (to.path.split('/')[1].includes('signPage')) {
-            next('/')
-        }
-        else {
-            next({ name: 'ErrorPage' })
-        }
-    }
-    else {
-        if (to.path.includes(`/signPage`) || to.path.includes(`/homePage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/ImpactHeading`) || to.path.includes(`/BoycottWrapper`)) {
-            next()
-        }
-        else {
-            if (to.path !== '/') {
-                next('/'); // Redirect to home page for any other route
-            } else {
-                next('/signPage'); // If already on home, do nothing
-            }
-        }
-    }
-})
+//         if (allowedRoutes.includes('/' + to.path.split('/')[1])) {
+//             next()
+//         }
+//         else if (to.path.split('/')[1].includes('signPage')) {
+//             next('/')
+//         }
+//         else {
+//             next({ name: 'ErrorPage' })
+//         }
+//     }
+//     else {
+//         if (to.path.includes(`/signPage`) || to.path.includes(`/homePage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/ImpactHeading`) || to.path.includes(`/BoycottWrapper`)) {
+//             next()
+//         }
+//         else {
+//             if (to.path !== '/') {
+//                 next('/'); // Redirect to home page for any other route
+//             } else {
+//                 next('/signPage'); // If already on home, do nothing
+//             }
+//         }
+//     }
+// })
 
 initializeApp(firebaseConfig);
 checkForUser().then(() => {
