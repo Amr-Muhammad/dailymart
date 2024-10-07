@@ -22,6 +22,7 @@
                             <!-- <p class="text-gray-500 font-semibold">Address: 123 Elm St, City{{ ordr }}</p> -->
                             <p class="text-gray-500 font-semibold">Total Items: {{ orderValue.items ?
                                 Object.values(orderValue.items).length : '' }}</p>
+
                         </div>
 
                         <div class="xl:flex flex-wrap justify-between items-center">

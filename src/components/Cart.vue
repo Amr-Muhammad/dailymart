@@ -260,15 +260,22 @@ export default {
 
 
         const cart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}.json`)).data
+
         let cartArray = []
         for (let i = 0; i < Object.entries(cart).length; i++) {
-          cartArray.push(Object.entries(cart)[i][1]);
+          cartArray.push(Object.entries(cart)[i][1])
         }
+        // console.log(userResponse);
 
         const user = {
+          // name: userResponse.data.firstName + ' ' + userResponse.data.lastName,
+          // email: userResponse.data.email
           name: this.loggedUserData.firstName + ' ' + this.loggedUserData.lastName,
           email: this.loggedUserData.email
         };
+        console.log(user);
+        console.log(cartArray);
+
 
 
 
@@ -291,12 +298,14 @@ export default {
 
         const { error } = await this.stripe.redirectToCheckout({ sessionId: sessionId });
 
+
         if (error) {
           console.error('Error redirecting to checkout:', error);
         }
       } catch (error) {
         console.error('Error during checkout process:', error);
       }
+
     },
 
     getUserLocation() {

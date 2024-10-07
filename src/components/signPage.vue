@@ -606,6 +606,8 @@ export default {
                 try {
                     const usersRes = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/delivery.json');
                     const usersData = usersRes.data || {};
+                    console.log(usersData);
+
                     let loggedUser = Object.entries(usersData).find(user => user[1].email.toLowerCase() == this.email.toLowerCase() && user[1].password.toLowerCase() == this.password.toLowerCase());
                     if (loggedUser) {
                         this.$store.dispatch('setUserData', loggedUser)

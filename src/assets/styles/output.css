@@ -4772,10 +4772,6 @@ input.tab:checked + .tab-content,
   margin-inline-end: 2rem;
 }
 
-.me-auto {
-  margin-inline-end: auto;
-}
-
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -4810,6 +4806,10 @@ input.tab:checked + .tab-content,
 
 .ms-5 {
   margin-inline-start: 1.25rem;
+}
+
+.ms-7 {
+  margin-inline-start: 1.75rem;
 }
 
 .ms-auto {
@@ -7467,6 +7467,10 @@ input.tab:checked + .tab-content,
     padding-right: 1.5rem;
   }
 
+  .sm\:text-start {
+    text-align: start;
+  }
+
   .sm\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
@@ -7751,6 +7755,10 @@ input.tab:checked + .tab-content,
 
   .lg\:mt-6 {
     margin-top: 1.5rem;
+  }
+
+  .lg\:block {
+    display: block;
   }
 
   .lg\:size-28 {
