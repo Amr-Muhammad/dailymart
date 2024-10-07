@@ -100,7 +100,7 @@ export default {
        message: this.message,
      };
      
-     emailjs.send('service_sv28lvr', 'template_9uovei9', templateParams)
+     emailjs.send('service_g4avpxe', 'template_9uovei9', templateParams)
      .then(response => {
        console.log('SUCCESS!', response.status, response.text);
 
@@ -113,6 +113,7 @@ export default {
        console.log('FAILED...', error);
      });
    },
+   
  },
 };
 </script>

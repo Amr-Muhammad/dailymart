@@ -41,6 +41,8 @@ import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import AdminAccount from './components/adminAccount.vue';
 import CardCharts from './components/AdminCrdsCharts.vue'
 import AdminChartsDashboard from './components/AdminDashboard.vue'
+import OtpPage from './components/OtpPage.vue'
+import ResetPassword from './components/ResetPassword.vue'; 
 
 
 
@@ -143,7 +145,8 @@ const routes = [
     { path: '/BoycottWrapper', component: BoycottWrapper }, //wrapper anyone
     { path: '/PlansWrapperComponent', component: PlansWrapperComponent }, //wrapper anyone
     { path: '/EmailGetHelp', component: EmailGetHelp }, //wrapper
-
+    { path: '/otp/:otp', name: 'OtpPage', component: OtpPage },
+    { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
     // { path: '/AdminForm', component: AdminForm },
     // { path: '/AdminListItem', component: AdminListItem },
 
