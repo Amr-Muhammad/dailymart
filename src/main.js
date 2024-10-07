@@ -64,9 +64,12 @@ const firebaseConfig = {
 };
 
 async function checkForUser() {
-    if (localStorage.getItem('userId') && localStorage.getItem('role')) {
+    if (localStorage.getItem('userId') != null && localStorage.getItem('role') != 'visitor') {
         let userId = localStorage.getItem('userId')
         let role = localStorage.getItem('role')
+        console.log(userId);
+        console.log(role);
+
         let userData = await service.methods.getLoggedUser(userId, role)
 
         if (!userData.profilePicture) {
@@ -84,6 +87,7 @@ async function checkForUser() {
 
     }
     else {
+        await store.dispatch('setUserData', [null, { role: 'visitor' }])
         store.state.isDataLoading = false
     }
 }

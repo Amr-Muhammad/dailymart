@@ -33,7 +33,8 @@
 
             <div v-else-if="loggedUserId" class="userIcons">
                 <div class="cart-wishlist-wOrders me-5 flex gap-3">
-                    <router-link class="notHveActive" :to="loggedUserData.planid ? '/useraccount/weeklyorders' : '/PlansWrapperComponent'">
+                    <router-link class="notHveActive"
+                        :to="loggedUserData.planid ? '/useraccount/weeklyorders' : '/PlansWrapperComponent'">
                         <img title="Weekly Orders" class="w-6 filter invert grayscale brightness-0"
                             src="../assets/weeklyOrders.png" />
                     </router-link>
@@ -58,11 +59,12 @@
                         class="absolute right-0 z-10 w-48 mt-2 bg-white rounded-md shadow-lg">
                         <div class="py-1 flex flex-col" role="menu" aria-orientation="vertical"
                             aria-labelledby="options-menu">
-                            <router-link @click="isDropdownOpen = !isDropdownOpen" to="/useraccount"
+                            <router-link v-if="loggedUserData.role == 'customer'"
+                                @click="isDropdownOpen = !isDropdownOpen" to="/useraccount"
                                 class="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                                 User Account
                             </router-link>
-                            <button @click="logOut()"
+                            <button v-if="loggedUserData.role != 'visitor'" @click="logOut()"
                                 class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 role="menuitem">
                                 Logout

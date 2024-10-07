@@ -4,7 +4,7 @@
 
         <div class="flex flex-wrap justify-between rounded-2xl">
 
-            <leftSection class="md:w-2/12 py-8 px-4 bg-[#598369]">
+            <leftSection class="md:w-2/12 py-8 px-4 bg-[#598369] flex-grow">
                 <h1 class="font-bold text-center text-white text-xl">Account Management</h1>
                 <hr class="my-4 border">
                 <ul class="flex gap-7 md:block mb-5 md:mb-0">
@@ -31,8 +31,8 @@
                 </ul>
             </leftSection>
 
-            <rightSection class="md:w-10/12">
-                <div class="ms-7 bg-white py-14 shadow-x">
+            <rightSection class="md:w-10/12 flex-grow">
+                <div class="md:ms-7 bg-white py-14 shadow-x mx-auto">
                     <router-view></router-view>
                 </div>
                 <!-- <router-view v-slot="{ Component }">

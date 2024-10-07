@@ -4626,10 +4626,6 @@ input.tab:checked + .tab-content,
   margin: 2.5rem;
 }
 
-.m-14 {
-  margin: 3.5rem;
-}
-
 .mx-10 {
   margin-left: 2.5rem;
   margin-right: 2.5rem;
@@ -4780,10 +4776,6 @@ input.tab:checked + .tab-content,
   margin-inline-end: auto;
 }
 
-.ml-2 {
-  margin-left: 0.5rem;
-}
-
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -4818,10 +4810,6 @@ input.tab:checked + .tab-content,
 
 .ms-5 {
   margin-inline-start: 1.25rem;
-}
-
-.ms-7 {
-  margin-inline-start: 1.75rem;
 }
 
 .ms-auto {
@@ -4977,8 +4965,8 @@ input.tab:checked + .tab-content,
   height: 4rem;
 }
 
-.h-24 {
-  height: 6rem;
+.h-20 {
+  height: 5rem;
 }
 
 .h-28 {
@@ -5093,6 +5081,10 @@ input.tab:checked + .tab-content,
   min-height: 100vh;
 }
 
+.w-1\/12 {
+  width: 8.333333%;
+}
+
 .w-1\/2 {
   width: 50%;
 }
@@ -5131,10 +5123,6 @@ input.tab:checked + .tab-content,
 
 .w-20 {
   width: 5rem;
-}
-
-.w-24 {
-  width: 6rem;
 }
 
 .w-28 {
@@ -5404,6 +5392,11 @@ input.tab:checked + .tab-content,
 
 .translate-x-\[800px\] {
   --tw-translate-x: 800px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.translate-y-1\/2 {
+  --tw-translate-y: 50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -5844,6 +5837,11 @@ input.tab:checked + .tab-content,
   background-color: rgb(89 131 105 / var(--tw-bg-opacity));
 }
 
+.bg-\[\#8a916d\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(138 145 109 / var(--tw-bg-opacity));
+}
+
 .bg-\[\#DAFFDA\] {
   --tw-bg-opacity: 1;
   background-color: rgb(218 255 218 / var(--tw-bg-opacity));
@@ -5899,16 +5897,6 @@ input.tab:checked + .tab-content,
 .bg-blue-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(219 234 254 / var(--tw-bg-opacity));
-}
-
-.bg-blue-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
-}
-
-.bg-emerald-950 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(2 44 34 / var(--tw-bg-opacity));
 }
 
 .bg-gray-100 {
@@ -6066,6 +6054,10 @@ input.tab:checked + .tab-content,
 
 .bg-opacity-60 {
   --tw-bg-opacity: 0.6;
+}
+
+.bg-opacity-90 {
+  --tw-bg-opacity: 0.9;
 }
 
 .bg-cover {
@@ -6774,6 +6766,10 @@ input.tab:checked + .tab-content,
   color: rgb(113 113 122 / var(--tw-text-opacity));
 }
 
+.underline {
+  text-decoration-line: underline;
+}
+
 .opacity-0 {
   opacity: 0;
 }
@@ -7198,16 +7194,6 @@ input.tab:checked + .tab-content,
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-blue-600:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-emerald-800:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(6 95 70 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-emerald-950:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(2 44 34 / var(--tw-bg-opacity));
@@ -7519,6 +7505,10 @@ input.tab:checked + .tab-content,
     margin-right: 2.5rem;
   }
 
+  .md\:ms-7 {
+    margin-inline-start: 1.75rem;
+  }
+
   .md\:mt-0 {
     margin-top: 0px;
   }
@@ -7577,10 +7567,6 @@ input.tab:checked + .tab-content,
 
   .md\:w-\[560px\] {
     width: 560px;
-  }
-
-  .md\:w-8\/12 {
-    width: 66.666667%;
   }
 
   .md\:-translate-y-1\/2 {
@@ -7759,12 +7745,12 @@ input.tab:checked + .tab-content,
     margin-inline-start: 3rem;
   }
 
-  .lg\:mt-6 {
-    margin-top: 1.5rem;
+  .lg\:ms-7 {
+    margin-inline-start: 1.75rem;
   }
 
-  .lg\:block {
-    display: block;
+  .lg\:mt-6 {
+    margin-top: 1.5rem;
   }
 
   .lg\:size-28 {
@@ -7784,6 +7770,14 @@ input.tab:checked + .tab-content,
     width: 20%;
   }
 
+  .lg\:w-10\/12 {
+    width: 83.333333%;
+  }
+
+  .lg\:w-2\/12 {
+    width: 16.666667%;
+  }
+
   .lg\:w-3\/12 {
     width: 25%;
   }
@@ -7794,14 +7788,6 @@ input.tab:checked + .tab-content,
 
   .lg\:w-9\/12 {
     width: 75%;
-  }
-
-  .lg\:w-10\/12 {
-    width: 83.333333%;
-  }
-
-  .lg\:w-2\/12 {
-    width: 16.666667%;
   }
 
   .lg\:flex-1 {

@@ -1,8 +1,8 @@
 <template>
 
     <div>
-        <div class="container mx-auto px-5">
-            <div class="flex justify-between">
+        <div class="container mx-auto py-10 px-5">
+            <!-- <div class="flex justify-between">
 
                 <div class="breadcrumbs text-sm">
                     <ul>
@@ -18,9 +18,10 @@
                     </p>
                 </div>
 
-            </div>
+            </div> -->
 
-            <div class="flex mt-16 flex-wrap justify-center">
+            <div class="flex flex-wrap justify-center">
+
                 <leftSection class="lg:w-2/12 py-8 px-4 bg-[#598369]">
                     <h1 class="font-bold text-center text-white text-xl">Manage My Account</h1>
                     <hr class="my-4 border">
@@ -42,10 +43,11 @@
                 </leftSection>
 
                 <rightSection class="lg:w-10/12 w-full shadow-2xl">
-                    <div class="ms-7 bg-white py-14 shadow-x">
+                    <div class="lg:ms-7 bg-white py-14 shadow-x">
                         <router-view></router-view>
                     </div>
                 </rightSection>
+
             </div>
         </div>
 
