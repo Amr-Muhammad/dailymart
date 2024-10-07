@@ -6131,6 +6131,7 @@ input.tab:checked + .tab-content,
 
 .p-14 {
   padding: 3.5rem;
+}
 .p-16 {
   padding: 4rem;
 }
@@ -7565,20 +7566,6 @@ input.tab:checked + .tab-content,
     display: flex;
   }
 
-<<<<<<< HEAD
-=======
-  .md\:hidden {
-    display: none;
-  }
-
-  .md\:max-h-full {
-    max-height: 100%;
-  }
-  .md\:h-full {
-    height: 100%;
-  }
-
->>>>>>> 0a3eaeff68e0654dba0d28cc62e2178ad9375359
   .md\:w-1\/2 {
     width: 50%;
   }
@@ -7668,8 +7655,6 @@ input.tab:checked + .tab-content,
     gap: 1.25rem;
   }
 
-<<<<<<< HEAD
-=======
   .md\:overflow-y-visible {
     overflow-y: visible;
   }
@@ -7684,7 +7669,6 @@ input.tab:checked + .tab-content,
     padding-right: 8rem;
   }
 
->>>>>>> 0a3eaeff68e0654dba0d28cc62e2178ad9375359
   .md\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
