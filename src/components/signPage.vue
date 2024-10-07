@@ -466,7 +466,8 @@ export default {
                     const usersData = usersRes.data || {};
                     let loggedUser = Object.entries(usersData).find(user => user[1].email.toLowerCase() == this.email.toLowerCase() && user[1].password.toLowerCase() == this.password.toLowerCase());
                     if (loggedUser) {
-                        this.$router.push('/adminaccount')
+                        this.$store.dispatch('setUserData', loggedUser)
+                        this.$router.push('/deliveryOrders')
                     }
                     else {
                         this.$refs.notExistMsg.classList.add("not-exist");

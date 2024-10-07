@@ -3,44 +3,59 @@
         <!-- Header -->
         <div class="bg-white shadow-lg p-6 mb-5 rounded-md flex justify-between items-center">
             <h1 class="text-2xl font-bold">Delivery Dashboard</h1>
-            <span class="text-lg font-medium text-gray-600">Pending Deliveries: 8</span>
+            <span class="text-lg font-medium text-gray-600">Pending Deliveries: {{ noOfOrders }}</span>
         </div>
 
-        <!-- Orders Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Order Card -->
-            <div class="bg-white shadow-md rounded-lg p-4">
-                <div class="mb-3">
-                    <h2 class="text-lg font-bold text-gray-700">Order #12345</h2>
-                    <p class="text-gray-500">Customer: John Doe</p>
-                    <p class="text-gray-500">Address: 123 Elm St, City</p>
-                    <p class="text-gray-500">Total Items: 5</p>
-                </div>
-                <div class="flex justify-between items-center">
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">View
-                        Details</button>
-                    <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">Pick
-                        to Deliver</button>
+        <div v-for="allUserOrder in allOrders" :key="allUserOrder[0]" class="flex flex-wrap p-2">
+            <div v-for="order in notDeliveredProducts" :key="order" class=" w-full md:w-4/12 lg:w-3/12 p-2">
+                <div v-for="([orderId, orderValue]) in Object.entries(order)" :key="orderId">
+                    <div class="bg-white shadow-md rounded-lg w-full p-4 relative">
+
+                        <div class="mb-3">
+                            <h2 class="text-lg font-bold text-gray-700">Order <span>#{{ orderId.slice(5, 12) }}</span>
+                            </h2>
+                            <p class="text-gray-500">Customer Name: {{ orderValue.customerName }}</p>
+                            <p class="text-gray-500">Address: 123 Elm St, City</p>
+                            <p class="text-gray-500">Total Items: {{ Object.values(orderValue.items).length }}</p>
+                        </div>
+
+                        <div class="xl:flex flex-wrap justify-between items-center">
+                            <router-link :to='`/deliveryOrderDetails/${allUserOrder[0]}/${orderId}`'>
+                                <button
+                                    class="bg-black xl:mb-0 mb-3 w-full text-white px-4 py-2 rounded-md hover:bg-gray-600 transition">View
+                                    Details</button>
+                            </router-link>
+
+                            <div v-if="orderValue.status != 'Delivered'">
+                                <button v-if="orderValue.status == 'Processing'"
+                                    @click="onDelivery(allUserOrder[0], orderId)"
+                                    class="bg-[#166534] w-full text-white px-4 py-2 rounded-md hover:bg-[#166534b2] transition">
+                                    Pick to Deliver
+                                </button>
+
+                                <button
+                                    v-if="orderValue.status == 'On Delivery' && orderValue.beingDelivered == loggedUserId"
+                                    class="bg-orange-600 w-full text-white px-4 py-2 rounded-md hover:bg-orange-800 transition"
+                                    @click="markAsDelivered(allUserOrder[0], orderId)">Set as
+                                    delivered?</button>
+
+                                <template
+                                    v-if="orderValue.status == 'On Delivery' && orderValue.beingDelivered != loggedUserId">
+                                    <button
+                                        class="bg-orange-600 w-full text-white px-4 py-2 rounded-md hover:bg-orange-800 transition">
+                                        Being Delivered
+                                    </button>
+
+                                </template>
+                            </div>
+                        </div>
+
+                        <div v-if="orderValue.beingDelivered != loggedUserId && loggedUserData.status == 'busy'"
+                            class="flyer absolute bg-black bg-opacity-50 w-full h-full top-0 left-0"></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Another Order Card (Duplicate for multiple orders) -->
-            <div class="bg-white shadow-md rounded-lg p-4">
-                <div class="mb-3">
-                    <h2 class="text-lg font-bold text-gray-700">Order #12346</h2>
-                    <p class="text-gray-500">Customer: Jane Smith</p>
-                    <p class="text-gray-500">Address: 789 Pine St, City</p>
-                    <p class="text-gray-500">Total Items: 3</p>
-                </div>
-                <div class="flex justify-between items-center">
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">View
-                        Details</button>
-                    <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">Pick
-                        to Deliver</button>
-                </div>
-            </div>
-
-            <!-- Repeat Order Cards as needed -->
         </div>
 
     </div>
@@ -48,17 +63,80 @@
 
 <script>
 import service from '@/mixins/service';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { mapState } from 'vuex';
 
 export default {
     data() {
         return {
-
+            allOrders: null,
+            noOfOrders: null,
+            notDeliveredProducts: [],
         }
     },
+    computed: {
+        ...mapState(['loggedUserId', 'loggedUserData'])
+    },
     methods: {
-        getAllOrders() {
-            service.methods
+        async getAllOrders() {
+            this.allOrders = await service.methods.getDeliveryOrders()
+            this.allOrders = Object.entries(this.allOrders)
+            this.allOrders.forEach(([, userOrders]) => Object.entries(userOrders).forEach(([orderId, order]) => order.status != 'Delivered' ? this.notDeliveredProducts.push({ [orderId]: order }) : ''))
+            this.noOfOrders = this.notDeliveredProducts.length
+        },
+        async onDelivery(userId, orderId) {
+            try {
+                console.log(userId);
+                console.log(orderId);
+
+
+                // Order status becomes on delivery , picked by who? , beingDelivered: deliveryId
+                await service.methods.updateOrderStatus(userId, orderId, 'On Delivery', this.loggedUserData.firstName + ' ' + this.loggedUserData.lastName, this.loggedUserId);
+                // Delivery becomes Busy
+                (await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/delivery/${this.loggedUserId}.json`, { status: 'busy' })).data
+            }
+            catch (err) {
+                console.log(err);
+            }
+            finally {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Delivery Assigned!',
+                    text: 'You have successfully picked the delivery. Please proceed to deliver it to the customer.',
+                    confirmButtonText: 'OK',
+                    timerProgressBar: true,
+                    timer: 3000
+                });
+                // location.reload()
+            }
+        },
+        async markAsDelivered(userId, orderId) {
+            try {
+                // Order status becomes Delivered , picked by who? , beingDelivered: deliveryId
+                // Delivery becomes Free
+
+                console.log(await service.methods.updateOrderStatus(userId, orderId, 'Delivered', this.loggedUserData.firstName + ' ' + this.loggedUserData.lastName, this.loggedUserId));
+                (await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/delivery/${this.loggedUserId}.json`, { status: 'free' })).data;
+            }
+            catch (err) {
+                console.log(err);
+            }
+            finally {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Great Job!',
+                    text: 'You have successfully delivered the package.',
+                    confirmButtonText: 'OK',
+                    timerProgressBar: true,
+                    timer: 3000
+                });
+                location.reload()
+            }
         }
+    },
+    mounted() {
+        this.getAllOrders()
     }
 }
 </script>

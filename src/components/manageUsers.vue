@@ -1,9 +1,10 @@
 <template>
     <div class="p-6">
         <h1 class="text-3xl font-bold text-gray-800 mb-12 text-center italic">Manage Users</h1>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 text-center">
-                <thead class="bg-gray-100 ">
+        <div class="w-full overflow-x-auto">
+            <table id="table" class="text-center w-full bg-white border">
+
+                <thead class="bg-slate-50 border">
                     <tr>
                         <th class="px-6  py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Name
                         </th>
@@ -21,8 +22,9 @@
                             Delete</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr v-for="user in users" :key="user[0]">
+
+                <tbody>
+                    <tr v-for="user in users" :key="user[0]" class="border">
 
                         <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ user[1].firstName + ' ' +
                             user[1].lastName
@@ -77,6 +79,7 @@
 
                     </tr>
                 </tbody>
+
             </table>
         </div>
     </div>
@@ -118,6 +121,4 @@ export default {
 };
 </script>
 
-<style>
-/* Add your styles here */
-</style>
+<style scoped></style>

@@ -103,7 +103,7 @@ export default {
             nextFriday.setHours(23, 59, 59, 999) // Set the time to 11:59:59 PM
             return nextFriday;
         },
-        
+
         async ordered(productId, noOfOrders) {
             await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`, noOfOrders)
         },
@@ -130,14 +130,16 @@ export default {
             return (await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/.json`, product)).data
         },
 
-        
         // delivery
         async getDeliveryOrders() {
             return (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/orders.json`)).data
-        }
-    },
+        },
+        async getSpeificDeliveryOrder(userId, orderId) {
+            return (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/orders/${userId}/${orderId}.json`)).data
+        },
+        async updateOrderStatus(userId, orderId, orderStatus, deliveryUserName,deliveryId) {
+            return (await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/orders/${userId}/${orderId}.json`, { status: orderStatus, pickedBy: deliveryUserName, beingDelivered: deliveryId })).data
+        },
 
-    // computed: {
-    //     ...mapState(['loggedUserData'])
-    // }
+    },
 }

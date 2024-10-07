@@ -97,7 +97,7 @@ export default {
             horizontal: false,
             columnWidth: '60%',
             endingShape: 'rounded',
-            borderRadius: 5, // Adjust the roundness
+            borderRadius: 2, // Adjust the roundness
             borderRadiusApplication: 'around', // Adjusts the corners of the bar
             // borderRadiusWhenStacked: 'all', // Customizes rounding for stacked bars
             barHeight: 'full',
@@ -115,6 +115,7 @@ export default {
         xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] },
 
         colors: ['#28a745', '#007bff', '#ff4d4d'],
+        // colors: ['#28a745', '#ff4d4d', '#007bff'],
 
         responsive: [
           {
