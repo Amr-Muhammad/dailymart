@@ -58,38 +58,47 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 
           await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/profits/${monthNames[monthIndex]}.json`, { salesRevenue: oldSalesRevenue + session.amount_total / 100 })
 
+          let deliveryAddresses = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}/deliveryAddresses.json`)).data
+          let customerAddress = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}/address.json`)).data.location
 
-          await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, {
-            deliveryAddress: session.metadata.location
-          })
+          if (customerAddress != session.metadata.location) {
+            if (deliveryAddresses == null) {
+              deliveryAddresses = []
+            }
 
-          //a5od el cart mn el destruct bta3 el body w ab3to fi el meta data w a5do mn hnak
-          // async function updateCartAvailability(cartAvailabitiy) {
-          //   let updatePromises = cartAvailabitiy.map((item) => {
-          //     return axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${item}.json`, {
-          //       availability: item
-          //     })
-          //       .then(res => {
-          //         return res
-          //       })
-          //       .catch(err => {
-          //         console.log(err);
-          //       });
-          //   });
+            deliveryAddresses.push(session.metadata.location)
+            deliveryAddresses = [...new Set(deliveryAddresses)]
 
-          //   try {
-          //     await Promise.all(updatePromises)
-          //   }
-          //   catch (err) {
-          //     console.log(err);
-          //   }
-          // }
-
-          // updateCartAvailability(cartAvailabitiy)
+            await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, {
+              deliveryAddresses: deliveryAddresses
+            })
+          }
 
 
 
+          // a5od el cart mn el destruct bta3 el body w ab3to fi el meta data w a5do mn hnak
+          async function updateCartAvailability(cartAvailabitiy) {
+            let updatePromises = cartAvailabitiy.map((item) => {
+              return axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${item}.json`, {
+                availability: item
+              })
+                .then(res => {
+                  return res
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+            });
 
+            try {
+              await Promise.all(updatePromises)
+            }
+            catch (err) {
+              console.log(err);
+            }
+          }
+
+          updateCartAvailability(cartAvailabitiy)
 
 
         } else {

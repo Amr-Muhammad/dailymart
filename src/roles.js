@@ -29,4 +29,15 @@ export default {
             '/deliveryOrderDetails',
         ]
     },
+    visitor: {
+        canAccess: [
+            '/',
+            '/homePage',
+            '/PlansWrapperComponent',
+            '/ImpactHeading',
+            '/BoycottWrapper',
+            '/signPage',
+            '/CategroyPage',
+        ]
+    },
 }

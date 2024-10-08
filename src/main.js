@@ -189,7 +189,7 @@ const router = createRouter({
 //         // + (to.path.split('/')[2] ? `/${to.path.split('/')[2]}` : '')
 //         if (allowedRoutes.includes('/' + to.path.split('/')[1])) {
 //             next()
-//         }
+//         }   
 //         else if (to.path.split('/')[1].includes('signPage')) {
 //             next('/')
 //         }

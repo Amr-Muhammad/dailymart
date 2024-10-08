@@ -64,66 +64,109 @@
   </div>
 
   <div v-if="checkoutPopup" class="fixed bottom-0 h-screen left-0 right-0 z-50 bg-gray-500 top-0 bg-opacity-90">
-    <div class="p-10 shadow w-1/2 mx-auto translate-y-1/2 bg-white rounded-lg">
+    <div class="p-10 pb-5 shadow w-5/12 mx-auto translate-y-1/2 bg-white rounded-lg">
+
 
       <h1 class="text-center text-3xl font-semibold mb-10">Verify your shipping address</h1>
 
-      <div v-if="addressFlag">
+      <!-- If user has previous address show it in select option -->
+      <div v-if="(loggedUserData.address.location || loggedUserData.deliveryAddresses) && !addNewAddressFlag"
+        class="mb-5">
 
-        <label class="ms-2 font-semibold">Address</label>
+        <div class="select-add-wrapper flex justify-between">
+          <div class="select_option">
 
-        <div class="flex flex-wrap mt-2">
+            <select v-model="selectValue" class="select select-success w-full max-w-xs">
+              <option disabled selected>Select your shipping address</option>
 
-          <input v-model="address.location" class="w-8/12 border px-5 py-2 rounded-md" placeholder="Address" type="text"
-            name="" id="">
+              <template v-if="loggedUserData.address.location">
+                <option :value="loggedUserData.address.location">{{ loggedUserData.address.location }}</option>
+              </template>
 
-          <div class="w-1/12"></div>
+              <template v-if="loggedUserData.deliveryAddresses">
+                <option v-for="address in loggedUserData.deliveryAddresses " :key="address" :value="address">{{ address
+                  }}
+                </option>
+              </template>
+            </select>
+          </div>
 
-          <button @click="validateAdress()" class="w-3/12 mainGreenBtn">Validate</button>
+          <div @click="addNewAddressFlag = true">
+            <button class="mainGreenBtn">Add New Address +</button>
+          </div>
+        </div>
+
+        <div>
+          <button v-if="!selectValue.includes('Select')" @click="handleCheckout(true)"
+            class="mainGreenBtn block mx-auto mt-8">Proceed To
+            Checkout</button>
         </div>
       </div>
 
+      <!-- Add New Address -->
+      <div v-if="addNewAddressFlag || (!loggedUserData.address.location && !loggedUserData.deliveryAddresses)">
+        <div v-if="addressFlag">
 
-      <span v-if="addressErrMessage" class="error-msg  text-[6px] text-sm text-red-700">{{
-        addressErrMessage }}</span>
+          <label class="ms-2 font-semibold">What is your shipping address?</label>
 
-      <div v-if="addressFlag" class="btn_container flex justify-center text-white mt-5">
-        <button @click="getUserLocation()" type="button"
-          class="flex items-center px-8 py-2 bg-[#8a916d] rounded-md hover:bg-white hover:text-black transition-all duration-200 hover:outline hover:outline-1 text-sm justify-center">
-          <span>
-            <svg fill="#fff" width="25px" height="25px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
-                <path
-                  d="M49,18.92A23.74,23.74,0,0,0,25.27,42.77c0,16.48,17,31.59,22.23,35.59a2.45,2.45,0,0,0,3.12,0c5.24-4.12,22.1-19.11,22.1-35.59A23.74,23.74,0,0,0,49,18.92Zm0,33.71a10,10,0,1,1,10-10A10,10,0,0,1,49,52.63Z">
-                </path>
-              </g>
-            </svg>
-          </span>
-          <span>Share My Location Instead</span>
-        </button>
+          <div class="flex flex-wrap mt-2">
+
+            <input v-model="address.location" class="w-8/12 border px-5 py-2 rounded-md"
+              placeholder="Enter your shipping address" type="text" name="" id="">
+
+            <div class="w-1/12"></div>
+
+            <button @click="validateAdress()" class="w-3/12 mainGreenBtn">Validate</button>
+          </div>
+        </div>
+
+        <span v-if="addressErrMessage" class="error-msg  text-[6px] text-sm text-red-700">{{
+          addressErrMessage }}</span>
+
+
+        <div v-if="addressFlag" class="btn_container flex justify-center text-white mt-5 flex-col gap-3">
+          <!-- Get Live user Location -->
+          <button @click="getUserLocation()" type="button"
+            class="flex items-center px-8 py-2 bg-[#DB4444] rounded-md hover:bg-white hover:text-black transition-all duration-200 hover:outline hover:outline-1 text-sm justify-center">
+            <span>
+              <svg fill="#fff" width="25px" height="25px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M49,18.92A23.74,23.74,0,0,0,25.27,42.77c0,16.48,17,31.59,22.23,35.59a2.45,2.45,0,0,0,3.12,0c5.24-4.12,22.1-19.11,22.1-35.59A23.74,23.74,0,0,0,49,18.92Zm0,33.71a10,10,0,1,1,10-10A10,10,0,0,1,49,52.63Z">
+                  </path>
+                </g>
+              </svg>
+            </span>
+            <span>Share My Location Instead</span>
+          </button>
+
+          <!-- Toggle back select address -->
+          <button class="mainPinkBtn" @click="addNewAddressFlag = false">User Previous Address</button>
+        </div>
+
+        <div v-if="!addressFlag" class="flex items-center gap-2 justify-center">
+          <svg class="text-green-500" fill="text-green-500" width="25px" height="25px" viewBox="0 0 200 200"
+            data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)"
+            stroke="#166534">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+            </g>
+            <g id="SVGRepo_iconCarrier">
+              <title></title>
+              <path
+                d="M100,15a85,85,0,1,0,85,85A84.93,84.93,0,0,0,100,15Zm0,150a65,65,0,1,1,65-65A64.87,64.87,0,0,1,100,165Zm25-91.5-29,35L76,94c-4.5-3.5-10.5-2.5-14,2s-2.5,10.5,2,14c6,4.5,12.5,9,18.5,13.5,4.5,3,8.5,7.5,14,8,1.5,0,3.5,0,5-1l3-3,22.5-27c4-5,8-9.5,12-14.5,3-4,4-9,.5-13L138,71.5c-3.5-2.5-9.5-2-13,2Z">
+              </path>
+            </g>
+          </svg>
+          <p class="font-semibold">Your address has been saved</p>
+        </div>
+
+        <!-- Checkout -->
+        <button v-if="!addressFlag" @click="handleCheckout(false)" class="mainGreenBtn block mx-auto mt-5">Proceed To
+          Checkout</button>
       </div>
-
-
-      <div v-if="!addressFlag" class="flex items-center gap-2 justify-center">
-        <svg class="text-green-500" fill="text-green-500" width="25px" height="25px" viewBox="0 0 200 200"
-          data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)"
-          stroke="#166534">
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-          </g>
-          <g id="SVGRepo_iconCarrier">
-            <title></title>
-            <path
-              d="M100,15a85,85,0,1,0,85,85A84.93,84.93,0,0,0,100,15Zm0,150a65,65,0,1,1,65-65A64.87,64.87,0,0,1,100,165Zm25-91.5-29,35L76,94c-4.5-3.5-10.5-2.5-14,2s-2.5,10.5,2,14c6,4.5,12.5,9,18.5,13.5,4.5,3,8.5,7.5,14,8,1.5,0,3.5,0,5-1l3-3,22.5-27c4-5,8-9.5,12-14.5,3-4,4-9,.5-13L138,71.5c-3.5-2.5-9.5-2-13,2Z">
-            </path>
-          </g>
-        </svg>
-        <p class="font-semibold">Your address has been saved</p>
-      </div>
-      <button v-if="!addressFlag" @click="handleCheckout()" class="mainGreenBtn block mx-auto mt-5">Proceed To
-        Checkout</button>
 
 
     </div>
@@ -162,9 +205,12 @@ export default {
       storeLat: 30.039328,
       storeLong: 30.978202,
       distance: null,
-      deliveryCharge: 0
+      deliveryCharge: 0,
+      addNewAddressFlag: false,
+      selectValue: 'Select your shipping address',
     }
   },
+
   computed: {
     ...mapState(['loggedUserId', 'loggedUserData'])
   },
@@ -233,6 +279,7 @@ export default {
         }
       }
     },
+    
     async deleteItem(productId) {
 
       try {
@@ -255,9 +302,12 @@ export default {
 
     },
 
-    async handleCheckout() {
+    async handleCheckout(prevAddress) {
       try {
 
+        if (prevAddress) {
+          this.address.location = this.selectValue
+        }
 
         const cart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}.json`)).data
 
@@ -265,19 +315,12 @@ export default {
         for (let i = 0; i < Object.entries(cart).length; i++) {
           cartArray.push(Object.entries(cart)[i][1])
         }
-        // console.log(userResponse);
+
 
         const user = {
-          // name: userResponse.data.firstName + ' ' + userResponse.data.lastName,
-          // email: userResponse.data.email
           name: this.loggedUserData.firstName + ' ' + this.loggedUserData.lastName,
           email: this.loggedUserData.email
         };
-        console.log(user);
-        console.log(cartArray);
-
-
-
 
         //hyrg3ly hena array fih qyam el availability elly fi el back end fi webhook el success h loop 3lehom b patch request- ab3d el array da m3 el post request
         // let productsAvailability = []
@@ -308,6 +351,7 @@ export default {
 
     },
 
+    // Customer share location
     getUserLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -331,8 +375,8 @@ export default {
               this.addressFlag = false
             }
           },
-          err => {
-            console.log(err);
+          () => {
+            alert('Enable accessing your location')
           }
         )
       }
@@ -341,6 +385,7 @@ export default {
       }
     },
 
+    // Validate el customer entered address
     async validateAdress() {
       let res = (await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(this.address.location)}&key=3199d0b4fb7e4184b017cfade26c7298`)).data
       console.log(res);
@@ -359,7 +404,6 @@ export default {
           this.addressFlag = false
           this.addressErrMessage = null
         }
-
 
       } else {
         this.addressErrMessage = 'Enter a valid address'
@@ -383,15 +427,15 @@ export default {
 
     calculateDeliveryCharge(distance) {
       if (distance <= 5) {
-        return 50;
+        return 30;
       } else if (distance <= 10) {
-        return 75;
+        return 50;
       } else if (distance <= 15) {
-        return 100;
+        return 70;
       } else if (distance <= 20) {
-        return 125
+        return 90
       } else if (distance <= 25) {
-        return 150
+        return 100
       }
       // else {
       //   // return 15 + (distance - 15) * 0.5; // Extra charge per km after 15 km
