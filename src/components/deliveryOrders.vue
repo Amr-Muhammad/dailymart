@@ -6,29 +6,36 @@
             <span class="text-lg font-medium text-gray-600">Pending Deliveries: {{ noOfOrders }}</span>
         </div>
 
-        <div v-for="allUserOrder in allOrders" :key="allUserOrder[0]" class="flex flex-wrap p-2">
-            <div v-for="order in notDeliveredProducts" :key="order" class=" w-full md:w-4/12 lg:w-3/12 p-2">
-                <div v-for="([orderId, orderValue]) in Object.entries(order)" :key="orderId">
+        <div v-for="[userId, userOrders] in allOrders" :key="userId" class="flex flex-wrap p-2">
+            <template v-for="[orderId, orderValue] in Object.entries(userOrders)" :key="orderId">
+                <div v-if="orderValue.status != 'Delivered'" class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 p-2">
                     <div class="bg-white shadow-md rounded-lg w-full p-4 relative">
 
                         <div class="mb-3">
-                            <h2 class="text-lg font-bold text-gray-700">Order <span>#{{ orderId.slice(5, 12) }}</span>
+                            <h2 class="text-lg font-bold text-gray-700">Order <span>#{{ orderId.slice(1, 7)
+                                    }}</span>
                             </h2>
-                            <p class="text-gray-500">Customer Name: {{ orderValue.customerName }}</p>
-                            <p class="text-gray-500">Address: 123 Elm St, City</p>
-                            <!-- <p class="text-gray-500">Total Items: {{ Object.values(orderValue.items).length }}</p> -->
+                            <p class="text-gray-500 font-semibold">Customer Name: {{
+                                orderValue.customerName.length > 10 ? orderValue.customerName.slice(0, 10) +'...':orderValue.customerName
+                                }}</p>
+                            <p v-if="orderValue.customerAddress" class="text-gray-500 font-semibold">Address: {{
+                                orderValue.customerAddress.length > 10 ? orderValue.customerAddress.slice(0, 25) + '...'
+                                    :
+                                orderValue.customerAddress }}</p>
+                            <p class="text-gray-500 font-semibold">Total Items: {{ orderValue.items ?
+                                Object.values(orderValue.items).length : '' }}</p>
+
                         </div>
 
                         <div class="xl:flex flex-wrap justify-between items-center">
-                            <router-link :to='`/deliveryOrderDetails/${allUserOrder[0]}/${orderId}`'>
+                            <router-link :to='`/deliveryOrderDetails/${userId}/${orderId}`'>
                                 <button
                                     class="bg-black xl:mb-0 mb-3 w-full text-white px-4 py-2 rounded-md hover:bg-gray-600 transition">View
                                     Details</button>
                             </router-link>
 
                             <div v-if="orderValue.status != 'Delivered'">
-                                <button v-if="orderValue.status == 'Processing'"
-                                    @click="onDelivery(allUserOrder[0], orderId)"
+                                <button v-if="orderValue.status == 'Processing'" @click="onDelivery(userId, orderId)"
                                     class="bg-[#166534] w-full text-white px-4 py-2 rounded-md hover:bg-[#166534b2] transition">
                                     Pick to Deliver
                                 </button>
@@ -36,7 +43,7 @@
                                 <button
                                     v-if="orderValue.status == 'On Delivery' && orderValue.beingDelivered == loggedUserId"
                                     class="bg-orange-600 w-full text-white px-4 py-2 rounded-md hover:bg-orange-800 transition"
-                                    @click="markAsDelivered(allUserOrder[0], orderId)">Set as
+                                    @click="markAsDelivered(userId, orderId)">Set as
                                     delivered?</button>
 
                                 <template
@@ -54,8 +61,14 @@
                             class="flyer absolute bg-black bg-opacity-50 w-full h-full top-0 left-0"></div>
                     </div>
                 </div>
-            </div>
 
+            </template>
+
+        </div>
+
+
+        <div v-for="item in key" :key="item">
+            {{ item }}
         </div>
 
     </div>
@@ -73,6 +86,8 @@ export default {
             allOrders: null,
             noOfOrders: null,
             notDeliveredProducts: [],
+            key: '',
+            value: ''
         }
     },
     computed: {
@@ -80,16 +95,14 @@ export default {
     },
     methods: {
         async getAllOrders() {
-            this.allOrders = await service.methods.getDeliveryOrders()
+            this.allOrders = await service.methods.getDeliveryOrders();
             this.allOrders = Object.entries(this.allOrders)
+
             this.allOrders.forEach(([, userOrders]) => Object.entries(userOrders).forEach(([orderId, order]) => order.status != 'Delivered' ? this.notDeliveredProducts.push({ [orderId]: order }) : ''))
             this.noOfOrders = this.notDeliveredProducts.length
         },
         async onDelivery(userId, orderId) {
             try {
-                console.log(userId);
-                console.log(orderId);
-
 
                 // Order status becomes on delivery , picked by who? , beingDelivered: deliveryId
                 await service.methods.updateOrderStatus(userId, orderId, 'On Delivery', this.loggedUserData.firstName + ' ' + this.loggedUserData.lastName, this.loggedUserId);
@@ -107,8 +120,7 @@ export default {
                     confirmButtonText: 'OK',
                     timerProgressBar: true,
                     timer: 3000
-                });
-                // location.reload()
+                }).then(() => location.reload())
             }
         },
         async markAsDelivered(userId, orderId) {
@@ -130,8 +142,7 @@ export default {
                     confirmButtonText: 'OK',
                     timerProgressBar: true,
                     timer: 3000
-                });
-                location.reload()
+                }).then(() => location.reload())
             }
         }
     },

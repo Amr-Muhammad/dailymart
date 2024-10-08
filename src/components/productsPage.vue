@@ -2,6 +2,14 @@
 
     <div class="container mx-auto">
 
+        <button ref="scrollBtn" class="scroll-btn fixed bottom-[30px] z-[9999] transition-[right] duration-[1.5s] rounded-full ">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
+            class="size-6 border border-black rounded-full p-[3px]">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+            </svg>
+
+        </button>
+
         <div class="products pt-10 mb-12 text-center">
 
             <!-- Products Search -->
@@ -13,7 +21,7 @@
 
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
 
-                    <p class="text-lg md:text-2xl font-bold text-stone-900 w-fit">Explore Our Categories</p>
+                    <p class="text-lg md:text-2xl font-bold text-stone-900 w-fit">Explore Our Products</p>
 
                     <div class="search-input relative lg:w-1/5 flex items-center justify-end md:mt-0 mt-5">
 
@@ -46,14 +54,13 @@
                         <div
                             class="card border rounded-md hover:scale-[1.01] transition-all hover:shadow-lg duration-300">
 
-                            <router-link :to="`/productdetail/${product[0]}`">
 
                                 <figure class="bg-stone-50 p-5 relative ">
 
                                     <div class="w-full flex justify-center relative">
                                         <img :src="product[1].image_url" alt="" class="w-1/2 h-[180px]" />
 
-                                        <div class="sideNav">
+                                        <div class="sideNav z-10" v-if="role == 'customer'">
 
                                             <div title="Add to Wishlist"
                                                 class="bg-white p-1 rounded-full flex items-center justify-center">
@@ -114,6 +121,9 @@
                                         </div>
                                     </div>
 
+                                    <router-link  v-if="role === 'customer'" :to="`/productdetail/${product[0]}`" class="absolute top-0 left-0 w-full h-full"></router-link>
+                                    <router-link  v-else :to="`/signPage`" class="absolute top-0 left-0 w-full h-full"></router-link>
+
                                 </figure>
 
                                 <div class="card-body p-5">
@@ -125,11 +135,11 @@
                                                 product[1].english_name
                                         }}</h2>
 
-                                    <h2 :title="product[1].description" class="card-title text-start text-sm">{{
-                                        product[1].description.length > 25 ?
-                                            product[1].description.slice(0, 25).split().join('') + '...' :
-                                            product[1].description
-                                    }}</h2>
+                                    <h2 :title="product[1].description" class="card-title text-start text-base">{{
+                                            product[1].description.length > 20 ?
+                                                product[1].description.slice(0, 20).split().join('') + '...' :
+                                                product[1].description
+                                        }}</h2>
 
                                     <div class="price flex gap-3">
                                         <div class="after text-lg text-red-500 font-bold">
@@ -160,11 +170,10 @@
                                     </div> -->
                                 </div>
 
-                            </router-link>
 
                             <div v-if="product[1].availability != 0"
-                                class="cart-btn group border w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
-                                <button @click="addToCart(product[0], product[1])"
+                                class="cart-btn group border z-10 w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
+                                <button v-if="role == 'customer'" @click="addToCart(product[0], product[1])"
                                     :disabled="clickedProducts[product[0]]"
                                     class="flex items-center justify-center gap-2 w-full p-2">
                                     <template v-if="clickedProducts[product[0]]">
@@ -198,9 +207,9 @@
 
                             <div v-if="product[1].availability == 0"
                                 class="cart-btn group border w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
-                                <button class="hover:text-white w-full p-2 flex items-center justify-center gap-2">
+                                <button class="bg-red-700 text-white opacity-[0.7] w-full p-2 flex items-center justify-center gap-2">
                                     <svg width="27px" height="27px" viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg" fill="#000000" class="whiteSvg">
+                                        xmlns="http://www.w3.org/2000/svg" fill="#ffffff" class="whiteSvg">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
                                         </g>
@@ -235,14 +244,14 @@
             </section>
 
             <!-- Pagination -->
-            <section class="join mt-10 rounded-none">
+            <!-- <section class="join mt-10 rounded-none">
                 <input class="join-item  pagination-btns" type="radio" name="options" aria-label="«" />
                 <input class="join-item pagination-btns" type="radio" name="options" aria-label="1" checked="checked" />
                 <input class="join-item  pagination-btns" type="radio" name="options" aria-label="2" />
                 <input class="join-item  pagination-btns" type="radio" name="options" aria-label="3" />
                 <input class="join-item  pagination-btns" type="radio" name="options" aria-label="4" />
                 <input class="join-item  pagination-btns" type="radio" name="options" aria-label="»" />
-            </section>
+            </section> -->
 
         </div>
 
@@ -264,7 +273,9 @@ export default {
             searchQueryProducts: '',
             subscribed: null,
             user: null,
-            clickedProducts: {}
+            clickedProducts: {},
+            role: localStorage.getItem('role'),
+            plan: ''
         }
     },
     computed: {
@@ -479,6 +490,23 @@ export default {
         this.categoryId = this.$route.params.id
         this.isUserSubscribed()
         this.getAllProducts()
+        const scrollBtn = this.$refs.scrollBtn;
+        if (scrollBtn) {
+            window.onscroll = () => {
+                if (window.scrollY >= 1500) {
+                    scrollBtn.style.right = "30px";
+                } else {
+                    scrollBtn.style.right = "-100px";
+                }
+            };
+
+            scrollBtn.addEventListener("click", () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+            });
+        }
     }
     ,
     watch: {
@@ -494,6 +522,11 @@ export default {
 </script>
 
 <style scoped>
+
+.scroll-btn {
+    right: 30px;
+}
+
 .card figure:hover .cart-btn {
     display: block
 }

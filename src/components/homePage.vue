@@ -1,11 +1,9 @@
 <template>
-    <div class="relative mt-[136px]">
+    <div class="relative -mt-[136px]">
 
-        <button ref="scrollBtn"
-            class="scroll-btn fixed bottom-[30px] z-[9999] transition-[right] duration-[1.5s] rounded-full hover:bg-[#DB4444]">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor"
-                class="size-6 border border-black rounded-full p-[3px] hover:stroke-white hover:border-[#DB4444]">
+        <button ref="scrollBtn" class="scroll-btn fixed bottom-[30px] z-[9999] transition-[right] duration-[1.5s] rounded-full ">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
+            class="size-6 border border-black rounded-full p-[3px]">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
             </svg>
 
@@ -14,24 +12,23 @@
         <section class="hero mb-16 h-screen">
 
             <div class="hero-sec bg-cover bg-center w-full h-full ">
+                
+                <div class="w-full h-full bg-[#0000008c] py-10 text-center flex flex-col justify-center items-center">
 
-                <div class="w-full h-full bg-[#ffffff3d] py-10 text-center">
+                        <h1 class="font-black mb-10 text-6xl lg:text-9xl text-white">DailyMart 
+                            <span class="block mt-1 md:mt-3 lg:mt-6 leading-none text-white text-[12px] lg:text-[18px] uppercase">
+                                Online Grocery & Snacks Marketplace</span></h1>
 
-                    <h1 class="font-black mb-10 text-4xl md:text-6xl lg:text-9xl text-[#084c3a]">DailyMart
-                        <span
-                            class="block mt-1 md:mt-3 lg:mt-6 leading-none text-[#084c3a] text-[8px] md:text-[13px] lg:text-[18px] uppercase">
-                            Online Grocery & Snacks Marketplace</span>
-                    </h1>
+                        <p class="w-9/12 lg:w-6/12 mx-auto text-base lg:text-xl font-bold text-slate-100">We're here to help you easily find
+                            unboycotted products.
+                            Make it simple and convenient to support the brands you believe in.</p>
 
-                    <p class="w-9/12 lg:w-6/12 mx-auto text-xs md:text-base lg:text-xl font-bold text-slate-800">We're
-                        here to help you easily find
-                        unboycotted products.
-                        Make it simple and convenient to support the brands you believe in.</p>
 
                     <button @click="$router.push('/CategroyPage')"
+
                         class="hero-btn btn lg:h-[60px] bg-[#DB4444] border-[#DB4444] px-24 md:px-32 mt-10 transition-all font-bold lg:text-3xl text-white hover:bg-[#084c3a] hover:border-[#084c3a] animate__animated animate__zoomIn">
                         Discover
-                    </button>
+                        </button>
 
                 </div>
 
@@ -39,7 +36,7 @@
 
         </section>
 
-        <section class="sale mx-auto p-16 mb-16 text-center container">
+        <section class="sale mx-auto bg-white p-10 lg:p-16 mb-16 text-center">
 
             <div class="head">
                 <h2>Exclusive Deals Await You</h2>
@@ -53,8 +50,7 @@
                     class="card bg-base-100 transition-all shadow-md hover:shadow-2xl relative">
 
 
-
-                    <div v-if="prd[0]">
+                    <div v-if="prd[0]" class="z-10">
 
                         <!-- <button title="Add To Wishlist" v-if="prd[1]" -->
                         <button title="Add To Wishlist" v-if="role == 'customer'"
@@ -91,23 +87,23 @@
 
                     </div>
 
-                    <router-link :to="`/productdetail/${prd[0]}`">
-                        <figure class="pt-3">
-                            <img :src="prd[1].image_url" alt="dailymart" class="w-1/2" />
-                        </figure>
-                    </router-link>
+                    <figure class="pt-3 relative">
+                        <router-link  v-if="role === 'customer'" :to="`/productdetail/${prd[0]}`" class="absolute top-0 left-0 w-full h-full"></router-link>
+                        <router-link  v-else :to="`/signPage`" class="absolute top-0 left-0 w-full h-full"></router-link>
+                        <img :src="prd[1].image_url" alt="dailymart" class="w-1/2" />
+                    </figure>
 
                     <div class="card-body items-center text-center py-3">
 
-                        <h2 class="card-title text-md">{{ prd[1].english_name }}</h2>
+                        <h2 class="card-title text-lg">{{ prd[1].english_name }}</h2>
 
-                        <p class="text-xs text-stone-500 ">{{ prd[1].description }}</p>
+                        <p class="text-base text-stone-600 ">{{ prd[1].description }}</p>
 
-                        <div class="rating rating-md relative">
-
-                            <input v-for="star in 5" :key="star" type="radio" name="rating-{{ index }}"
-                                :class="{ 'bg-orange-400': star <= allRates[index], 'bg-gray-300': star > allRates[index] }"
-                                class="mask mask-star-2" disabled />
+                        <div class="rating rating-md relative" >
+                            
+                            <input v-for="star in 5" :key="star" type="radio" name="rating-{{ index }}" 
+                            :class="{'bg-orange-400': star <= allRates[index], 'bg-gray-300': star > allRates[index]}" 
+                            class="mask mask-star-2" disabled />
 
                         </div>
 
@@ -127,10 +123,10 @@
                             <div
                                 class="before text-md absolute top-2 -left-10 before:content-[''] before:absolute before:bg-[#DB4444] before:block before:w-0.5 before:h-7 before:rotate-90 before:left-4 before:top-0">
 
-                                {{ prd[1].price }}
+                                    {{ prd[1].price }}
 
                                 <span class="text-xs font-normal">L.E</span>
-
+                                
                             </div>
 
                         </div>
@@ -138,7 +134,8 @@
                     </div>
 
                     <div v-if="prd[1]"
-                        class="cart-btn group border-t-2 z-5 border-t-[#2525257c] w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
+                        :class="{'border-t-2 z-5 border-t-[#2525257c]' : role == 'customer'}"
+                        class="cart-btn z-10 group w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
 
                         <button v-if="role == 'customer'" @click="addToCart(prd[0], prd[1])"
                             :disabled="clickedProducts[prd[0]]"
@@ -176,15 +173,22 @@
                 </div>
 
             </div>
+            
+            <!-- Skeleton -->
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 my-14 p-2" v-if="sortedPrdsOnSale == null">
+                <div v-for="item in 4" :key="item" class=" p-2">
+                    <div class="skeleton h-32 w-full"></div>
+                </div>
+            </section>
 
-            <button @click="$router.push('/offersPage')"
+            <button v-if="role == 'customer'" @click="$router.push('/offersPage')"
                 class="btn px-24 md:px-30 lg:text-xl transition-all font-bold text-white border-0 bg-[#DB4444] hover:bg-[#0A1E1E] hover:border-[#0A1E1E] animate__animated animate__pulse animate__infinite	infinite">
                 Find more
             </button>
 
         </section>
 
-        <section class="recommended bg-[#FBFBFB] p-16 text-center">
+        <section class="recommended bg-slate-50 py-16 text-center">
 
             <div class="head">
                 <h2 class="text-2xl">Recommend for You</h2>
@@ -199,9 +203,12 @@
                     <div
                         class="flex justify-between items-center flex-col rounded-lg shadow-md  overflow-hidden w-52 h-52 text-center relative">
 
-                        <router-link :to="`/productdetail/${prd[0]}`" class="absolute w-full h-full"></router-link>
+                        <router-link v-if="role === 'customer'" :to="`/productdetail/${prd[0]}`" class="absolute w-full h-full"></router-link>
+                        <router-link v-else :to="`/signPage`"  class="absolute w-full h-full"></router-link>
 
-                        <button title="Add To Wishlist" v-if="prd[1]"
+
+                        <button title="Add To Wishlist" v-if="role === 'customer'"
+
                             class="text-red-500 hover:text-red-600 text-3xl z-10 absolute top-[15px] right-[15px]">
                             <svg @click="addToWishlist(prd[0], prd[1])" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -256,7 +263,7 @@
 
         </section>
 
-        <section class="boycotted bg-slate-50 p-16 mb-16 text-center">
+        <section class="boycotted bg-slate-50 py-16 mb-16 text-center">
 
             <div class="head">
                 <h2>Boycotted Products</h2>
@@ -286,13 +293,13 @@
 
             </Carousel>
 
-            <button @click="$router.push('/BoycottWrapper')"
+            <button  @click="$router.push('/BoycottWrapper')"
                 class="btn px-10 mt-10 transition-all font-bold text-white border-0 bg-[#DB4444] hover:bg-[#0A1E1E] hover:border-[#0A1E1E]">
                 See more </button>
 
         </section>
 
-        <section class="new-arrivals mx-auto bg-white p-16 mb-16">
+        <section class="new-arrivals mx-auto bg-white p-10 lg:p-16 mb-16">
 
             <div class="head">
                 <h2>New Arrivals</h2>
@@ -312,7 +319,7 @@
                         </div>
 
                         <figure class="w-full h-1/2 md:h-full md:w-1/2 bg-white">
-                            <img :src="prd[1].image_url" alt="New Product" class="w-1/2 lg:w-9/12" />
+                            <img :src="prd[1].image_url" alt="New Product" class="w-[30%] lg:w-9/12" />
                         </figure>
 
                         <div class="card-body  w-full md:w-1/2 p-3 justify-center">
@@ -382,7 +389,13 @@
 
                             </button>
 
-                            <button @click="$router.push(`/productdetail/${prd[0]}`)"
+                            <button v-if="role == 'customer'" @click="$router.push(`/productdetail/${prd[0]}`)"
+
+                                class="btn bg-[#DB4444] hover:bg-[#0A1E1E] w-[200px] cursor-pointer text-base text-white border-0 rounded px-4 ">
+                                See more
+                            </button>
+                            <button v-else @click="$router.push(`/signPage`)"
+
                                 class="btn bg-[#DB4444] hover:bg-[#0A1E1E] w-[200px] cursor-pointer text-base text-white border-0 rounded px-4 ">
                                 See more
                             </button>
@@ -394,6 +407,12 @@
                 </div>
 
             </div>
+
+            <section class="grid sm:grid-cols-1 lg:grid-cols-3 gap-5 p-2" v-if="newPrds == null">
+                <div v-for="item in 3" :key="item" class=" p-2">
+                    <div class="skeleton h-32 w-full"></div>
+                </div>
+            </section>
 
         </section>
 
@@ -850,8 +869,13 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+.scroll-btn {
+    right: 30px;
+}
+
 .hero-sec {
-    background-image: url('../assets/heroHomePg.jpg')
+    background-image: url('../assets/heroHomePg.jpg')    
 }
 
 .sale .card:hover .cart-btn {
@@ -871,7 +895,7 @@ export default defineComponent({
     background-image: url('../assets/boycottinghomepage.jpg')
 }
 
-.new-prds>div {
+.new-prds > div {
     height: 200px;
     transition: transform .5s;
     transform-style: preserve-3d;
@@ -881,13 +905,13 @@ export default defineComponent({
     margin: 0 10px 20px;
 }
 
-.new-prds>div:hover {
+.new-prds > div:hover {
     -webkit-transform: rotateY(180deg);
     -moz-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
 
-.new-prds>div .face {
+.new-prds > div .face {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -895,9 +919,9 @@ export default defineComponent({
     backface-visibility: hidden;
 }
 
-.new-prds>div div.back {
+.new-prds > div div.back {
     transform: rotateY(180deg);
-}
+} 
 
 .recommended .carousel__track {
     height: 400px;
@@ -935,4 +959,5 @@ export default defineComponent({
     opacity: 1;
     transform: rotateY(0) scale(1);
 }
+
 </style>

@@ -4,13 +4,15 @@
             <div class="flex justify-between italic">
                 <h2 class="text-lg font-bold text-gray-700">Order <span>#{{ orderId.slice(5, 12) }}</span></h2>
                 <h2
-                    :class="['text-lg font-bold text-gray-700', order.status == 'Processing' ? 'text-blue-500' : order.status == 'Delivered' ? 'text-green-700' : order.status == 'On Delivery' ? 'text-orange-600':'']">
+                    :class="['text-lg font-bold text-gray-700', order.status == 'Processing' ? 'text-blue-500' : order.status == 'Delivered' ? 'text-green-700' : order.status == 'On Delivery' ? 'text-orange-600' : '']">
                     Order {{
                         order.status }}</h2>
             </div>
             <p class="text-gray-500">Customer Name: <span>{{ order.customerName }}</span></p>
-            <p class="text-gray-500 mb-3">Address: 123 Elm St, City</p>
-            <p v-if="order.pickedBy" class="mb-3 font-semibold">Delivery Person: <span class="text-orange-600">{{order.pickedBy}}</span></p>
+            <p class="text-gray-500">Phone Number: <span>{{ order.customerPhoneNumber }}</span></p>
+            <p class="text-gray-500 mb-3">Address: <span>{{ order.customerAddress }}</span></p>
+            <p v-if="order.pickedBy" class="mb-3 font-semibold">Delivery Person: <span class="text-orange-600">{{
+                    order.pickedBy }}</span></p>
 
             <div class="flex flex-wrap">
                 <div v-for="item in items" :key="item" class="p-2 lg:w-3/12 md:w-1/2 w-full">
@@ -30,17 +32,6 @@
                 </div>
             </div>
         </div>
-
-
-
-        <!-- <div class="flex justify-between items-center">
-            <router-link :to='`/deliveryOrderDetails/${allUserOrder[0]}/${order[0]}`'>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">View
-                    Details</button>
-            </router-link>
-            <button class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">Pick
-                to Deliver</button>
-        </div> -->
     </div>
 </template>
 
@@ -59,10 +50,7 @@ export default {
     methods: {
         async getDeliveryOrder() {
             this.order = await service.methods.getSpeificDeliveryOrder(this.userId, this.orderId)
-            console.log(this.order);
-            console.log(this.order.items);
             this.items = Object.entries(this.order.items)
-
         }
     },
     mounted() {

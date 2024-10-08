@@ -111,7 +111,7 @@
           const response = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/.json');
           const data = response.data;
           const products = data.products ? Object.keys(data.products).length : 0;
-          const users = data.users ? Object.keys(data.users).length : 0;
+          const users = data.users.customer ? Object.keys(data.users.customer).length : 0;
           const boycottedProducts = data.products
             ? Object.values(data.products).filter(product => product.boycott).length
             : 0;
@@ -121,8 +121,7 @@
           cardData.value[0].series[0].data = Array(products).fill(0).map((_, i) => i + 1); 
           cardData.value[1].series[0].data = Array(users).fill(0).map((_, i) => i + 1); 
           cardData.value[2].series[0].data = Array(boycottedProducts).fill(0).map((_, i) => i + 1); 
-  
-        } catch (error) {
+          } catch (error) {
           console.error('Error fetching data:', error);
         }
       };

@@ -27,7 +27,7 @@
     </div>
     <div class="flex justify-center mt-8">
       <router-link to="./AdminMangement" class="gap-2.5 text-white text-center hover:bg-emerald-950 px-6 py-3 text-base font-medium bg-green-700 rounded w-full sm:w-auto">
-        Back To Add Admin
+        Add New Admin
       </router-link>
     </div>
   </section>

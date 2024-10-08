@@ -1,6 +1,6 @@
 <template>
   <header class="flexmobile overflow-hidden gap-5 container md:flex justify-between items-center max-md:mt-10 mx-auto">
-    <div class="md:flex w-1/2 flexmobile  relative left-20 flex-col">
+    <div class="md:flex w-full flexmobile  relative left-20 flex-col">
       <h1 class="md:text-4xl font-bold green-color animate__animated animate__backInUp me-3">
         The Impact of Boycotting Israeli Products in The World
       </h1>
@@ -25,8 +25,8 @@
       class="md:text-5xl flexmobile max-w-[800px] sm:text-2xl text-center pt-24 mt-11 font-bold green-color animate__animated animate__fadeInUp animate__delay-3s">
       Remember you have to be careful how you're using your money
     </p>
-    <div class="mt-10 flex justify-self-center animate__animated animate__zoomInUp">
-      <img class="w-56 h-56" src="../assets/download (2).png" alt="">
+    <div class="mt-10 flex justify-center animate__animated animate__zoomInUp">
+      <img class="w-56 h-56" src="../assets/download__2.png" alt="">
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@ export default {
     display: block;
     padding: 10px !important;
     margin: 0 !important;
-    max-width: 90%;
+    max-width: 100%;
     margin-top: 10px !important;
     left: 0;
   }

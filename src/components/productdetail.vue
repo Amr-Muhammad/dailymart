@@ -17,7 +17,7 @@
           </svg>
         </button>
 
-        <button title="Add to Weekly Order" v-if="productD && productD.availability > 0"
+        <button title="Add to Weekly Order" v-if="productD && productD.availability > 0 && subscribed"
           class="bg-white p-1 rounded-full flex items-center justify-center absolute left-[25px] top-[25px]">
           <svg svg class="hover:scale-[1.1]" @click="addToWeeklyOrder(productId, productD, $event)" width="20px"
             height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,9 +55,9 @@
               disabled />
           </div>
 
-          <p class="text-sm text-gray-500 my-1">({{ totalReviews }} reviews)</p>
-          <p v-if="productD.availability > 0" class="text-[#16a34a] text-xs my-1"> | In Stock</p>
-          <p v-if="productD.availability == 0" class="text-red-600 text-xs my-1"> | Out Of Stock</p>
+          <p class="text-base text-gray-500 my-1">({{ totalReviews }} reviews)</p>
+          <p v-if="productD.availability > 0" class="text-[#16a34a] text-base my-1"> | In Stock</p>
+          <p v-if="productD.availability == 0" class="text-red-600 text-base my-1"> | Out Of Stock</p>
 
         </div>
 
@@ -85,7 +85,7 @@
           </div>
         </div>
 
-        <p class="text-lg text-gray-500 my-4">{{ productD.description }}</p>
+        <p class="text-xl text-gray-600 my-4">{{ productD.description }}</p>
         <hr />
         <!-- Add to Cart and Wishlist Buttons -->
         <div class="flex items-center relative my-4">
@@ -173,9 +173,11 @@
     <div class="mt-10">
 
       <h2 v-if="getReviews && getReviews.length > 0"
+
     class="text-2xl font-bold relative before:content-[''] before:absolute before:bg-[#DB4444] before:top-[8px] before:-left-3 before:block before:w-2 before:h-4 before:rounded-sm pl-2">
     Customer Reviews
 </h2>
+
 
 
       <div class="space-y-4">
@@ -188,7 +190,7 @@
               <path stroke-linecap="round" stroke-linejoin="round"
                 d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
             </svg>
-            <p class="font-semibold">{{ review[1].customerName }}</p>
+            <p class="font-semibold text-lg">{{ review[1].customerName }}</p>
           </div>
 
           <div class="flex items-center mb-2">
@@ -199,7 +201,7 @@
             </div>
           </div>
 
-          <p class="text-sm text-gray-600">{{ review[1].comment }}</p>
+          <p class="text-lg text-gray-600">{{ review[1].comment }}</p>
 
         </div>
 
@@ -315,7 +317,8 @@ export default {
       allRates: [],
       selectedRating: null,
       isButtonDisabled: false,
-      clickedProducts: {}
+      clickedProducts: {},
+      subscribed: null,
     };
   },
 
@@ -663,6 +666,9 @@ export default {
         });
         event.target.style.cursor = 'pointer'
       }
+    },
+    async isUserSubscribed() {
+        this.subscribed = this.loggedUserData.planid
     }
 
   },
@@ -676,6 +682,7 @@ export default {
   },
 
   async mounted() {
+    this.isUserSubscribed()
     this.productId = this.$route.params.id;
     await this.getProductDetails(this.productId);
     await this.displayReviews();
