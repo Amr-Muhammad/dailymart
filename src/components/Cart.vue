@@ -1,16 +1,64 @@
 <template>
-  <div class="mx-auto p-6 rounded-lg shadow-lg w-6/12">
+
+  <div>
+        <div v-if="quantityUpdated" 
+         class="fixed top-1/2 right-0 transform -translate-y-1/2 z-50 bg-green-500 text-white p-4 rounded-lg shadow-lg animate__animated animate__fadeIn">
+      Quantity Updated Successfully!
+    </div>
+
+  <div class="mx-auto animate__animated animate__backInDown bg-white m-14 p-6 rounded-lg shadow-lg w- md:w-6/12">
+
+
 
     <h2 class="text-3xl font-bold mb-4 flex items-center">
       <i class="fas fa-shopping-cart mr-2"></i>
       <p class="mt-2">My Cart</p>
     </h2>
 
+
+    <!-- Cart Content -->
+
     <div v-if="cart != null" class="text-right mt-6">
       <button class="text-red-600 underline hover:text-red-800" @click="clearCart()">Remove all</button>
     </div>
 
-    <div v-if="cart != null">
+
+    <div class="bg-[#F0F2E8] p-4" v-if="cart != null">
+      <div
+        v-for="(item, index) in cart"
+        :key="index"
+        class="flex blocked-item items-center justify-between border-b border-white py-4 mb-4"
+      >
+        <div class="flex items-center space-x-4">
+          <img :src="item[1].image_url" alt="Product Image" class="w-24 mb-10 h-24 object-cover rounded" style="object-fit: contain;" />
+          <div class="flex flex-col">
+            <h3 class="text-lg font-semibold">{{ item[1].english_name }}</h3>
+            <p class="text-sm text-green-600">In Stock • Availability: {{ item[1].availability }}</p>
+            <p class="text-md pt-6 text-emerald-600">each : {{ item[1].price }} EGP</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center ">
+          <div v-if="!customQty[index]">
+            <select v-model="selectedQty[index]" class="border border-gray-300 rounded p-1" @change="handleQtyChange(index, item[0])">
+              <option v-for="qty in 10" :key="qty" :value="qty">{{ qty }}</option>
+              <option :value="11">10+</option>
+            </select>
+          </div>
+          <div class="flex flex-col items-center " v-else>
+              <input v-model.number="tempCustomQtyValue[index]" type="number" min="10" placeholder="10" class="border border-gray-300 rounded p-1 w-16" />
+              <button @click="updateCustomQty(index, item[0])" class="ml-2 mt-4 text-sm bg-emerald-950 hover:bg-emerald-800 text-white rounded px-2">
+                Update
+              </button>
+              <div > <!-- Added a flex container here -->
+                <button @click="backToSelect(index)" class="ml-2 text-sm bg-red-500 hover:bg-red-700 text-white rounded px-2">
+                  Clear 
+                </button>
+              </div>
+            </div>
+
+<!-- Goz2y -->
+ <!--   <div v-if="cart != null">
       <div v-for="(item, index) in cart" :key="index"
         class="flex items-center justify-between border-b border-gray-200 py-4">
 
@@ -33,7 +81,8 @@
                   class="border border-gray-300 rounded p-1 w-16" @blur="updateCustomQty(index, item[0])" />
               </div>
             </div>
-          </div>
+          </div> -->
+
         </div>
 
         <div class="text-right">
@@ -51,11 +100,21 @@
 
       </div>
 
+
+      <div class="text-right mt-6">
+        <p class="text-lg font-bold">Total: {{ calculateTotalPrice() }}.00 EGP</p>
+      </div>
+
+ <!--     <div class="flex justify-center">
+        <button @click="handleCheckout()" class="mainGreenBtn mt-3">Checkout</button>
+      </div> -->
+
       <button @click="checkoutPopup = true" class="mainGreenBtn mt-3">Checkout</button>
+
     </div>
 
     <div v-if="cart == null" class="flex items-center justify-center flex-col">
-      <img src="../assets/Empty-removebg-preview.png" alt="Empty Cart">
+      <img src="../assets/Empty-removebg-preview.png" alt="Empty Cart" />
       <router-link to="/CategroyPage">
         <button class="mainGreenBtn">Back Shopping?</button>
       </router-link>
@@ -173,6 +232,8 @@
 
   </div>
 
+  </div>
+
 </template>
 
 <script>
@@ -190,6 +251,11 @@ export default {
       selectedQty: [],
       customQty: [],
       customQtyValue: [],
+
+      tempCustomQtyValue: [],
+      isPriceUpdated: [] ,
+      quantityUpdated: false, 
+
 
       address: {
         latitude: '',
@@ -209,6 +275,7 @@ export default {
       addNewAddressFlag: false,
       selectValue: 'Select your shipping address',
     }
+
   },
 
   computed: {
@@ -231,9 +298,47 @@ export default {
       }
     },
 
-    checkQty(index, productId) {
+
+    calculateItemPrice(index) {
+      const price = this.cart[index][1].price;
+      const selectedQuantity = this.selectedQty[index];
+
+      if (selectedQuantity === 11 && !this.isPriceUpdated[index]) {
+        return 0;
+      }
+
+      if (selectedQuantity === 11 && this.isPriceUpdated[index]) {
+        const confirmedCustomQty = this.customQtyValue[index] || 0;
+        return price * confirmedCustomQty;
+      }
+
+      return price * selectedQuantity;
+    },
+
+    calculateTotalPrice() {
+      return this.cart.reduce((total, item, index) => {
+        const price = Number(item[1].price) || 0;
+        let quantity = Number(this.selectedQty[index]) || 0;
+
+        if (quantity === 11 && !this.isPriceUpdated[index]) {
+          return total; 
+        }
+
+        if (quantity === 11) {
+          quantity = Number(this.customQtyValue[index]) || 0;
+        }
+
+        return total + (price * quantity);
+      }, 0);
+    },
+
+    handleQtyChange(index, productId) {
+      const availability = this.cart[index][1].availability;
       if (this.selectedQty[index] === 11) {
         this.customQty[index] = true;
+      } else if (this.selectedQty[index] > availability) {
+        this.selectedQty[index] = availability;
+        this.updateQty(index, productId, availability);
       } else {
         this.customQty[index] = false;
         this.updateQty(index, productId, this.selectedQty[index]);
@@ -247,31 +352,54 @@ export default {
           quantity: quantity
         });
 
-        // Fetch the updated product information from the Firebase database
-        const productResponse = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`);
-        const product = productResponse.data;
+        console.log('Quantity updated successfully');
 
-        // Update the availability in the cart data by subtracting the selected quantity
-        this.cart[index][1].availability = product.availability - quantity;
-
-        console.log('Quantity and availability updated successfully');
       } catch (error) {
         console.error('Error updating quantity and availability:', error);
       }
     },
 
     async updateCustomQty(index, productId) {
-      const customQuantity = this.customQtyValue[index];
-      if (customQuantity >= 11) {
-        try {
-          await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}/${productId}/.json`, {
-            quantity: customQuantity
-          });
 
-          const productResponse = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${productId}.json`);
-          const product = productResponse.data;
+      let customQuantity = this.tempCustomQtyValue[index];
+      const availability = this.cart[index][1].availability;
 
-          this.cart[index][1].availability = product.availability - customQuantity;
+      if (customQuantity < 10) {
+        customQuantity = 0;
+      }
+      if (customQuantity > availability) {
+        this.customQtyValue[index] = availability;
+        this.tempCustomQtyValue[index] = availability;
+      } else {
+        this.customQtyValue[index] = customQuantity;
+        this.tempCustomQtyValue[index] = customQuantity;
+      }
+
+      this.isPriceUpdated[index] = true;
+      this.selectedQty[index] = 11;
+
+      try {
+        await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}/${productId}/.json`, {
+          quantity: this.customQtyValue[index],
+        });
+        console.log('Custom quantity updated successfully');
+
+        // Show the "Quantity Updated" message
+        this.quantityUpdated = true;
+
+        // Hide the pop-up after 3 seconds
+        setTimeout(() => {
+          this.quantityUpdated = false;
+        }, 3000);
+      } catch (error) {
+        console.error('Error updating custom quantity:', error);
+      }
+    },
+    backToSelect(index) {
+    this.customQty[index] = false;
+    this.selectedQty[index] = 1; 
+  },
+
 
           console.log('Custom quantity and availability updated successfully');
         } catch (error) {
@@ -305,9 +433,11 @@ export default {
     async handleCheckout(prevAddress) {
       try {
 
+
         if (prevAddress) {
           this.address.location = this.selectValue
         }
+
 
         const cart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${this.loggedUserId}.json`)).data
 
@@ -315,12 +445,16 @@ export default {
         for (let i = 0; i < Object.entries(cart).length; i++) {
           cartArray.push(Object.entries(cart)[i][1])
         }
+        // console.log(userResponse);
 
 
         const user = {
+          // name: userResponse.data.firstName + ' ' + userResponse.data.lastName,
+          // email: userResponse.data.email
           name: this.loggedUserData.firstName + ' ' + this.loggedUserData.lastName,
           email: this.loggedUserData.email
         };
+
 
         //hyrg3ly hena array fih qyam el availability elly fi el back end fi webhook el success h loop 3lehom b patch request- ab3d el array da m3 el post request
         // let productsAvailability = []
@@ -337,6 +471,7 @@ export default {
 
         const sessionResponse = await axios.post('http://localhost:3001/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge });
         // const sessionResponse = await axios.post('https://delight-mart-server.vercel.app/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge });
+
         const sessionId = sessionResponse.data.id;
 
         const { error } = await this.stripe.redirectToCheckout({ sessionId: sessionId });
@@ -440,6 +575,7 @@ export default {
       // else {
       //   // return 15 + (distance - 15) * 0.5; // Extra charge per km after 15 km
       // }
+
     }
   },
 
