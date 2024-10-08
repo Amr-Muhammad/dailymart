@@ -2,38 +2,37 @@
     <div class="otp-page">
         <div class="container">
             <h2 class="title">Enter the OTP sent to your email</h2>
-            <p class="description">We’ve sent a One Time Password (OTP) to your email {{ emailReset }}. Please enter it below.</p>
+            <p class="description">We’ve sent a One Time Password (OTP) to your email {{ emailReset }}. Please enter it
+                below.</p>
             <input v-model="otpValue" type="text" placeholder="Enter OTP" class="otp-input" />
-            <button @click="verifyOtp" class="submit-btn">Verify OTP</button>
+            <!-- <button @click="verifyOtp" class="submit-btn">Verify OTP</button> -->
+            <button @click="getUserOtp()" class="submit-btn">Verify OTP</button>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+import { mapState } from 'vuex';
+
 export default {
     name: 'OtpPage',
     data() {
         return {
             otpValue: '',
-            sentOtp: '', 
+            sentOtp: '',
         };
     },
     computed: {
+        ...mapState(['forgotPasswordEmail']),
         emailReset() {
             return this.$route.params.emailReset; // Get the email from route params
         }
     },
     mounted() {
-        const otpSent = this.$route.params.otp;
-        console.log('Received OTP:', otpSent); 
-        
-        if (!otpSent) {
-            console.error('No OTP sent in route parameters.');
-            return;
+        if (!this.forgotPasswordEmail) {
+            this.$router.push('/signPage')
         }
-
-        this.sentOtp = otpSent; 
-        console.log('OTP Value:', otpSent);
     },
     methods: {
         verifyOtp() {
@@ -51,6 +50,17 @@ export default {
                 alert('Invalid OTP. Please try again.');
             }
         },
+
+        async getUserOtp() {
+            let allOTPRequests = (await (axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/OTPs.json`))).data
+            let userOTPRequest = Object.entries(allOTPRequests).find(([, objValue]) => objValue.email == this.forgotPasswordEmail)
+
+            if (userOTPRequest[1].otp == this.otpValue) {
+                await this.$store.dispatch('setUserOTP', this.otpValue)
+                await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/OTPs/${userOTPRequest[0]}.json`)
+                this.$router.push('/reset-password')
+            }
+        }
     },
 };
 </script>
@@ -61,7 +71,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    /* height: 100vh; */
+    padding: 100px;
     background-color: #f9f9f9;
 }
 

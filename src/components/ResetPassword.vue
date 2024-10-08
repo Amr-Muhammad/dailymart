@@ -12,6 +12,8 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import { mapState } from 'vuex';
 export default {
     name: 'ResetPassword',
     data() {
@@ -21,25 +23,42 @@ export default {
             errorMessage: '',
         };
     },
+    computed: {
+        ...mapState(['userOTP', 'forgotPasswordEmail'])
+    }
+    ,
     methods: {
         async updatePasswordInDatabase() {
-    const userId = "USER_ID"; 
-    const url = `https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`;
 
-    try {
-        const response = await axios.patch(url, {
-            password: this.newPassword, 
-        });
-        if (response.status === 200) {
-            alert('Password has been reset successfully.');
-            this.$router.push({ name: 'SignPage' }); 
+            let customers = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer.json`)).data
+            let customer = Object.entries(customers).find(([, customerData]) => customerData.email.toLowerCase() == this.forgotPasswordEmail.toLowerCase())
+
+            const url = `https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${customer[0]}.json`;
+
+            try {
+                const response = await axios.patch(url, {
+                    password: this.newPassword,
+                })
+                if (response.status === 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Password Changed!",
+                        text: "You're password has been changed successfully.",
+                        timer: 2500,
+                        timerProgressBar: true,
+                    }).then(() => this.$router.push('/signPage'))
+                }
+            } catch (error) {
+                console.error("Error updating password:", error);
+                this.errorMessage = "Failed to update password. Please try again.";
+            }
         }
-    } catch (error) {
-        console.error("Error updating password:", error);
-        this.errorMessage = "Failed to update password. Please try again.";
-    }
-}
 
+    },
+    mounted() {
+        if (!this.userOTP) {
+            this.$router.push('/signPage')
+        }
     }
 }
 </script>
@@ -49,7 +68,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    /* height: 100vh; */
+    padding: 100px;
     background-color: #f9f9f9;
 }
 

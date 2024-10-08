@@ -31,80 +31,82 @@
 
         </section>
 
-        <table class="table text-center">
-            <thead class="border-b">
-                <th>Id</th>
-                <th>Image</th>
-                <th>Product Name</th>
-                <th>Sale</th>
-                <th>New</th>
-                <th>Price</th>
-                <th>Boycott</th>
-                <th>Category</th>
-                <th>Availability</th>
-                <th>Submitted By</th>
-                <th>Submitted At</th>
-            </thead>
+        <div class="w-full overflow-x-auto">
+            <table class="table text-center">
+                <thead class="border-b">
+                    <th>Id</th>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Sale</th>
+                    <th>New</th>
+                    <th>Price</th>
+                    <th>Boycott</th>
+                    <th>Category</th>
+                    <th>Availability</th>
+                    <th>Submitted By</th>
+                    <th>Submitted At</th>
+                </thead>
 
-            <tbody v-if="filterdProducts">
-                <tr v-for="product in filterdProducts" :key="product">
-                    <td>{{ product[0].slice(0, 10) }}</td>
-                    <td class="flex justify-center"><img class="w-14" :src="product[1].image_url"
-                            :alt="product[1].english_name"></td>
-                    <td>{{ product[1].english_name }}</td>
-                    <td :class="product[1].onsale ? 'text-red-500' : ''">{{ product[1].onsale ? product[1].onsale :
-                        '----'
-                        }}</td>
-                    <td :class="product[1].new ? 'text-green-500' : '----'">{{ product[1].new ? 'New' : '' }}</td>
-                    <td>{{ product[1].price }} EGP</td>
-                    <td>{{ product[1].boycott ? 'Boycott' : '----' }}</td>
-                    <td>{{ product[1].catId.split('_')[1].charAt(0).toUpperCase() +
-                        product[1].catId.split('_')[1].slice(1) }}</td>
-                    <td>{{ product[1].availability ? product[1].availability : '----' }}</td>
-                    <td class="italic">{{ product[1].submittedBy }}</td>
-                    <td>{{ product[1].submittedAt.split('T')[0] }}</td>
-                    <td class="flex gap-3 items-center justify-center -translate-y-1/2  w-20">
-                        <router-link :to="`/adminaccount/editDelete/${product[0]}`">
-                            <img class="cursor-pointer" src="../assets/editing.png" alt="">
-                        </router-link>
-                        <img @click="deleteItem(product[0])" class="w-5 cursor-pointer" src="../assets/deleteicon.png"
-                            alt="">
-                    </td>
+                <tbody v-if="filterdProducts">
+                    <tr v-for="product in filterdProducts" :key="product">
+                        <td>{{ product[0].slice(0, 10) }}</td>
+                        <td class="flex justify-center"><img class="w-14" :src="product[1].image_url"
+                                :alt="product[1].english_name"></td>
+                        <td>{{ product[1].english_name }}</td>
+                        <td :class="product[1].onsale ? 'text-red-500' : ''">{{ product[1].onsale ? product[1].onsale :
+                            '----'
+                            }}</td>
+                        <td :class="product[1].new ? 'text-green-500' : '----'">{{ product[1].new ? 'New' : '' }}</td>
+                        <td>{{ product[1].price }} EGP</td>
+                        <td>{{ product[1].boycott ? 'Boycott' : '----' }}</td>
+                        <td>{{ product[1].catId.split('_')[1].charAt(0).toUpperCase() +
+                            product[1].catId.split('_')[1].slice(1) }}</td>
+                        <td>{{ product[1].availability ? product[1].availability : '----' }}</td>
+                        <td class="italic">{{ product[1].submittedBy }}</td>
+                        <td>{{ product[1].submittedAt.split('T')[0] }}</td>
+                        <td class="flex gap-3 items-center justify-center -translate-y-1/2  w-20">
+                            <router-link :to="`/adminaccount/editDelete/${product[0]}`">
+                                <img class="cursor-pointer" src="../assets/editing.png" alt="">
+                            </router-link>
+                            <img @click="deleteItem(product[0])" class="w-5 cursor-pointer"
+                                src="../assets/deleteicon.png" alt="">
+                        </td>
 
-                </tr>
-            </tbody>
+                    </tr>
+                </tbody>
 
-            <tbody v-else>
-                <tr v-for="product in products" :key="product">
-                    <td>{{ product[0].slice(0, 10) }}</td>
-                    <td class="flex justify-center"><img class="w-14" :src="product[1].image_url"
-                            :alt="product[1].english_name">
-                    </td>
-                    <td>{{ product[1].english_name }}</td>
-                    <td :class="product[1].onsale ? 'text-red-500' : ''">{{ product[1].onsale ? product[1].onsale :
-                        '----'
-                        }}
-                    </td>
-                    <td :class="product[1].new ? 'text-green-500' : '----'">{{ product[1].new ? 'New' : '' }}</td>
-                    <td>{{ product[1].boycott ? '----' : product[1].price + ' EGP' }}</td>
-                    <td>{{ product[1].boycott ? 'Boycott' : '----' }}</td>
-                    <td>{{ product[1].catId.split('_')[1].charAt(0).toUpperCase() +
-                        product[1].catId.split('_')[1].slice(1) }}
-                    </td>
-                    <td>{{ product[1].availability ? product[1].availability : '----' }}</td>
-                    <td class="italic">{{ product[1].submittedBy }}</td>
-                    <td>{{ product[1].submittedAt.split('T')[0] }}</td>
-                    <td class="flex gap-3 items-center justify-center -translate-y-1/2 w-20">
-                        <router-link :to="`/adminaccount/editDelete/${product[0]}`">
-                            <img class=" cursor-pointer" src="../assets/editing.png" alt="">
-                        </router-link>
-                        <img @click="deleteItem(product[0])" class="w-5 cursor-pointer" src="../assets/deleteicon.png"
-                            alt="">
-                    </td>
+                <tbody v-else>
+                    <tr v-for="product in products" :key="product">
+                        <td>{{ product[0].slice(0, 10) }}</td>
+                        <td class="flex justify-center"><img class="w-14" :src="product[1].image_url"
+                                :alt="product[1].english_name">
+                        </td>
+                        <td>{{ product[1].english_name }}</td>
+                        <td :class="product[1].onsale ? 'text-red-500' : ''">{{ product[1].onsale ? product[1].onsale :
+                            '----'
+                            }}
+                        </td>
+                        <td :class="product[1].new ? 'text-green-500' : '----'">{{ product[1].new ? 'New' : '' }}</td>
+                        <td>{{ product[1].boycott ? '----' : product[1].price + ' EGP' }}</td>
+                        <td>{{ product[1].boycott ? 'Boycott' : '----' }}</td>
+                        <td>{{ product[1].catId.split('_')[1].charAt(0).toUpperCase() +
+                            product[1].catId.split('_')[1].slice(1) }}
+                        </td>
+                        <td>{{ product[1].availability ? product[1].availability : '----' }}</td>
+                        <td class="italic">{{ product[1].submittedBy }}</td>
+                        <td>{{ product[1].submittedAt.split('T')[0] }}</td>
+                        <td class="flex gap-3 items-center justify-center -translate-y-1/2 w-20">
+                            <router-link :to="`/adminaccount/editDelete/${product[0]}`">
+                                <img class=" cursor-pointer" src="../assets/editing.png" alt="">
+                            </router-link>
+                            <img @click="deleteItem(product[0])" class="w-5 cursor-pointer"
+                                src="../assets/deleteicon.png" alt="">
+                        </td>
 
-                </tr>
-            </tbody>
-        </table>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
     </div>
 </template>

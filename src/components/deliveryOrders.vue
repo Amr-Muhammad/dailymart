@@ -12,7 +12,7 @@
                     <div class="bg-white shadow-md rounded-lg w-full p-4 relative">
 
                         <div class="mb-3">
-                            <h2 class="text-lg font-bold text-gray-700">Order <span>#{{ orderId.slice(5, 12)
+                            <h2 class="text-lg font-bold text-gray-700">Order <span>#{{ orderId.slice(1, 7)
                                     }}</span>
                             </h2>
                             <p class="text-gray-500 font-semibold">Customer Name: {{
@@ -97,17 +97,6 @@ export default {
         async getAllOrders() {
             this.allOrders = await service.methods.getDeliveryOrders();
             this.allOrders = Object.entries(this.allOrders)
-
-            // for (const key in this.allOrders) {
-            //     console.log(Object.values(this.allOrders[key]).forEach(item => console.log(item)))
-
-            // }
-
-
-            // for (let i = 0; i < this.allOrders.length; i++) {
-            //     console.log(i);
-
-            // }
 
             this.allOrders.forEach(([, userOrders]) => Object.entries(userOrders).forEach(([orderId, order]) => order.status != 'Delivered' ? this.notDeliveredProducts.push({ [orderId]: order }) : ''))
             this.noOfOrders = this.notDeliveredProducts.length

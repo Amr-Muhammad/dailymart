@@ -70,7 +70,7 @@
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
                             <div>
                                 <p class="text-gray-500">Order ID</p>
-                                <p class="font-bold my-1">#{{ order[0].slice(5, 12) }}</p>
+                                <p class="font-bold my-1">#{{ order[0].slice(1, 7) }}</p>
                                 <p v-if="order[1].pickedBy" class="mb-3 font-semibold">Delivery Person: <span class="text-orange-600">{{order[1].pickedBy}}</span></p>
                                 <div class="rounded-full border text-center py-1 flex items-center px-3 gap-2">
                                     <img src="../assets/delivery-service.png" class="w-5" alt="">

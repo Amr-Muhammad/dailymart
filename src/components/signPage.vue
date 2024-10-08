@@ -1,26 +1,25 @@
 <template>
-   <dialog id="my_modal_1" class="modal">
-  <div class="modal-box bg-white relative">
-    <h3 class="text-lg font-bold">Reset Password</h3>
-    <div class="modal-action">
-      <form @submit.prevent="forgotPassword" class="w-full flex">
-        <input ref="emailInput" type="email"
-          class="grow rounded-md focus:outline-none border-2 border-solid border-stone-400 p-2"
-          placeholder="Email Address" v-model="emailReset" />
-        <button type="submit"
-          class="btn ms-5 bg-[#166534] hover:bg-[#0A1E1E] text-white">Reset</button>
-        <button @click="closeModal" type="button"
-          class="btn ms-2 text-stone-800 hover:text-red-600 border-none shadow-none absolute top-0 right-0">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-            stroke-width="1.5" stroke="currentColor" class="size-4">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M6 18 18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </form>
-    </div>
-  </div>
-</dialog>
+    <dialog id="my_modal_1" class="modal">
+        <div class="modal-box bg-white relative">
+            <h3 class="text-lg font-bold">Reset Password</h3>
+            <div class="modal-action">
+                <form @submit.prevent="forgotPassword" class="w-full flex">
+                    <input ref="emailInput" type="email"
+                        class="grow rounded-md focus:outline-none border-2 border-solid border-stone-400 p-2"
+                        placeholder="Email Address" v-model="emailReset" />
+                    <button type="submit" class="btn ms-5 bg-[#166534] hover:bg-[#0A1E1E] text-white">Reset</button>
+                    <button @click="closeModal" type="button"
+                        class="btn ms-2 text-stone-800 hover:text-red-600 border-none shadow-none absolute top-0 right-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
     <div class="h-screen flex items-center relative">
         <!-- Uncomment el goz2 da w a5ly height el div ely t7tha  4/6 bdl 5-->
         <!-- <div class="absolute top-0 start-24">
@@ -70,9 +69,10 @@
                                 <input ref="passInput" type="password" class="grow" placeholder="Password"
                                     v-model="password" />
                             </label>
-                            <button @click="openModal" class="btn border-0 text-stone-600 text-xs shadow-none min-h-0 h-0 hover:text-red-700">
-  Forgot Password?
-</button>
+                            <button @click="openModal"
+                                class="btn border-0 text-stone-600 text-xs shadow-none min-h-0 h-0 hover:text-red-700">
+                                Forgot Password?
+                            </button>
                             <dialog id="my_modal_1" class="modal">
                                 <div class="modal-box bg-white relative">
                                     <h3 class="text-lg font-bold">Reset Password</h3>
@@ -192,8 +192,10 @@
                                         </path>
                                     </g>
                                 </svg>
-                                <input type="text" class="grow" placeholder="Address" v-model="address.location"
-                                    required />
+                                <input type="text" class="grow" placeholder="Address? (optional)" v-model="address.location" />
+                                <span v-if="addressErrMessage"
+                                    class="error-msg absolute text-[6px] lg:text-[10px] -bottom-[20px] left-0 text-red-700">
+                                    {{ addressErrMessage }}</span>
                             </label>
 
                             <div v-if="!addressFlag" class="flex items-center gap-2">
@@ -308,13 +310,13 @@ export default {
             rePassword: '',
             gender: '',
 
-      otp: '',
-      enteredOtp: '',
-      showOtpInput: false,
-      // Add Email.js configuration
-      emailjsUserId: '9UIn0EifA2Rsqne-9',
-      emailjsServiceId: 'service_g4avpxe',
-      emailjsTemplateId: 'template_igymn01',
+            otp: '',
+            enteredOtp: '',
+            showOtpInput: false,
+
+            emailjsUserId: 'ny1UnCEFgdvOakkay',
+            emailjsServiceId: 'service_5gzni76',
+            emailjsTemplateId: 'template_xw21oan',
             address: {
                 latitude: '',
                 longitude: '',
@@ -327,7 +329,7 @@ export default {
             emailExist: '',
             passwordError: '',
             rePasswordError: '',
-            // apiKey: '3199d0b4fb7e4184b017cfade26c7298',
+            apiKey: '3199d0b4fb7e4184b017cfade26c7298',
             signUpBtn: '',
             signInBtn: '',
             signContainer: ''
@@ -335,29 +337,30 @@ export default {
     },
     methods: {
         openModal() {
-    const modal = document.getElementById('my_modal_1');
-    if (modal) {
-      modal.classList.add('modal-open');
-    }
-  },
+            const modal = document.getElementById('my_modal_1');
+            if (modal) {
+                modal.classList.add('modal-open');
+            }
+        },
 
-  closeModal() {
-    const modal = document.getElementById('my_modal_1');
-    if (modal) {
-      modal.classList.remove('modal-open');
-    }
-  },
+        closeModal() {
+            const modal = document.getElementById('my_modal_1');
+            if (modal) {
+                modal.classList.remove('modal-open');
+            }
+        },
 
         async validateEmail() {
             const emailPattern = /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/g;
             this.emailExist = '';
 
             if (this.email == '' && !emailPattern.test(this.email)) {
-                this.emailError = "Please enter a valid email address";
+                this.emailError = "Please enter a valid email address or don't";
             } else {
                 this.emailError = '';
             }
         },
+
         validatePasswords() {
             const passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
             if (this.password && !passwordPattern.test(this.password)) {
@@ -366,6 +369,7 @@ export default {
                 this.passwordError = '';
             }
         },
+
         chckPassword() {
             if (this.password !== this.rePassword) {
                 this.rePasswordError = "Passwords do not match";
@@ -373,8 +377,10 @@ export default {
                 this.rePasswordError = '';
             }
         },
+
         async validateAdress() {
             let res = (await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(this.address.location)}&key=3199d0b4fb7e4184b017cfade26c7298`)).data
+            console.log(res);
             console.log(res);
 
             if (res.results[0]) {
@@ -387,11 +393,13 @@ export default {
                 return;
             }
         },
+
         async submitForm() {
+            await this.checkIfEmailExists('customer')
             await this.validateAllInputs()
-            this.checkIfEmailExists()
-            this.addNewUser()
+
         },
+
         async signinForm() {
             this.validateEmail();
             if (this.emailError) {
@@ -483,7 +491,7 @@ export default {
 
 
         },
-    
+
         getUserLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -506,6 +514,7 @@ export default {
                 alert("This browser doesn't support live location")
             }
         },
+
         async checkIfEmailExists(role) {
             try {
                 const usersRes = await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${role}.json`);
@@ -524,6 +533,7 @@ export default {
                 return;
             }
         },
+
         async addNewUser() {
             try {
                 let res = await service.methods.addUser('customer', {
@@ -543,91 +553,86 @@ export default {
                 console.error("There was an error:", error);
             }
         },
+
         async validateAllInputs() {
-            await this.validateAdress()
+            if (this.address.location != '') {
+                await this.validateAdress()
+            }
+            else{
+                this.addressErrMessage = ''
+            }
             this.validateEmail();
             this.validatePasswords();
             this.chckPassword();
 
+
+
             if (this.emailError || this.passwordError || this.rePasswordError || this.addressErrMessage) {
+                console.log('fi error');
+                
                 return;
             }
+            else {
+                console.log('mfesh error');
+                await this.addNewUser()
+            }
         },
+
         async forgotPassword() {
-    try {
-        // Fetch user data from the database
-        const usersRes = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users.json');
-        const usersData = usersRes.data || {};
-        const emailExists = Object.values(usersData).some(category =>
-            Object.values(category).some(user => user.email === this.emailReset)
-        );
-        if (emailExists) {
-            this.otp = Math.floor(100000 + Math.random() * 900000).toString();
-            console.log('Sending OTP to:', this.emailReset);
-            
-            await this.sendOtpEmail();
-            // Navigate to OtpPage and pass the generated OTP and email here is the otp in the url
-            this.$router.push({
-                name: 'OtpPage',
-                params: {
-                    otp: this.otp,        // Pass the generated OTP
-                    emailReset: this.emailReset, // Also pass the email for any further actions 
-                },
-            });
-            // Clear the email input field
-            this.emailReset = '';
-        } else {
-            alert('No account found with this email address.');
-            this.emailReset = ''; 
-        }
-        
-    } catch (error) {
-        console.error("There was an error:", error);
-        alert('Something went wrong, please try again.');
-    }
-},
+            try {
 
- 
-  verifyOtp() {
-    if (this.enteredOtp === this.otp) {
-      alert('OTP verified successfully. You can now reset your password.');
-      // Redirect to the password reset page or form
-      this.$router.push({ name: 'ResetPassword' });
-    } else {
-      alert('Invalid OTP. Please try again.');
-    }
-  },
-async sendOtpEmail() {
-  try {
-    // Check if emailReset is correctly set
-    if (!this.emailReset) {
-      console.error('Email address is not set.'); 
-      return; 
-    }
+                let customers = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer.json`)).data
+                let user = Object.values(customers).find(customer => customer.email.toLowerCase() == this.emailReset.toLowerCase())
 
-    console.log('Sending OTP to:', this.emailReset); 
+                if (user != undefined) {
+                    this.otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    const response = await emailjs.send(
-      this.emailjsServiceId,
-      this.emailjsTemplateId,
-      {
-        to_email: this.emailReset, // This should be the user's email
-        otp: this.otp // Ensure OTP is correctly set
-      },
-      this.emailjsUserId
-    );
+                    await this.sendOtpEmail(user);
 
-    console.log('OTP sent successfully', response);
-  } catch (error) {
-    console.error('Error sending OTP:', error);
-    if (error.text) {
-      console.error('Error details:', error.text);
-    }
-    throw error; 
-  }
-},
+                    this.$router.push('/otp')
 
+                    this.emailReset = '';
+                } else {
+                    alert('No account found with this email address.');
+                    this.emailReset = '';
+                }
 
+            } catch (error) {
+                console.error("There was an error:", error);
+                alert('Something went wrong, please try again.');
+            }
+        },
+
+        verifyOtp() {
+            if (this.enteredOtp === this.otp) {
+                alert('OTP verified successfully. You can now reset your password.');
+                // Redirect to the password reset page or form
+                this.$router.push({ name: 'ResetPassword' });
+            } else {
+                alert('Invalid OTP. Please try again.');
+            }
+        },
+
+        async sendOtpEmail(user) {
+            try {
+                await emailjs.send(
+                    this.emailjsServiceId,
+                    this.emailjsTemplateId,
+                    { to_email: this.emailReset, otp: this.otp, to_name: user.firstName + ' ' + user.lastName },
+                );
+
+                await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/OTPs.json`, { email: user.email, otp: this.otp })
+
+                this.$store.dispatch('forgetPasswordEmail', user.email)
+
+            } catch (error) {
+                console.error('Error sending OTP:', error);
+                if (error.text) {
+                    console.error('Error details:', error.text);
+                }
+                throw error;
+            }
+        },
     },
 
     mounted() {

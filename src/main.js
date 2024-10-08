@@ -49,6 +49,7 @@ import ResetPassword from './components/ResetPassword.vue';
 // import ManageMyPlan from './components/manageMyPlan.vue';
 import Cart from './components/Cart.vue';
 import DeliveryOrders from './components/deliveryOrders.vue';
+import ManageMyPlan from './components/manageMyPlan.vue';
 
 
 
@@ -151,7 +152,8 @@ const routes = [
     { path: '/BoycottWrapper', component: BoycottWrapper }, //wrapper anyone
     { path: '/PlansWrapperComponent', component: PlansWrapperComponent }, //wrapper anyone
     { path: '/EmailGetHelp', component: EmailGetHelp }, //wrapper
-    { path: '/otp/:otp', name: 'OtpPage', component: OtpPage },
+    // { path: '/otp/:otp', name: 'OtpPage', component: OtpPage },
+    { path: '/otp', name: 'OtpPage', component: OtpPage },
     { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
     // { path: '/AdminForm', component: AdminForm },
     // { path: '/AdminListItem', component: AdminListItem },
@@ -159,6 +161,7 @@ const routes = [
     // { path: '/weeklyProducts', component: WeeklyOrderProducts }, //eh da!!!
     // { path: '/AdminChartsDashboard', component: AdminChartsDashboard },
     { path: '/CardCharts', component: CardCharts },
+    { path: '/myPlan', component: ManageMyPlan },
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
 
 ]

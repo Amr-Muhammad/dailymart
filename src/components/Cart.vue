@@ -6,126 +6,114 @@
       Quantity Updated Successfully!
     </div>
 
-    <div class="mx-auto animate__animated animate__backInDown bg-white m-14 p-6 rounded-lg shadow-lg w- md:w-6/12">
+    <div class="pt-1">
+      <div
+        class="mx-auto animate__animated animate__backInDown bg-white m-14 p-6 rounded-lg shadow-lg  lg:w-7/12 md:w-10/12 w-11/12">
+
+        <div class="flex items-center gap-1">
+          <svg width="50px" height="50px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M2.08416 2.7512C2.22155 2.36044 2.6497 2.15503 3.04047 2.29242L3.34187 2.39838C3.95839 2.61511 4.48203 2.79919 4.89411 3.00139C5.33474 3.21759 5.71259 3.48393 5.99677 3.89979C6.27875 4.31243 6.39517 4.76515 6.4489 5.26153C6.47295 5.48373 6.48564 5.72967 6.49233 6H17.1305C18.8155 6 20.3323 6 20.7762 6.57708C21.2202 7.15417 21.0466 8.02369 20.6995 9.76275L20.1997 12.1875C19.8846 13.7164 19.727 14.4808 19.1753 14.9304C18.6236 15.38 17.8431 15.38 16.2821 15.38H10.9792C8.19028 15.38 6.79583 15.38 5.92943 14.4662C5.06302 13.5523 4.99979 12.5816 4.99979 9.64L4.99979 7.03832C4.99979 6.29837 4.99877 5.80316 4.95761 5.42295C4.91828 5.0596 4.84858 4.87818 4.75832 4.74609C4.67026 4.61723 4.53659 4.4968 4.23336 4.34802C3.91052 4.18961 3.47177 4.03406 2.80416 3.79934L2.54295 3.7075C2.15218 3.57012 1.94678 3.14197 2.08416 2.7512Z"
+                fill="#166534"></path>
+              <path
+                d="M7.5 18C8.32843 18 9 18.6716 9 19.5C9 20.3284 8.32843 21 7.5 21C6.67157 21 6 20.3284 6 19.5C6 18.6716 6.67157 18 7.5 18Z"
+                fill="#166534"></path>
+              <path
+                d="M16.5 18.0001C17.3284 18.0001 18 18.6716 18 19.5001C18 20.3285 17.3284 21.0001 16.5 21.0001C15.6716 21.0001 15 20.3285 15 19.5001C15 18.6716 15.6716 18.0001 16.5 18.0001Z"
+                fill="#166534"></path>
+            </g>
+          </svg>
+          <div class="divider divider-horizontal m-0"></div>
+          <h2 class="text-3xl font-semibold mb-1 flex items-center">Your Shopping Cart</h2>
+        </div>
 
 
+        <!-- Cart Content -->
 
-      <h2 class="text-3xl font-bold mb-4 flex items-center">
-        <i class="fas fa-shopping-cart mr-2"></i>
-        <p class="mt-2">My Cart</p>
-      </h2>
-
-
-      <!-- Cart Content -->
-
-      <div v-if="cart != null" class="text-right mt-6">
-        <button class="text-red-600 underline hover:text-red-800" @click="clearCart()">Remove all</button>
-      </div>
+        <div v-if="cart != null" class="text-right ">
+          <button class="text-red-600 underline hover:text-red-800" @click="clearCart()">Remove all</button>
+        </div>
 
 
-      <div class="bg-[#F0F2E8] p-4" v-if="cart != null">
-        <div v-for="(item, index) in cart" :key="index"
-          class="flex blocked-item items-center justify-between border-b border-white py-4 mb-4">
-          <div class="flex items-center space-x-4">
-            <img :src="item[1].image_url" alt="Product Image" class="w-24 mb-10 h-24 object-cover rounded"
-              style="object-fit: contain;" />
-            <div class="flex flex-col">
-              <h3 class="text-lg font-semibold">{{ item[1].english_name }}</h3>
-              <p class="text-sm text-green-600">In Stock • Availability: {{ item[1].availability }}</p>
-              <p class="text-md pt-6 text-emerald-600">each : {{ item[1].price }} EGP</p>
-            </div>
-          </div>
-
-          <div class="flex flex-col items-center ">
-            <div v-if="!customQty[index]">
-              <select v-model="selectedQty[index]" class="border border-gray-300 rounded p-1"
-                @change="handleQtyChange(index, item[0])">
-                <option v-for="qty in 10" :key="qty" :value="qty">{{ qty }}</option>
-                <option :value="11">10+</option>
-              </select>
-            </div>
-            <div class="flex flex-col items-center " v-else>
-              <input v-model.number="tempCustomQtyValue[index]" type="number" min="10" placeholder="10"
-                class="border border-gray-300 rounded p-1 w-16" />
-              <button @click="updateCustomQty(index, item[0])"
-                class="ml-2 mt-4 text-sm bg-emerald-950 hover:bg-emerald-800 text-white rounded px-2">
-                Update
-              </button>
-              <div> <!-- Added a flex container here -->
-                <button @click="backToSelect(index)"
-                  class="ml-2 text-sm bg-red-500 hover:bg-red-700 text-white rounded px-2">
-                  Clear
-                </button>
+        <div class="bg-[#F0F2E8] p-4" v-if="cart != null">
+          <div v-for="(item, index) in cart" :key="index"
+            class="flex blocked-item items-center justify-between border-b border-white py-4 mb-4">
+            <div class="flex items-center space-x-4">
+              <img :src="item[1].image_url" alt="Product Image" class="w-24 mb-10 h-24 object-cover rounded"
+                style="object-fit: contain;" />
+              <div class="flex flex-col">
+                <h3 class="text-lg font-semibold">{{ item[1].english_name }}</h3>
+                <p class="text-sm text-green-600">In Stock • Availability: {{ item[1].availability }}</p>
+                <p class="text-md pt-2 text-emerald-600">Each : {{ item[1].price }} EGP</p>
               </div>
             </div>
 
-            <!-- Goz2y -->
-            <!--   <div v-if="cart != null">
-      <div v-for="(item, index) in cart" :key="index"
-        class="flex items-center justify-between border-b border-gray-200 py-4">
-
-        <div class="flex items-center space-x-4">
-          <img :src="item[1].image_url" alt="Product Image" class="w-20 h-20 object-cover rounded">
-          <div>
-            <h3 class="text-lg font-semibold">{{ item[1].english_name }}</h3>
-            <p class="text-sm text-green-600">In Stock • Availability: {{ item[1].availability }}</p>
-            <div class="flex items-center space-x-2 mt-2">
-              <label for="quantity" class="text-sm">Qty:</label>
+            <div class="flex flex-col items-center ">
               <div v-if="!customQty[index]">
                 <select v-model="selectedQty[index]" class="border border-gray-300 rounded p-1"
-                  @change="checkQty(index, item[0])">
+                  @change="handleQtyChange(index, item[0])">
                   <option v-for="qty in 10" :key="qty" :value="qty">{{ qty }}</option>
                   <option :value="11">10+</option>
                 </select>
               </div>
-              <div v-else>
-                <input v-model.number="customQtyValue[index]" type="number" min="11"
-                  class="border border-gray-300 rounded p-1 w-16" @blur="updateCustomQty(index, item[0])" />
+              <div class="flex flex-col items-center " v-else>
+                <input v-model.number="tempCustomQtyValue[index]" type="number" min="10" placeholder="10"
+                  class="border border-gray-300 rounded p-1 w-16" />
+                <button @click="updateCustomQty(index, item[0])"
+                  class="ml-2 mt-4 text-sm bg-emerald-950 hover:bg-emerald-800 text-white rounded px-2">
+                  Update
+                </button>
+                <div> <!-- Added a flex container here -->
+                  <button @click="backToSelect(index)"
+                    class="ml-2 text-sm bg-red-500 hover:bg-red-700 text-white rounded px-2">
+                    Clear
+                  </button>
+                </div>
               </div>
+
             </div>
-          </div> -->
+
+            <div class="text-right">
+              <p class="text-lg font-bold pe-4">
+                {{ item[1].onsale.split('%').length ==
+                  2 ? item[1].price - (item[1].onsale.split('%')[0] * item[1].price /
+                    100) :
+                  item[1].price
+                }} EGP</p>
+              <button @click="deleteItem(item[0])"
+                class="mt-2 pt-1 md:text-md text-sm flex text-white p-1 rounded-lg bg-red-700 hover:bg-red-800">
+                <i class="fas fa-trash-alt px-5 py-1">DELETE ITEM</i>
+              </button>
+            </div>
 
           </div>
 
-          <div class="text-right">
-            <p class="text-lg font-bold">
-              {{ item[1].onsale.split('%').length ==
-                2 ? item[1].price - (item[1].onsale.split('%')[0] * item[1].price /
-                  100) :
-                item[1].price
-              }} EGP</p>
-            <button @click="deleteItem(item[0])"
-              class="mt-2 pt-1 md:text-md text-sm flex text-white p-1 rounded-lg bg-red-700 hover:bg-red-800">
-              <i class="fas fa-trash-alt px-5 py-1">DELETE ITEM</i>
-            </button>
+
+          <div class="text-right mt-6">
+            <p class="text-xl font-bold">Total: {{ calculateTotalPrice() }}.00 EGP</p>
           </div>
 
+          <button @click="checkoutPopup = true" class="mainGreenBtn mt-3 block mx-auto">CHECKOUT</button>
+
         </div>
 
-
-        <div class="text-right mt-6">
-          <p class="text-lg font-bold">Total: {{ calculateTotalPrice() }}.00 EGP</p>
+        <div v-if="cart == null" class="flex items-center justify-center flex-col">
+          <img src="../assets/Empty-removebg-preview.png" alt="Empty Cart" />
+          <router-link to="/CategroyPage">
+            <button class="mainGreenBtn">Back Shopping?</button>
+          </router-link>
         </div>
 
-        <!--     <div class="flex justify-center">
-        <button @click="handleCheckout()" class="mainGreenBtn mt-3">Checkout</button>
-      </div> -->
-
-        <button @click="checkoutPopup = true" class="mainGreenBtn mt-3">Checkout</button>
-
       </div>
-
-      <div v-if="cart == null" class="flex items-center justify-center flex-col">
-        <img src="../assets/Empty-removebg-preview.png" alt="Empty Cart" />
-        <router-link to="/CategroyPage">
-          <button class="mainGreenBtn">Back Shopping?</button>
-        </router-link>
-      </div>
-
     </div>
 
-    <div v-if="checkoutPopup" class="fixed bottom-0 h-screen left-0 right-0 z-50 bg-gray-500 top-0 bg-opacity-90">
-      <div class="p-10 pb-5 shadow w-5/12 mx-auto translate-y-1/2 bg-white rounded-lg">
+    <!-- Address -->
+    <div v-if="checkoutPopup" 
+      class="popupContainer fixed bottom-0 h-screen left-0 right-0 z-50 bg-gray-500 top-0 bg-opacity-90 flex items-center">
+      <div class="popup p-10 pb-5 shadow w-5/12 mx-auto transform  bg-[#FBFBFB] rounded-lg">
 
 
         <h1 class="text-center text-3xl font-semibold mb-10">Verify your shipping address</h1>
@@ -205,7 +193,8 @@
             </button>
 
             <!-- Toggle back select address -->
-            <button class="mainPinkBtn" @click="addNewAddressFlag = false">User Previous Address</button>
+            <button v-if="(loggedUserData.address.location || loggedUserData.deliveryAddresses) && addNewAddressFlag"
+              class="mainPinkBtn" @click="addNewAddressFlag = false">Use Previous Address</button>
           </div>
 
           <div v-if="!addressFlag" class="flex items-center gap-2 justify-center">
@@ -407,7 +396,7 @@ export default {
 
 
 
-    
+
 
     async deleteItem(productId) {
 
