@@ -1,7 +1,7 @@
 import App from './App.vue'
 import { createApp } from 'vue'
 import { initializeApp } from "firebase/app";
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import store from './store'
 import service from './mixins/service';
 import axios from 'axios';
@@ -174,7 +174,8 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
+    // history: createWebHistory(),
+    history: createWebHashHistory(),
     routes,
     linkActiveClass: 'router-link-active',
     scrollBehavior(to, from, savedPosition) {
