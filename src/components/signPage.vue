@@ -194,9 +194,6 @@
                                 </svg>
                                 <input type="text" class="grow" placeholder="Address" v-model="address.location"
                                     required />
-                                <span v-if="addressErrMessage"
-                                    class="error-msg absolute text-[6px] lg:text-[10px] -bottom-[20px] left-0 text-red-700">{{
-                                        addressErrMessage }}</span>
                             </label>
 
                             <div v-if="!addressFlag" class="flex items-center gap-2">
@@ -253,8 +250,9 @@
                         </div>
 
                         <button
-                            class="signup-btn btn btn-active bg-[#166534] hover:bg-[#0A1E1E] block mx-auto border-0 text-white px-14 mt-5 col-span-2">Sign
-                            Up</button>
+                            class="signup-btn btn btn-active bg-[#166534] hover:bg-[#0A1E1E] block mx-auto border-0 text-white px-14 mt-5 col-span-2">
+                            Sign Up
+                        </button>
                     </form>
 
                 </div>
@@ -309,6 +307,7 @@ export default {
             password: '',
             rePassword: '',
             gender: '',
+
       otp: '',
       enteredOtp: '',
       showOtpInput: false,
@@ -328,7 +327,7 @@ export default {
             emailExist: '',
             passwordError: '',
             rePasswordError: '',
-            apiKey: '3199d0b4fb7e4184b017cfade26c7298',
+            // apiKey: '3199d0b4fb7e4184b017cfade26c7298',
             signUpBtn: '',
             signInBtn: '',
             signContainer: ''
@@ -464,6 +463,8 @@ export default {
                 try {
                     const usersRes = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/delivery.json');
                     const usersData = usersRes.data || {};
+                    console.log(usersData);
+
                     let loggedUser = Object.entries(usersData).find(user => user[1].email.toLowerCase() == this.email.toLowerCase() && user[1].password.toLowerCase() == this.password.toLowerCase());
                     if (loggedUser) {
                         this.$store.dispatch('setUserData', loggedUser)

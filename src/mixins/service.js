@@ -111,6 +111,7 @@ export default {
         async addUser(role, userData) {
             return (await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${role}/.json`, userData)).data
         },
+        
         async updateWeeklyOrderStatus(userId, orderStatusObj) {
             axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, orderStatusObj)
         },

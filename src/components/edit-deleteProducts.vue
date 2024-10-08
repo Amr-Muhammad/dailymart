@@ -80,9 +80,11 @@
                             name="boycott" id="boycott">
                     </div>
                     <div class="input-pair mt-4">
-                        <label class="font-bold me-3" for="img_url">Product Image URL</label>
-                        <input v-model="productDetails.image_url" id="img_url" type="text"
-                            class="border py-1 px-3 rounded-md w-full mt-2" placeholder="https://domain-name.com" />
+                        <label class="font-bold" for="">Upload Product Image:</label>
+                        <input @change="uploadImage" class="block mt-2" type="file" name="" id="">
+                        <!-- <label class="font-bold me-3" for="img_url">Product Image URL</label> -->
+                        <!-- <input v-model="productDetails.image_url" id="img_url" type="text"
+                            class="border py-1 px-3 rounded-md w-full mt-2" placeholder="https://domain-name.com" /> -->
                     </div>
                 </div>
 
@@ -158,13 +160,40 @@ export default {
                 if (this.productDetails.onsale != '') {
                     this.productDetails.onsale = `${this.productDetails.onsale}%`;
                 }
+
+
+
                 console.log(await service.methods.addProdcut(this.productDetails));
                 this.$router.push('/adminaccount/manageproducts')
             }
             catch (err) {
                 console.log(err);
             }
-        }
+        },
+
+        uploadImage(event) {
+            console.log(event);
+
+            let file = event.target.files[0]
+
+            if (file.size > 10_000_000) {
+                alert('Your image size is more than 10Mb, please upload another one')
+            }
+
+            else if (file.type.split('/')[1] != 'jpeg' && file.type.split('/')[1] != 'jpg') {
+                alert('Upload your image in jpeg or jpg format')
+            }
+            else {
+                let reader = new FileReader()
+
+                reader.onload = (e) => {
+                    console.log(e);
+                    console.log(e.target);
+                    this.productDetails.image_url = e.target.result
+                }
+                reader.readAsDataURL(file)
+            }
+        },
     },
     mounted() {
         if (this.$route.params.id) {

@@ -2,11 +2,6 @@
 
     <div class="mx-10 flex justify-between">
         <h2 class=" text-2xl font-semibold">Weekly Orders</h2>
-        <!-- <p v-if="products != null" class="font-semibold italic">Your orders are expected to be delivered by friday, {{
-            nextFriday }} , {{ days
-            }}
-            days,
-            {{ hours }} hours, {{ minutes }} minutes, {{ seconds }} seconds</p> -->
     </div>
 
     <div v-if="products != null" class="items-wrapper w-full px-4 mt-10">
@@ -15,8 +10,6 @@
             class="flex flex-wrap items-center justify-between my-7 mx-16 p-3 rounded-lg shadow-md bg-white">
 
             <div class="w-full md:w-1/4 flex justify-center mb-4 md:mb-0">
-                <!-- <img class="w-6/12 max-w-xs" src="../assets/6223000504383_-_47_-_57g-1-removebg-preview.png"
-                    alt="Big Chips"> -->
                 <img class="w-6/12 max-w-xs" :src="product[1].image_url" alt="Big Chips">
             </div>
 
@@ -47,9 +40,6 @@
                     </svg>
                 </button>
             </div>
-            <!-- <div class="block ms-auto">
-                <p class="font-semibold italic">Your orders are expected to be delivered by friday, {{nextFriday}} , {{ days }} days, {{ hours }} hours, {{ minutes }} minutes, {{ seconds }} seconds</p>
-            </div> -->
 
         </div>
 
@@ -66,21 +56,13 @@
 
     <div v-if="products != null" class="flex flex-wrap justify-between mx-20">
         <p class="font-semibold italic">
-            Your orders are expected to be delivered by Friday,
+            Your order is expected to be delivered by Friday,
             <span class="text-blue-600 font-bold">{{ nextFriday }}</span>,
             <span class="text-green-600 font-bold">{{ days }} days</span>,
             <span class="text-orange-600 font-bold">{{ hours }} hours</span>,
             <span class="text-red-600 font-bold">{{ minutes }} minutes</span>,
             <span class="text-purple-600 font-bold">{{ seconds }} seconds</span>
         </p>
-        <!-- <p class="font-semibold italic">
-            Your orders are expected to be delivered by Friday,
-            <span class="text-blue-600 font-bold">{{ nextFriday }}</span>,
-            <span class="badge bg-green-200 text-green-800">{{ days }} days</span>,
-            <span class="badge bg-orange-200 text-orange-800">{{ hours }} hours</span>,
-            <span class="badge bg-red-200 text-red-800">{{ minutes }} minutes</span>,
-            <span class="badge bg-purple-200 text-purple-800">{{ seconds }} seconds</span>
-        </p> -->
         <button class="mainGreenBtn">
             <router-link to="/CategroyPage">Add Prodcut</router-link>
         </button>
@@ -187,19 +169,25 @@ export default {
 
             this.nextFriday = `${day}-${month}-${year}`;
         },
+
         async getLoggedUser() {
             this.user = await service.methods.getLoggedUser(this.loggedUserId)
         },
+        
         async successfulSubscribe() {
+            let subscriptionStartDate = new Date()
+            let subscriptionEndDate = new Date(subscriptionStartDate)
+            subscriptionEndDate.setDate(subscriptionStartDate.getDate() + 30)
             this.subscribed = this.$route.params.id
             if (this.subscribed && this.subscribed.includes('plink')) {
                 await this.getLoggedUser()
                 let subscribeData = {
                     planid: 'a1b2c3_subscription',
-                    subscriptionStartDate: new Date()
+                    subscriptionStartDate: subscriptionStartDate,
+                    subscriptionEndDate: subscriptionEndDate
                 }
                 await service.methods.planSubscribe(this.loggedUserId, subscribeData)
-                location.assign('/useraccount/weeklyorders')
+                location.replace('/useraccount/weeklyorders')
             }
         }
     },

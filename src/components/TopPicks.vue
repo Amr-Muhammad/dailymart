@@ -55,7 +55,7 @@
             title: 'Groceries at Your Doorstep',
             description: 'Fast and reliable delivery',
             buttonText: 'Order Now',
-            buttonLink: '/signPage'
+            buttonLink: '/cart'
           }
         ]
       };

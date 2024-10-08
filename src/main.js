@@ -65,9 +65,12 @@ const firebaseConfig = {
 };
 
 async function checkForUser() {
-    if (localStorage.getItem('userId') && localStorage.getItem('role')) {
+    if (localStorage.getItem('userId') != null && localStorage.getItem('role') != 'visitor') {
         let userId = localStorage.getItem('userId')
         let role = localStorage.getItem('role')
+        console.log(userId);
+        console.log(role);
+
         let userData = await service.methods.getLoggedUser(userId, role)
 
         if (!userData.profilePicture) {
@@ -85,7 +88,9 @@ async function checkForUser() {
 
     }
     else {
+        await store.dispatch('setUserData', [null, { role: 'visitor' }])
         store.state.isDataLoading = false
+        localStorage.setItem('role','visitor')
     }
 }
 
@@ -108,7 +113,7 @@ const routes = [
         path: '/adminaccount',
         component: AdminAccount,
         children: [
-            { path: '', redirect: '/adminaccount/manageusers' },
+            { path: '', redirect: '/adminaccount/AdminChartsDashboard' },
             { path: 'manageusers', component: ManageUsers },
             { path: 'weeklyorders', component: userWeeklyOrders },
             { path: 'myorders', component: MyOrders },
@@ -117,6 +122,7 @@ const routes = [
             { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder },
             { path: 'manageProducts', component: ManageProducts },
             { path: 'editDelete/:id?', component: EditDeleteProducts },
+            { path: 'AdminChartsDashboard', component: AdminChartsDashboard },
         ]
     },
     { path: '/deliveryOrders', component: DeliveryOrders },
@@ -151,7 +157,7 @@ const routes = [
     // { path: '/AdminListItem', component: AdminListItem },
 
     // { path: '/weeklyProducts', component: WeeklyOrderProducts }, //eh da!!!
-    { path: '/AdminChartsDashboard', component: AdminChartsDashboard },
+    // { path: '/AdminChartsDashboard', component: AdminChartsDashboard },
     { path: '/CardCharts', component: CardCharts },
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
 
@@ -177,18 +183,24 @@ const router = createRouter({
 //         const userRole = store.state.loggedUserData.role
 //         const allowedRoutes = roles[userRole].canAccess
 
+
+//         // console.log(('/' + to.path.split('/')[1] ));
+//         console.log(to.path);
+
+//         // + (to.path.split('/')[2] ? `/${to.path.split('/')[2]}` : '')
 //         if (allowedRoutes.includes('/' + to.path.split('/')[1])) {
 //             next()
-//         }
+//         }   
 //         else if (to.path.split('/')[1].includes('signPage')) {
 //             next('/')
 //         }
-//         else {
-//             next({ name: 'ErrorPage' })
-//         }
+//         // else {
+//         //     next({ name: 'ErrorPage' })
+//         // }
 //     }
 //     else {
-//         if (to.path.includes(`/signPage`) || to.path.includes(`/homePage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/ImpactHeading`) || to.path.includes(`/BoycottWrapper`)) {
+//         if (to.path.includes(`/signPage`) || to.path.includes(`/CategroyPage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/homePage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/ImpactHeading`) || to.path.includes(`/BoycottWrapper`)) {
+
 //             next()
 //         }
 //         else {

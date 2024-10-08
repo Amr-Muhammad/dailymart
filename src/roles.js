@@ -13,16 +13,31 @@ export default {
             '/useraccount',
             '/PlansWrapperComponent',
             '/ImpactHeading',
+            '/BoycottWrapper',
         ]
     },
     admin: {
         canAccess: [
+            '/',
             '/adminaccount',
         ]
     },
     delivery: {
         canAccess: [
-            '/deliveryOrders'
+            '/',
+            '/deliveryOrders',
+            '/deliveryOrderDetails',
+        ]
+    },
+    visitor: {
+        canAccess: [
+            '/',
+            '/homePage',
+            '/PlansWrapperComponent',
+            '/ImpactHeading',
+            '/BoycottWrapper',
+            '/signPage',
+            '/CategroyPage',
         ]
     },
 }

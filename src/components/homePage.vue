@@ -28,7 +28,7 @@
                         unboycotted products.
                         Make it simple and convenient to support the brands you believe in.</p>
 
-                    <button @click="$router.push('/CategroyPage')"
+                    <button v-if="role == 'customer'" @click="$router.push('/CategroyPage')"
                         class="hero-btn btn lg:h-[60px] bg-[#DB4444] border-[#DB4444] px-24 md:px-32 mt-10 transition-all font-bold lg:text-3xl text-white hover:bg-[#084c3a] hover:border-[#084c3a] animate__animated animate__zoomIn">
                         Discover
                     </button>
@@ -52,11 +52,12 @@
                 <div v-for="(prd, index) in sortedPrdsOnSale" :key="prd[0]"
                     class="card bg-base-100 transition-all shadow-md hover:shadow-2xl relative">
 
-                    <!-- <router-link :to="`/productdetail/${prd[0]}`" class="absolute w-full h-full"></router-link> -->
+
 
                     <div v-if="prd[0]">
 
-                        <button title="Add To Wishlist" v-if="prd[1]"
+                        <!-- <button title="Add To Wishlist" v-if="prd[1]" -->
+                        <button title="Add To Wishlist" v-if="role == 'customer'"
                             class="text-red-500 hover:text-red-600 text-3xl absolute right-[25px] top-[25px]">
                             <svg @click="addToWishlist(prd[0], prd[1])" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -66,7 +67,8 @@
                             </svg>
                         </button>
 
-                        <button title="Add to Weekly Order" v-if="prd[1]"
+                        <!-- <button title="Add to Weekly Order" v-if="prd[1]" -->
+                        <button title="Add to Weekly Order" v-if="role == 'customer' && plan"
                             class="bg-white p-1 rounded-full flex items-center justify-center absolute left-[25px] top-[25px]">
                             <svg svg class="hover:scale-[1.1]" @click="addToWeeklyOrder(prd[0], prd[1], $event)"
                                 width="20px" height="20px" viewBox="0 0 24 24" fill="none"
@@ -138,7 +140,8 @@
                     <div v-if="prd[1]"
                         class="cart-btn group border-t-2 z-5 border-t-[#2525257c] w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
 
-                        <button @click="addToCart(prd[0], prd[1])" :disabled="clickedProducts[prd[0]]"
+                        <button v-if="role == 'customer'" @click="addToCart(prd[0], prd[1])"
+                            :disabled="clickedProducts[prd[0]]"
                             class="flex items-center justify-center gap-2 w-full p-2">
                             <template v-if="clickedProducts[prd[0]]">
                                 <span>Adding to cart ...</span>
@@ -174,7 +177,7 @@
 
             </div>
 
-            <button @click="$router.push('/offersPage')"
+            <button v-if="role == 'customer'" @click="$router.push('/offersPage')"
                 class="btn px-24 md:px-30 lg:text-xl transition-all font-bold text-white border-0 bg-[#DB4444] hover:bg-[#0A1E1E] hover:border-[#0A1E1E] animate__animated animate__pulse animate__infinite	infinite">
                 Find more
             </button>
@@ -198,7 +201,7 @@
 
                         <router-link :to="`/productdetail/${prd[0]}`" class="absolute w-full h-full"></router-link>
 
-                        <button title="Add To Wishlist" v-if="prd[1]"
+                        <button  title="Add To Wishlist" v-if="role == 'customer'"
                             class="text-red-500 hover:text-red-600 text-3xl z-10 absolute top-[15px] right-[15px]">
                             <svg @click="addToWishlist(prd[0], prd[1])" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -283,7 +286,7 @@
 
             </Carousel>
 
-            <button @click="$router.push('/BoycottWrapper')"
+            <button v-if="role == 'customer'" @click="$router.push('/BoycottWrapper')"
                 class="btn px-10 mt-10 transition-all font-bold text-white border-0 bg-[#DB4444] hover:bg-[#0A1E1E] hover:border-[#0A1E1E]">
                 See more </button>
 
@@ -363,7 +366,8 @@
 
                         <div class="card-actions flex flex-col items-center justify-center mx-auto">
 
-                            <button :disabled="buttonDisabledState[prd[0]] || prd[1].availability <= 0"
+                            <button v-if="role == 'customer'"
+                                :disabled="buttonDisabledState[prd[0]] || prd[1].availability <= 0"
                                 @click="addToCart(prd[0], prd[1])" :class="{
                                     'bg-gray-500 hover:bg-gray-500 cursor-not-allowed': buttonDisabledState[prd[0]] || prd[1].availability <= 0,
                                     'bg-[#166534] hover:bg-[#0A1E1E] cursor-pointer': !buttonDisabledState[prd[0]] && prd[1].availability > 0
@@ -378,7 +382,7 @@
 
                             </button>
 
-                            <button @click="$router.push(`/productdetail/${prd[0]}`)"
+                            <button v-if="role == 'customer'" @click="$router.push(`/productdetail/${prd[0]}`)"
                                 class="btn bg-[#DB4444] hover:bg-[#0A1E1E] w-[200px] cursor-pointer text-base text-white border-0 rounded px-4 ">
                                 See more
                             </button>
@@ -484,7 +488,9 @@ export default defineComponent({
                     itemsToShow: 4.95,
                 },
             },
-            clickedProducts: {}
+            clickedProducts: {},
+            role: localStorage.getItem('role'),
+            plan: ''
         }
     },
 
@@ -599,7 +605,7 @@ export default defineComponent({
                 }
                 else {
                     console.log('msh mwgod');
-                    
+
                     try {
                         console.log(await service.methods.addTo_cart_wishlist_weekly(this.loggedUserId, productId, {
                             ...product,
@@ -807,28 +813,36 @@ export default defineComponent({
             await this.getNewPrds();
 
             const scrollBtn = this.$refs.scrollBtn;
-            window.onscroll = () => {
-                if (window.scrollY >= 1500) {
-                    scrollBtn.style.right = "30px";
-                } else {
-                    scrollBtn.style.right = "-100px";
-                }
-            };
+            if (scrollBtn) {
+                window.onscroll = () => {
+                    if (window.scrollY >= 1500) {
+                        scrollBtn.style.right = "30px";
+                    } else {
+                        scrollBtn.style.right = "-100px";
+                    }
+                };
 
-            scrollBtn.addEventListener("click", () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
+                scrollBtn.addEventListener("click", () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                    });
                 });
-            });
-
+            }
+            if (this.loggedUserData) {
+                this.plan = this.loggedUserData.planid
+                console.log(this.loggedUserData);
+                console.log(this.plan);
+                
+                
+            }
         } catch (err) {
             console.log('Error loading products')
         }
 
     },
-    computed:{
-        ...mapState(['loggedUserId','loggedUserData'])
+    computed: {
+        ...mapState(['loggedUserId', 'loggedUserData'])
     }
 
 })

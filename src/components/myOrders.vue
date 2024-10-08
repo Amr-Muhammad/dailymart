@@ -74,7 +74,7 @@
                                 <div class="rounded-full border text-center py-1 flex items-center px-3 gap-2">
                                     <img src="../assets/delivery-service.png" class="w-5" alt="">
                                     <p class="text-sm text-gray-400">{{
-                                        loggedUserData.address.location }}</p>
+                                        order[1].customerAddress }}</p>
                                 </div>
                             </div>
 
@@ -107,7 +107,7 @@
                     <div
                         class="flex justify-between items-center mt-4 flex-col md:flex-row border-t-2 border-black py-3">
                         <p class="text-lg font-semibold">Total Cost: {{ order[1].total }} EGP</p>
-                        <button class="mt-2 md:mt-0 px-4 py-2 bg-black text-white rounded-lg">Details</button>
+                        <!-- <button class="mt-2 md:mt-0 px-4 py-2 bg-black text-white rounded-lg">Details</button> -->
                     </div>
                 </div>
 

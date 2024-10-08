@@ -18,6 +18,7 @@ let store = createStore({
             state.loggedUserId = null
             state.loggedUserData = null
             localStorage.removeItem('userId')
+            localStorage.removeItem('role')
         }
     },
     actions: {

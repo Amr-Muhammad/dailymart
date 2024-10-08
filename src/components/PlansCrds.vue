@@ -67,6 +67,8 @@
 </template>
 
 <script>
+// import { mapState } from 'vuex';
+
 export default {
   name: 'PlansCrds',
   data() {
@@ -88,6 +90,7 @@ export default {
           description: 'Unlock all features.',
           features: ['Free Delivery', 'Get Discount', '24/7 Support', 'Premium Customer Service'],
           buttonText: ' Subscribe',
+          buttonTextSubscrived: "Your're subscribed",
           isPro: true,
         },
       ],
@@ -97,6 +100,9 @@ export default {
     subscribe() {
       location.assign('https://buy.stripe.com/test_8wM9E6eqSd0hh0YfZ2')
     }
-  }
+  },
+  // computed:[
+  //   ...mapState('loggedUserData','loggedUserId')
+  // ]
 };
 </script>
