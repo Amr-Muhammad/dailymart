@@ -71,6 +71,14 @@
     </div> -->
 
     <div class="container mx-auto">
+        <button ref="scrollBtn" class="scroll-btn fixed bottom-[30px] z-[9999] transition-[right] duration-[1.5s] rounded-full ">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
+            class="size-6 border border-black rounded-full p-[3px]">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+            </svg>
+
+        </button>
+
         <div class="products pt-10 mb-12 text-center">
 
             <!-- Products Search -->
@@ -115,14 +123,13 @@
                         <div
                             class="card border rounded-md hover:scale-[1.01] transition-all hover:shadow-lg duration-300">
 
-                            <router-link :to="`/productdetail/${product[0]}`">
 
                                 <figure class="bg-stone-50 p-5 relative ">
 
                                     <div class="w-full flex justify-center relative">
                                         <img :src="product[1].image_url" alt="" class="w-1/2 h-[180px]" />
 
-                                        <div class="sideNav">
+                                        <div class="sideNav z-10" v-if="role == 'customer'">
 
                                             <div title="Add to Wishlist"
                                                 class="bg-white p-1 rounded-full flex items-center justify-center">
@@ -177,22 +184,25 @@
                                         </div>
                                     </div>
 
+                                    <router-link  v-if="role === 'customer'" :to="`/productdetail/${product[0]}`" class="absolute top-0 left-0 w-full h-full"></router-link>
+                                    <router-link  v-else :to="`/signPage`" class="absolute top-0 left-0 w-full h-full"></router-link>
+
                                 </figure>
 
                                 <div class="card-body p-5">
 
                                     <h2 :title="product[1].english_name"
                                         class="card-title text-start text-[18px] font-semibold">{{
-                                            product[1].english_name.length > 15 ?
-                                                product[1].english_name.slice(0, 15).split().join('') + '...' :
+                                            product[1].english_name.length > 10 ?
+                                                product[1].english_name.slice(0, 10).split().join('') + '...' :
                                                 product[1].english_name
                                         }}</h2>
 
-                                    <h2 :title="product[1].description" class="card-title text-start text-sm">{{
-                                        product[1].description.length > 25 ?
-                                            product[1].description.slice(0, 25).split().join('') + '...' :
-                                            product[1].description
-                                    }}</h2>
+                                    <h2 :title="product[1].description" class="card-title text-start text-base">{{
+                                            product[1].description.length > 20 ?
+                                                product[1].description.slice(0, 20).split().join('') + '...' :
+                                                product[1].description
+                                        }}</h2>
 
                                     <div class="price flex gap-3">
                                         <div class="after text-lg text-red-500 font-bold">
@@ -222,11 +232,10 @@
                                     </div>
                                 </div>
 
-                            </router-link>
 
                             <div
-                                class="cart-btn group border w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
-                                <button @click="addToCart(product[0], product[1])"
+                                class="cart-btn group border z-10 w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
+                                <button v-if="role == 'customer'" @click="addToCart(product[0], product[1])"
                                     :disabled="clickedProducts[product[0]]"
                                     class="flex items-center justify-center gap-2 w-full p-2">
                                     <template v-if="clickedProducts[product[0]]">
@@ -307,7 +316,9 @@ export default {
             user: null,
             subscribed: null,
             clickedProducts: {},
-            allRates: {}
+            allRates: {},
+            role: localStorage.getItem('role'),
+            plan: ''
         }
     },
     computed: {
@@ -578,6 +589,23 @@ export default {
         this.isUserSubscribed()
         this.getAllProducts()
         // service.methods.getNextFriday()
+        const scrollBtn = this.$refs.scrollBtn;
+        if (scrollBtn) {
+            window.onscroll = () => {
+                if (window.scrollY >= 1500) {
+                    scrollBtn.style.right = "30px";
+                } else {
+                    scrollBtn.style.right = "-100px";
+                }
+            };
+
+            scrollBtn.addEventListener("click", () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+            });
+        }
     },
     watch: {
         searchQueryProducts: function () {
@@ -588,6 +616,10 @@ export default {
 </script>
 
 <style scoped>
+.scroll-btn {
+    right: 30px;
+}
+
 .card figure:hover .cart-btn {
     display: block
 }
