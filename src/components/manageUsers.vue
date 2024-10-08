@@ -1,5 +1,5 @@
 <template>
-    <section v-if="loggedUserData.role === 'admin'">
+    <section v-if="loggedUserData && loggedUserData.role === 'admin'">
       <h1 class="text-3xl font-bold text-red-600 text-center mt-12">You don't have access to this page</h1>
     </section>
   
@@ -61,12 +61,17 @@
       };
     },
     computed: {
-      ...mapState(['loggedUserData']), // Get loggedUserData from Vuex store
+      ...mapState(['loggedUserData']), 
     },
     methods: {
       async fetchUsers() {
-        this.users = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer.json`)).data;
-        this.users = Object.entries(this.users);
+        try {
+    const response = await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer.json');
+    this.users = Object.entries(response.data);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    
+  }
       },
       viewUserProducts(userId) {
         this.$router.push(`./adminweeklyorder/${userId}`);
