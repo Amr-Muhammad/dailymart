@@ -2,6 +2,38 @@
 
     <div class="mx-10 flex justify-between">
         <h2 class=" text-2xl font-semibold">Weekly Orders</h2>
+        <div v-if="loggedUserData.orderStatus == 'Approved'" class="flex gap-5 items-center">
+            <div class="font-semibold italic text-lg">Your order is expected to be delivered by Friday,
+                <span class="ms-3 text-[#166534]">{{ nextFriday }}</span>
+            </div>
+            <div>
+                <span class="countdown font-mono text-2xl">
+                    <span :style="`--value:${days}`"></span>
+                </span>
+                days
+            </div>
+            <div>
+                <span class="countdown font-mono text-2xl">
+                    <span :style="`--value:${hours}`"></span>
+                </span>
+                hours
+            </div>
+            <div>
+                <span class="countdown font-mono text-2xl">
+                    <span :style="`--value:${minutes}`"></span>
+                </span>
+                min
+            </div>
+            <div>
+                <span class="countdown font-mono text-2xl">
+                    <span :style="`--value:${seconds}`"></span>
+                </span>
+                sec
+            </div>
+        </div>
+        <p v-if="loggedUserData.orderStatus == 'Pending'"
+            class="text-lg font-bold text-orange-600 me-10 bg-orange-100 py-1 rounded-lg px-3">Order {{
+                loggedUserData.orderStatus }}</p>
     </div>
 
     <div v-if="products != null" class="items-wrapper w-full px-4 mt-10">
@@ -20,10 +52,14 @@
                         :class="{ 'bg-orange-400': star <= allRates[index], 'bg-gray-300': star > allRates[index] }"
                         class="mask mask-star-2" disabled />
                 </div>
-                <p class="text-lg font-semibold">{{ product[1].price }}.00 E£</p>
+                <p class="text-lg font-semibold">{{ product[1].onsale.split('%').length ==
+                    2 ? product[1].price - (product[1].onsale.split('%')[0] * product[1].price /
+                        100) :
+                    product[1].price
+                    }} EGP</p>
             </div>
 
-            <div class="w-full md:w-1/4 flex flex-col items-center md:items-end">
+            <div v-if="!loggedUserData.orderStatus" class="w-full md:w-1/4 flex flex-col items-center md:items-end">
                 <div class="flex items-center mb-2">
                     <button @click="patchQuantity(product[0], '-')"
                         class="secondaryBtn px-3 py-1 border border-gray-400 rounded-lg text-gray-600">-</button>
@@ -55,11 +91,12 @@
     </div>
 
 
-    <div>
+    <!-- <div v-if="products != null"> -->
+    <div v-if="!loggedUserData.orderStatus">
         <button @click="openPopup()" class="mainGreenBtn block mx-auto">CHECKOUT</button>
     </div>
 
-    <!-- <div v-if="products != null" class="flex flex-wrap justify-between mx-20">
+    <!-- <div v-if="loggedUserData.orderStatus" class="flex flex-wrap justify-between mx-20 mt-5">
         <p class="font-semibold italic">
             Your order is expected to be delivered by Friday,
             <span class="text-blue-600 font-bold">{{ nextFriday }}</span>,
@@ -68,9 +105,36 @@
             <span class="text-red-600 font-bold">{{ minutes }} minutes</span>,
             <span class="text-purple-600 font-bold">{{ seconds }} seconds</span>
         </p>
-        <button class="mainGreenBtn">
-            <router-link to="/CategroyPage">Add Prodcut</router-link>
-        </button>
+    </div> -->
+
+    <!-- <div v-if="loggedUserData.orderStatus" class="flex gap-5 items-center mx-20 mt-5">
+        <div class="font-semibold italic text-lg">Your order is expected to be delivered by Friday,
+            <span class="ms-3 text-[#166534]">{{ nextFriday }}</span>
+        </div>
+        <div>
+            <span class="countdown font-mono text-2xl">
+                <span :style="`--value:${days}`"></span>
+            </span>
+            days
+        </div>
+        <div>
+            <span class="countdown font-mono text-2xl">
+                <span :style="`--value:${hours}`"></span>
+            </span>
+            hours
+        </div>
+        <div>
+            <span class="countdown font-mono text-2xl">
+                <span :style="`--value:${minutes}`"></span>
+            </span>
+            min
+        </div>
+        <div>
+            <span class="countdown font-mono text-2xl">
+                <span :style="`--value:${seconds}`"></span>
+            </span>
+            sec
+        </div>
     </div> -->
 
 
@@ -337,12 +401,174 @@ export default {
             }
         },
 
-        openPopup(){
+        openPopup() {
             this.checkoutPopup = true
-                console.log(this.$refs.popupContainer);
-                console.log(document.getElementById('test'));
-            
-            
+            console.log(this.$refs.popupContainer);
+            console.log(document.getElementById('test'));
+
+
+        },
+
+        async handleCheckout(prevAddress) {
+            try {
+                if (prevAddress) {
+
+                    let res = (await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(this.selectValue)}&key=3199d0b4fb7e4184b017cfade26c7298`)).data
+                    console.log(res);
+
+                    if (res.results[0]) {
+                        this.address.latitude = res.results[0].geometry.lat
+                        this.address.longitude = res.results[0].geometry.lng
+                        this.address.location = this.selectValue
+
+                        this.distance = this.haversineDistance(this.storeLat, this.storeLong, this.address.latitude, this.address.longitude)
+                        if (this.distance > 25) {
+                            this.addressErrMessage = "Sorry! We're not serving this location yet"
+                        }
+                        else {
+                            this.deliveryCharge = this.calculateDeliveryCharge(this.distance)
+                        }
+
+                    } else {
+                        this.addressErrMessage = 'Enter a valid address'
+                        console.log(this.addressErrMessage);
+                        return;
+                    }
+
+                }
+
+                const weeklyorders = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/weeklyorders/${this.loggedUserId}.json`)).data
+
+                let cartArray = []
+                for (let i = 0; i < Object.entries(weeklyorders).length; i++) {
+                    cartArray.push(Object.entries(weeklyorders)[i][1])
+                }
+
+                const user = {
+                    name: this.loggedUserData.firstName + ' ' + this.loggedUserData.lastName,
+                    email: this.loggedUserData.email
+                };
+
+
+                //hyrg3ly hena array fih qyam el availability elly fi el back end fi webhook el success h loop 3lehom b patch request- ab3d el array da m3 el post request
+                // let productsAvailability = []
+                // cartArray.forEach(item => productsAvailability.push(item.availability - item.quantity))
+
+                console.log(cartArray);
+                console.log(user.name);
+                console.log(user.email);
+                console.log(this.loggedUserId);
+                console.log(this.loggedUserData.planid);
+                console.log(this.loggedUserData.phone);
+                console.log(this.address.location);
+                console.log(this.deliveryCharge);
+
+                const sessionResponse = await axios.post('http://localhost:3001/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge, weeklyOrder: true });
+                // const sessionResponse = await axios.post('https://delight-mart-server.vercel.app/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge });
+
+                const sessionId = sessionResponse.data.id;
+                const { error } = await this.stripe.redirectToCheckout({ sessionId: sessionId });
+
+
+                if (error) {
+                    console.error('Error redirecting to checkout:', error);
+                }
+            } catch (error) {
+                console.error('Error during checkout process:', error);
+            }
+
+        },
+
+        // Customer share location
+        getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async postion => {
+                        this.address.latitude = postion.coords.latitude
+                        this.address.longitude = postion.coords.longitude
+
+
+                        let res = (await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${this.address.latitude},${this.address.longitude}&key=${this.apiKey}`)).data
+                        if (res.results) {
+                            res.results.forEach(place => this.address.location = place.formatted)
+                        }
+
+                        this.distance = this.haversineDistance(this.storeLat, this.storeLong, this.address.latitude, this.address.longitude)
+                        if (this.distance > 25) {
+                            this.addressErrMessage = "Sorry! We're not serving this location yet"
+                        } else {
+                            this.deliveryCharge = this.calculateDeliveryCharge(this.distance)
+                            console.log(this.address);
+                            this.addressErrMessage = null
+                            this.addressFlag = false
+                        }
+                    },
+                    () => {
+                        alert('Enable accessing your location')
+                    }
+                )
+            }
+            else {
+                alert("This browser doesn't support live location")
+            }
+        },
+
+        // Validate el customer entered address
+        async validateAdress() {
+            let res = (await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(this.address.location)}&key=3199d0b4fb7e4184b017cfade26c7298`)).data
+            console.log(res);
+
+            if (res.results[0]) {
+                this.address.latitude = res.results[0].geometry.lat
+                this.address.longitude = res.results[0].geometry.lng
+
+                this.distance = this.haversineDistance(this.storeLat, this.storeLong, this.address.latitude, this.address.longitude)
+                if (this.distance > 25) {
+                    this.addressErrMessage = "Sorry! We're not serving this location yet"
+                }
+                else {
+                    this.deliveryCharge = this.calculateDeliveryCharge(this.distance)
+                    console.log(this.address);
+                    this.addressFlag = false
+                    this.addressErrMessage = null
+                }
+
+            } else {
+                this.addressErrMessage = 'Enter a valid address'
+                console.log(this.addressErrMessage);
+                return;
+            }
+        },
+
+        haversineDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * (Math.PI / 180);
+            const dLon = (lon2 - lon1) * (Math.PI / 180);
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distance = (R * c) + 3; // Distance in kilometers
+            return distance;
+        },
+
+        calculateDeliveryCharge(distance) {
+            if (distance <= 5) {
+                return 30;
+            } else if (distance <= 10) {
+                return 50;
+            } else if (distance <= 15) {
+                return 70;
+            } else if (distance <= 20) {
+                return 90
+            } else if (distance <= 25) {
+                return 100
+            }
+            // else {
+            //   // return 15 + (distance - 15) * 0.5; // Extra charge per km after 15 km
+            // }
+
         }
     },
     async mounted() {
@@ -356,7 +582,17 @@ export default {
         setInterval(() => {
             this.getTimeRemainingUntilFriday()
         }, 1000);
-        
+
+        if (!window.Stripe) {
+            const script = document.createElement('script');
+            script.src = 'https://js.stripe.com/v3/';
+            script.onload = () => {
+                this.stripe = window.Stripe('pk_test_51PtX5uLbeudqBLeNmUwmj2P6zWbDPnbu4xUktC6XRsyZ4To6giHWQG083GNF0jfu90KCGgygSmcGSi1dzPjUhDql00oJveYLCq');
+            }
+            document.head.appendChild(script);
+        } else {
+            this.stripe = window.Stripe('pk_test_51PtX5uLbeudqBLeNmUwmj2P6zWbDPnbu4xUktC6XRsyZ4To6giHWQG083GNF0jfu90KCGgygSmcGSi1dzPjUhDql00oJveYLCq');
+        }
     }
 }
 </script>

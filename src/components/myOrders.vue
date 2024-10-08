@@ -2,7 +2,7 @@
     <div class="container mx-auto my-8 px-4">
 
         <!-- Tabs for Order Status -->
-        <div class="flex justify-between items-center border-b mb-4 overflow-x-auto">
+        <div v-if="filteredOrders" class="flex justify-between items-center border-b mb-4 overflow-x-auto">
             <button v-for="tab in tabs" :key="tab" @click="selectedTab = tab" :class="[
                 'px-4 py-2 text-lg',
                 selectedTab === tab ? 'border-b-2 border-black font-semibold' : 'text-gray-500'
@@ -12,7 +12,7 @@
         </div>
 
         <!-- Orders List -->
-        <div class="flex flex-wrap">
+        <div v-if="filteredOrders" class="flex flex-wrap">
             <div v-for="order in filteredOrders" :key="order" class="p-2 mb-4 w-full lg:w-1/2">
 
                 <div class="p-2 border rounded-2xl">
@@ -71,7 +71,8 @@
                             <div>
                                 <p class="text-gray-500">Order ID</p>
                                 <p class="font-bold my-1">#{{ order[0].slice(1, 7) }}</p>
-                                <p v-if="order[1].pickedBy" class="mb-3 font-semibold">Delivery Person: <span class="text-orange-600">{{order[1].pickedBy}}</span></p>
+                                <p v-if="order[1].pickedBy" class="mb-3 font-semibold">Delivery Person: <span
+                                        class="text-orange-600">{{ order[1].pickedBy }}</span></p>
                                 <div class="rounded-full border text-center py-1 flex items-center px-3 gap-2">
                                     <img src="../assets/delivery-service.png" class="w-5" alt="">
                                     <p class="text-sm text-gray-400">{{
@@ -116,6 +117,11 @@
             </div>
         </div>
 
+        <div v-else>
+            <h1 class="text-center text-3xl font-bold">You don't have any orders</h1>
+            <img class="w-1/2 block mx-auto" src="../assets/noOrders.jpg" alt="">
+        </div>
+
     </div>
 </template>
 
@@ -154,8 +160,10 @@ export default {
     methods: {
         async getOrders() {
             this.orders = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/orders/${this.loggedUserId}.json`)).data
-            this.orders = Object.entries(this.orders)
-            console.log(this.orders);
+            if (this.orders != null) {
+                this.orders = Object.entries(this.orders)
+                console.log(this.orders);
+            }
         }
     }
 };

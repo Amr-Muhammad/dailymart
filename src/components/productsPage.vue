@@ -235,14 +235,14 @@
             </section>
 
             <!-- Pagination -->
-            <section class="join mt-10 rounded-none">
+            <!-- <section class="join mt-10 rounded-none">
                 <input class="join-item  pagination-btns" type="radio" name="options" aria-label="«" />
                 <input class="join-item pagination-btns" type="radio" name="options" aria-label="1" checked="checked" />
                 <input class="join-item  pagination-btns" type="radio" name="options" aria-label="2" />
                 <input class="join-item  pagination-btns" type="radio" name="options" aria-label="3" />
                 <input class="join-item  pagination-btns" type="radio" name="options" aria-label="4" />
                 <input class="join-item  pagination-btns" type="radio" name="options" aria-label="»" />
-            </section>
+            </section> -->
 
         </div>
 

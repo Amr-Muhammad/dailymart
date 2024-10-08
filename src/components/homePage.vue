@@ -24,7 +24,7 @@
                             Make it simple and convenient to support the brands you believe in.</p>
 
 
-                    <button v-if="role == 'customer'" @click="$router.push('/CategroyPage')"
+                    <button @click="$router.push('/CategroyPage')"
 
                         class="hero-btn btn lg:h-[60px] bg-[#DB4444] border-[#DB4444] px-24 md:px-32 mt-10 transition-all font-bold lg:text-3xl text-white hover:bg-[#084c3a] hover:border-[#084c3a] animate__animated animate__zoomIn">
                         Discover
@@ -293,7 +293,7 @@
 
             </Carousel>
 
-            <button v-if="role == 'customer'" @click="$router.push('/BoycottWrapper')"
+            <button  @click="$router.push('/BoycottWrapper')"
                 class="btn px-10 mt-10 transition-all font-bold text-white border-0 bg-[#DB4444] hover:bg-[#0A1E1E] hover:border-[#0A1E1E]">
                 See more </button>
 
