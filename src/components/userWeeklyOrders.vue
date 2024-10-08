@@ -1,8 +1,8 @@
 <template>
 
-    <div class="mx-10 flex justify-between">
+    <div class="mx-10 flex flex-wrap justify-between">
         <h2 class=" text-2xl font-semibold">Weekly Orders</h2>
-        <div v-if="loggedUserData.orderStatus == 'Approved'" class="flex gap-5 items-center">
+        <!-- <div v-if="loggedUserData.orderStatus == 'Approved'" class="flex gap-5 items-center">
             <div class="font-semibold italic text-lg">Your order is expected to be delivered by Friday,
                 <span class="ms-3 text-[#166534]">{{ nextFriday }}</span>
             </div>
@@ -30,7 +30,75 @@
                 </span>
                 sec
             </div>
+        </div> -->
+
+
+        <!-- <div class="grid auto-cols-max grid-flow-col gap-5 text-center">
+            <div v-if="loggedUserData.orderStatus == 'Approved'" class="flex gap-5 items-center">
+                <div class="font-semibold italic text-lg">Your order is expected to be delivered by Friday,
+                    <span class="ms-3 text-[#166534]">{{ nextFriday }}</span>
+                </div>
+                <div class="flex flex-col">
+                    <span class="countdown font-mono text-2xl">
+                        <span :style="`--value:${days}`"></span>
+                    </span>
+                    Days
+                </div>
+                <div class="flex flex-col">
+                    <span class="countdown font-mono text-2xl">
+                        <span :style="`--value:${hours}`"></span>
+                    </span>
+                    Hours
+                </div>
+                <div class="flex flex-col">
+                    <span class="countdown font-mono text-2xl">
+                        <span :style="`--value:${minutes}`"></span>
+                    </span>
+                    Min
+                </div>
+                <div class="flex flex-col">
+                    <span class="countdown font-mono text-2xl">
+                        <span :style="`--value:${seconds}`"></span>
+                    </span>
+                    Sec
+                </div>
+            </div>
+        </div> -->
+
+
+        <div class="flex gap-5">
+            <div v-if="loggedUserData.orderStatus == 'Approved'" class="flex gap-5 items-center">
+                <div class="font-semibold italic text-lg">Your order is expected to be delivered by Friday,
+                    <span class="ms-3 text-[#166534]">{{ nextFriday }}</span>
+                </div>
+                <div>
+                    <span class="countdown font-mono text-2xl">
+                        <span :style="`--value:${days}`"></span>
+                    </span>
+                    days
+                </div>
+                <div>
+                    <span class="countdown font-mono text-2xl">
+                        <span :style="`--value:${hours}`"></span>
+                    </span>
+                    hours
+                </div>
+                <div>
+                    <span class="countdown font-mono text-2xl">
+                        <span :style="`--value:${minutes}`"></span>
+                    </span>
+                    min
+                </div>
+                <div>
+                    <span class="countdown font-mono text-2xl">
+                        <span :style="`--value:${seconds}`"></span>
+                    </span>
+                    sec
+                </div>
+            </div>
         </div>
+
+
         <p v-if="loggedUserData.orderStatus == 'Pending'"
             class="text-lg font-bold text-orange-600 me-10 bg-orange-100 py-1 rounded-lg px-3">Order {{
                 loggedUserData.orderStatus }}</p>

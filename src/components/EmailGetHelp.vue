@@ -44,7 +44,7 @@
 
 <script>
 import emailjs from 'emailjs-com';
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 export default {
   data() {
@@ -73,7 +73,6 @@ export default {
       emailjs.send('service_g4avpxe', 'template_9uovei9', templateParams)
         .then(response => {
           console.log('SUCCESS!', response.status, response.text);
-
           this.from_name = '';
           this.email = '';
           this.phone_num = '';
@@ -81,6 +80,20 @@ export default {
           this.message = '';
         }, error => {
           console.log('FAILED...', error);
+        }).then(() => {
+          Swal.fire({
+            title: 'Message Sent!',
+            text: 'Thank you for contacting us. We have received your message and will get back to you within 24 hours.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#3085d6',
+            customClass: {
+              popup: 'bg-white text-gray-800 p-5 rounded-lg',
+            },
+            background: '#f1f1f1', 
+            showCloseButton: true, 
+            timer: 5000 
+          });
         });
     },
 

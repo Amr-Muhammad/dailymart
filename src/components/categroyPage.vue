@@ -2,9 +2,10 @@
 
     <div class="container mx-auto">
 
-        <button ref="scrollBtn" class="scroll-btn fixed bottom-[30px] z-[9999] transition-[right] duration-[1.5s] rounded-full ">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" 
-            class="size-6 border border-black rounded-full p-[3px]">
+        <button ref="scrollBtn"
+            class="scroll-btn fixed bottom-[30px] z-[9999] transition-[right] duration-[1.5s] rounded-full ">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6 border border-black rounded-full p-[3px]">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
             </svg>
 
@@ -117,122 +118,124 @@
                             class="card border rounded-md hover:scale-[1.01] transition-all hover:shadow-lg duration-300">
 
 
-                                <figure class="bg-stone-50 p-5 relative ">
+                            <figure class="bg-stone-50 p-5 relative ">
 
-                                    <div class="w-full flex justify-center relative">
-                                        <img :src="product[1].image_url" alt="" class="w-1/2 h-[180px]" />
+                                <div class="w-full flex justify-center relative">
+                                    <img :src="product[1].image_url" alt="" class="w-1/2 h-[180px]" />
 
-                                        <div class="sideNav z-10" v-if="role == 'customer'">
+                                    <div class="sideNav z-10" v-if="role == 'customer'">
 
-                                            <div title="Add to Wishlist" 
-                                                class="bg-white p-1 rounded-full flex items-center justify-center">
-                                                <svg @click="addToWishlist(product[0], product[1], $event)"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor"
-                                                    class="size-4 cursor-pointer hover:fill-[#DB4444] ms-auto hover:text-[#DB4444] block mx-auto">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                                                </svg>
-                                            </div>
+                                        <div title="Add to Wishlist"
+                                            class="bg-white p-1 rounded-full flex items-center justify-center">
+                                            <svg @click="addToWishlist(product[0], product[1], $event)"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor"
+                                                class="size-4 cursor-pointer hover:fill-[#DB4444] ms-auto hover:text-[#DB4444] block mx-auto">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                            </svg>
+                                        </div>
 
-                                            <div title="Add to Weekly Order"
-                                                v-if="subscribed && product[1].availability != 0 "
-                                                class="bg-white p-1 rounded-full flex items-center justify-center">
-                                                <svg svg class="hover:scale-[1.1]"
-                                                    @click="addToWeeklyOrder(product[0], product[1], $event)"
-                                                    width="20px" height="20px" viewBox="0 0 24 24" fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                    </g>
-                                                    <g id="SVGRepo_iconCarrier">
-                                                        <g opacity="0.5">
-                                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                d="M2.25 6C2.25 5.58579 2.58579 5.25 3 5.25H21C21.4142 5.25 21.75 5.58579 21.75 6C21.75 6.41421 21.4142 6.75 21 6.75H3C2.58579 6.75 2.25 6.41421 2.25 6ZM2.25 10C2.25 9.58579 2.58579 9.25 3 9.25H21C21.4142 9.25 21.75 9.58579 21.75 10C21.75 10.4142 21.4142 10.75 21 10.75H3C2.58579 10.75 2.25 10.4142 2.25 10ZM2.25 14C2.25 13.5858 2.58579 13.25 3 13.25H10C10.4142 13.25 10.75 13.5858 10.75 14C10.75 14.4142 10.4142 14.75 10 14.75H3C2.58579 14.75 2.25 14.4142 2.25 14ZM2.25 18C2.25 17.5858 2.58579 17.25 3 17.25H10C10.4142 17.25 10.75 17.5858 10.75 18C10.75 18.4142 10.4142 18.75 10 18.75H3C2.58579 18.75 2.25 18.4142 2.25 18Z"
-                                                                fill="#000000"></path>
-                                                        </g>
-                                                        <path
-                                                            d="M14 15.0361C14 16.2709 15.4849 17.5789 16.5203 18.3408C16.9546 18.6603 17.1717 18.8201 17.5 18.8201C17.8283 18.8201 18.0454 18.6603 18.4797 18.3408C19.5151 17.5789 21 16.2709 21 15.0361C21 13.0282 19.0749 12.2786 17.5 13.8296C15.9251 12.2786 14 13.0282 14 15.0361Z"
+                                        <div title="Add to Weekly Order"
+                                            v-if="subscribed && product[1].availability != 0"
+                                            class="bg-white p-1 rounded-full flex items-center justify-center">
+                                            <svg svg class="hover:scale-[1.1]"
+                                                @click="addToWeeklyOrder(product[0], product[1], $event)" width="20px"
+                                                height="20px" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                    stroke-linejoin="round">
+                                                </g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <g opacity="0.5">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                            d="M2.25 6C2.25 5.58579 2.58579 5.25 3 5.25H21C21.4142 5.25 21.75 5.58579 21.75 6C21.75 6.41421 21.4142 6.75 21 6.75H3C2.58579 6.75 2.25 6.41421 2.25 6ZM2.25 10C2.25 9.58579 2.58579 9.25 3 9.25H21C21.4142 9.25 21.75 9.58579 21.75 10C21.75 10.4142 21.4142 10.75 21 10.75H3C2.58579 10.75 2.25 10.4142 2.25 10ZM2.25 14C2.25 13.5858 2.58579 13.25 3 13.25H10C10.4142 13.25 10.75 13.5858 10.75 14C10.75 14.4142 10.4142 14.75 10 14.75H3C2.58579 14.75 2.25 14.4142 2.25 14ZM2.25 18C2.25 17.5858 2.58579 17.25 3 17.25H10C10.4142 17.25 10.75 17.5858 10.75 18C10.75 18.4142 10.4142 18.75 10 18.75H3C2.58579 18.75 2.25 18.4142 2.25 18Z"
                                                             fill="#000000"></path>
                                                     </g>
-                                                </svg>
-                                            </div>
-
+                                                    <path
+                                                        d="M14 15.0361C14 16.2709 15.4849 17.5789 16.5203 18.3408C16.9546 18.6603 17.1717 18.8201 17.5 18.8201C17.8283 18.8201 18.0454 18.6603 18.4797 18.3408C19.5151 17.5789 21 16.2709 21 15.0361C21 13.0282 19.0749 12.2786 17.5 13.8296C15.9251 12.2786 14 13.0282 14 15.0361Z"
+                                                        fill="#000000"></path>
+                                                </g>
+                                            </svg>
                                         </div>
 
                                     </div>
 
-                                    <div class="badges absolute top-3 px-3 w-full flex gap-1 justify-between">
-                                        <div v-if="product[1].new"
-                                            class="badge text-xs badge-secondary rounded-md bg-green-800 text-white py-1">
-                                            NEW
-                                        </div>
-                                        <div v-if="product[1].availability == 0"
-                                            class="badge text-xs badge-secondary rounded-md bg-green-800 text-white py-1">
-                                            Not
-                                            Available In Stock
-                                        </div>
-                                        <div v-if="product[1].onsale && product[1].availability > 0"
-                                            class="badge text-xs badge-secondary rounded-md bg-[#DB4444] text-white py-1">
-                                            {{
-                                                product[1].onsale }}</div>
-                                        <div class="ms-auto flex-col justify-between h-full items-center gap-2">
+                                </div>
 
-                                        </div>
+                                <div class="badges absolute top-3 px-3 w-full flex gap-1 justify-between">
+                                    <div v-if="product[1].new"
+                                        class="badge text-xs badge-secondary rounded-md bg-green-800 text-white py-1">
+                                        NEW
                                     </div>
-
-                                    <router-link  v-if="role === 'customer'" :to="`/productdetail/${product[0]}`" class="absolute top-0 left-0 w-full h-full"></router-link>
-                                    <router-link  v-else :to="`/signPage`" class="absolute top-0 left-0 w-full h-full"></router-link>
-
-                                </figure>
-
-                                <div class="card-body p-5">
-
-                                    <h2 :title="product[1].english_name"
-                                        class="card-title text-start text-[18px] font-semibold">{{
-                                            product[1].english_name.length > 10 ?
-                                                product[1].english_name.slice(0, 10).split().join('') + '...' :
-                                                product[1].english_name
-                                        }}</h2>
-
-                                        <h2 :title="product[1].description" class="card-title text-start text-base">{{
-                                                product[1].description.length > 20 ?
-                                                    product[1].description.slice(0, 20).split().join('') + '...' :
-                                                    product[1].description
-                                            }}</h2>
-
-                                    <div class="price flex gap-3">
-                                        <div class="after text-lg text-red-500 font-bold">
-                                            {{ product[1].onsale.split('%').length ==
-                                                2 ? product[1].price - (product[1].onsale.split('%')[0] * product[1].price /
-                                                    100) :
-                                                product[1].price
-                                            }}<span class="text-xs  font-normal"> L.E</span>
-                                        </div>
-                                        <div v-if="product[1].onsale && product[1].availability > 0"
-                                            class="before text-lg text-stone-400 relative before:content-[''] before:absolute before:bg-[#a8a29e] before:block before:w-0.5 before:h-7 before:rotate-90 before:left-4 before:top-0">
-                                            {{ product[1].price }}<span class="text-xs font-normal"> L.E</span>
-                                        </div>
+                                    <div v-if="product[1].availability == 0"
+                                        class="badge text-xs badge-secondary rounded-md bg-green-800 text-white py-1">
+                                        Not
+                                        Available In Stock
                                     </div>
-
-                                    <!-- <div class="rating rating-sm ">
-                                        <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
-                                            :checked="false" class="mask mask-star-2 bg-amber-400 me-1" />
-                                    </div> -->
-                                    <div class="rating rating-sm">
-                                        <template v-if="product[1].rating > 0">
-                                            <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
-                                                :checked="item <= product[1].rating"
-                                                class="mask mask-star-2 bg-amber-400 me-1" disabled />
-                                        </template>
-                                        <template v-else>
-                                            <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
-                                                class="mask mask-star-2 bg-gray-300 me-1" disabled />
-                                        </template>
+                                    <div v-if="product[1].onsale && product[1].availability > 0"
+                                        class="badge text-xs badge-secondary rounded-md bg-[#DB4444] text-white py-1">
+                                        {{
+                                            product[1].onsale }}</div>
+                                    <div class="ms-auto flex-col justify-between h-full items-center gap-2">
 
                                     </div>
                                 </div>
+
+                                <router-link v-if="role === 'customer'" :to="`/productdetail/${product[0]}`"
+                                    class="absolute top-0 left-0 w-full h-full"></router-link>
+                                <router-link v-else :to="`/signPage`"
+                                    class="absolute top-0 left-0 w-full h-full"></router-link>
+
+                            </figure>
+
+                            <div class="card-body p-5">
+
+                                <h2 :title="product[1].english_name"
+                                    class="card-title text-start text-[18px] font-semibold">{{
+                                        product[1].english_name.length > 10 ?
+                                            product[1].english_name.slice(0, 10).split().join('') + '...' :
+                                            product[1].english_name
+                                    }}</h2>
+
+                                <h2 :title="product[1].description" class="card-title text-start text-base">{{
+                                    product[1].description.length > 20 ?
+                                        product[1].description.slice(0, 20).split().join('') + '...' :
+                                        product[1].description
+                                }}</h2>
+
+                                <div class="price flex gap-3">
+                                    <div class="after text-lg text-red-500 font-bold">
+                                        {{ product[1].onsale.split('%').length ==
+                                            2 ? product[1].price - (product[1].onsale.split('%')[0] * product[1].price /
+                                                100) :
+                                            product[1].price
+                                        }}<span class="text-xs  font-normal"> L.E</span>
+                                    </div>
+                                    <div v-if="product[1].onsale && product[1].availability > 0"
+                                        class="before text-lg text-stone-400 relative before:content-[''] before:absolute before:bg-[#a8a29e] before:block before:w-0.5 before:h-7 before:rotate-90 before:left-4 before:top-0">
+                                        {{ product[1].price }}<span class="text-xs font-normal"> L.E</span>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="rating rating-sm ">
+                                        <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
+                                            :checked="false" class="mask mask-star-2 bg-amber-400 me-1" />
+                                    </div> -->
+                                <div class="rating rating-sm">
+                                    <template v-if="product[1].rating > 0">
+                                        <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
+                                            :checked="item <= product[1].rating"
+                                            class="mask mask-star-2 bg-amber-400 me-1" disabled />
+                                    </template>
+                                    <template v-else>
+                                        <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
+                                            class="mask mask-star-2 bg-gray-300 me-1" disabled />
+                                    </template>
+
+                                </div>
+                            </div>
 
 
                             <div v-if="product[1].availability != 0"
@@ -271,7 +274,8 @@
 
                             <div v-if="product[1].availability == 0"
                                 class="cart-btn group border w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
-                                <button class="bg-red-700 text-white opacity-[0.7] w-full p-2 flex items-center justify-center gap-2">
+                                <button
+                                    class="bg-red-700 text-white opacity-[0.7] w-full p-2 flex items-center justify-center gap-2">
                                     <svg width="27px" height="27px" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg" fill="#ffffff" class="whiteSvg">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -314,7 +318,7 @@
 
                                             <div class="sideNav z-10" v-if="role == 'customer'">
 
-                                                <div title="Add to Wishlist" 
+                                                <div title="Add to Wishlist"
                                                     class="bg-white p-1 rounded-full flex items-center justify-center">
                                                     <svg @click="addToWishlist(product[0], product[1], $event)"
                                                         xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -372,8 +376,10 @@
                                             </div>
                                         </div>
 
-                                        <router-link  v-if="role === 'customer'" :to="`/productdetail/${product[0]}`" class="absolute top-0 left-0 w-full h-full"></router-link>
-                                        <router-link  v-else :to="`/signPage`" class="absolute top-0 left-0 w-full h-full"></router-link>
+                                        <router-link v-if="role === 'customer'" :to="`/productdetail/${product[0]}`"
+                                            class="absolute top-0 left-0 w-full h-full"></router-link>
+                                        <router-link v-else :to="`/signPage`"
+                                            class="absolute top-0 left-0 w-full h-full"></router-link>
 
                                     </figure>
 
@@ -383,14 +389,14 @@
                                             class="card-title text-start text-[18px] font-semibold">
                                             {{ product[1].english_name.length > 15 ?
                                                 product[1].english_name.slice(0, 15).split().join('') + '...' :
-                                            product[1].english_name
+                                                product[1].english_name
                                             }}
                                         </h2>
 
                                         <h2 :title="product[1].description" class="card-title text-start text-sm">
                                             {{ product[1].description.length > 25 ?
                                                 product[1].description.slice(0, 25).split().join('') + '...' :
-                                            product[1].description
+                                                product[1].description
                                             }}
                                         </h2>
 
@@ -398,8 +404,8 @@
                                             <div class="after text-lg text-red-500 font-bold">
                                                 {{ product[1].onsale.split('%').length == 2 ?
                                                     product[1].price - (product[1].onsale.split('%')[0] * product[1].price /
-                                                100) :
-                                                product[1].price
+                                                        100) :
+                                                    product[1].price
                                                 }}<span class="text-xs font-normal"> L.E</span>
                                             </div>
                                             <div v-if="product[1].onsale && product[1].availability > 0"
@@ -467,11 +473,13 @@
 
                                 <div v-if="product[1].availability == 0"
                                     class="cart-btn group border w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
-                                    <button class="bg-red-700 text-white opacity-[0.7] w-full p-2 flex items-center justify-center gap-2">
+                                    <button
+                                        class="bg-red-700 text-white opacity-[0.7] w-full p-2 flex items-center justify-center gap-2">
                                         <svg width="27px" height="27px" viewBox="0 0 24 24"
                                             xmlns="http://www.w3.org/2000/svg" fill="#ffffff" class="whiteSvg">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round">
                                             </g>
                                             <g id="SVGRepo_iconCarrier">
                                                 <path
@@ -542,7 +550,7 @@ export default {
             currentPage: 1,
             itemsPerPage: 10,
 
-            filterdProducts: null,
+            
             role: localStorage.getItem('role'),
             plan: ''
 
@@ -835,7 +843,6 @@ export default {
 </script>
 
 <style scoped>
-
 .scroll-btn {
     right: 30px;
 }
