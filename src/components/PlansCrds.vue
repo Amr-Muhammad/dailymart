@@ -45,7 +45,7 @@
             </ul>
           </div>
           <div class="flex justify-center">
-            <button v-if="plan.isPro" @click="subscribe()" :class="[
+            <button v-if="plan.isPro && role == 'customer'" @click="subscribe()" :class="[
               'flex gap-1.5 justify-center justify-self-center items-center px-7 py-5 mt-7  text-base leading-relaxed text-center whitespace-nowrap rounded-lg border border-solid min-h-[50px] w-[202px] max-md:px-5',
               plan.isPro ? 'text-yellow-50 bg-red-400 hover:bg-green-700' : 'text-white bg-green-700 hover:bg-red-400 '
             ]">
@@ -55,7 +55,10 @@
               'flex gap-1.5 justify-center justify-self-center items-center px-7 py-5 mt-7  text-base leading-relaxed text-center whitespace-nowrap rounded-lg border border-solid min-h-[50px] w-[202px] max-md:px-5',
               plan.isPro ? 'text-yellow-50 bg-red-400 hover:bg-green-700' : 'text-white bg-green-700 hover:bg-red-400 '
             ]">
-              <router-link to="/signPage">
+              <router-link v-if="role == 'customer'" to="/homePage">
+                {{ plan.buttonText }}
+              </router-link>
+              <router-link v-else to="/signPage">
                 {{ plan.buttonText }}
               </router-link>
             </button>
