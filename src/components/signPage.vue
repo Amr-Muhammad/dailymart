@@ -491,7 +491,7 @@ export default {
             signInBtn: '',
             signContainer: ''
         }
-    },
+    }, 
     methods: {
         async validateEmail() {
             const emailPattern = /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/g;
