@@ -4548,10 +4548,6 @@ input.tab:checked + .tab-content,
   right: 0px;
 }
 
-.right-3\.5 {
-  right: 0.875rem;
-}
-
 .right-4 {
   right: 1rem;
 }
@@ -4574,10 +4570,6 @@ input.tab:checked + .tab-content,
 
 .top-0 {
   top: 0px;
-}
-
-.top-1\.5 {
-  top: 0.375rem;
 }
 
 .top-1\/2 {
@@ -5871,11 +5863,6 @@ input.tab:checked + .tab-content,
   border-color: rgb(31 41 55 / var(--tw-border-opacity));
 }
 
-.border-red-400 {
-  --tw-border-opacity: 1;
-  border-color: rgb(248 113 113 / var(--tw-border-opacity));
-}
-
 .border-stone-400 {
   --tw-border-opacity: 1;
   border-color: rgb(168 162 158 / var(--tw-border-opacity));
@@ -6080,11 +6067,6 @@ input.tab:checked + .tab-content,
 .bg-slate-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(248 250 252 / var(--tw-bg-opacity));
-}
-
-.bg-slate-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
 }
 
 .bg-stone-50 {
@@ -6413,10 +6395,6 @@ input.tab:checked + .tab-content,
   padding-inline-end: 2.5rem;
 }
 
-.pe-4 {
-  padding-inline-end: 1rem;
-}
-
 .pl-10 {
   padding-left: 2.5rem;
 }
@@ -6463,10 +6441,6 @@ input.tab:checked + .tab-content,
 
 .pt-16 {
   padding-top: 4rem;
-}
-
-.pt-2 {
-  padding-top: 0.5rem;
 }
 
 .pt-20 {
@@ -7333,11 +7307,6 @@ input.tab:checked + .tab-content,
   background-color: rgb(248 113 113 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-red-600:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-red-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(185 28 28 / var(--tw-bg-opacity));
@@ -7371,16 +7340,8 @@ input.tab:checked + .tab-content,
   fill: #DB4444;
 }
 
-.hover\:fill-red-600:hover {
-  fill: #dc2626;
-}
-
 .hover\:stroke-red-500:hover {
   stroke: #ef4444;
-}
-
-.hover\:stroke-red-600:hover {
-  stroke: #dc2626;
 }
 
 .hover\:text-\[\#DB4444\]:hover {
@@ -7469,11 +7430,6 @@ input.tab:checked + .tab-content,
 .focus\:border-green-500:focus {
   --tw-border-opacity: 1;
   border-color: rgb(34 197 94 / var(--tw-border-opacity));
-}
-
-.focus\:border-red-400:focus {
-  --tw-border-opacity: 1;
-  border-color: rgb(248 113 113 / var(--tw-border-opacity));
 }
 
 .focus\:outline-none:focus {
@@ -7579,11 +7535,6 @@ input.tab:checked + .tab-content,
   .md\:mx-0 {
     margin-left: 0px;
     margin-right: 0px;
-  }
-
-  .md\:mx-5 {
-    margin-left: 1.25rem;
-    margin-right: 1.25rem;
   }
 
   .md\:mb-0 {
@@ -7697,10 +7648,6 @@ input.tab:checked + .tab-content,
 
   .md\:gap-2 {
     gap: 0.5rem;
-  }
-
-  .md\:gap-5 {
-    gap: 1.25rem;
   }
 
   .md\:space-x-2 > :not([hidden]) ~ :not([hidden]) {

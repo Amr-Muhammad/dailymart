@@ -1,7 +1,7 @@
 import App from './App.vue'
 import { createApp } from 'vue'
 import { initializeApp } from "firebase/app";
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import store from './store'
 import service from './mixins/service';
 import axios from 'axios';
@@ -73,8 +73,6 @@ async function checkForUser() {
     if (localStorage.getItem('userId') != null && localStorage.getItem('role') != 'visitor') {
         let userId = localStorage.getItem('userId')
         let role = localStorage.getItem('role')
-        // console.log(userId);
-        // console.log(role);
 
         if (role == 'super') {
             role = 'admin'
@@ -102,7 +100,6 @@ async function checkForUser() {
         localStorage.setItem('role', 'visitor')
     }
 }
-
 const routes = [
     { path: '/', component: HomePage },
     { path: '/homePage', component: HomePage, meta: { requiresAuth: true } },
@@ -115,9 +112,7 @@ const routes = [
             { path: 'wishlist', component: userWishlist },
             { path: 'weeklyorders/:id?', component: userWeeklyOrders },
             { path: 'myorders', component: MyOrders },
-            //Menna 
             { path: 'myplan', component: MyPlan },
-            // { path: 'manageMyPlan', component: ManageMyPlan },
         ]
     },
     {
@@ -160,28 +155,20 @@ const routes = [
     { path: '/cart', component: Cart },
     { path: '/CategroyPage', component: CategroyPage },
     { path: '/productdetail/:id', component: ProductDetail },
-    //farha
     { path: '/ImpactHeading', component: ImpactHeading }, //wrapper  anyone
     { path: '/BoycottWrapper', component: BoycottWrapper }, //wrapper anyone
     { path: '/PlansWrapperComponent', component: PlansWrapperComponent }, //wrapper anyone
     { path: '/EmailGetHelp', component: EmailGetHelp }, //wrapper
-    // { path: '/otp/:otp', name: 'OtpPage', component: OtpPage },
     { path: '/otp', name: 'OtpPage', component: OtpPage },
     { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
-    // { path: '/AdminForm', component: AdminForm },
-    // { path: '/AdminListItem', component: AdminListItem },
-
-    // { path: '/weeklyProducts', component: WeeklyOrderProducts }, //eh da!!!
-    // { path: '/AdminChartsDashboard', component: AdminChartsDashboard },
     { path: '/CardCharts', component: CardCharts },
     { path: '/myPlan', component: ManageMyPlan },
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
-
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
-    // history: createWebHashHistory(),
+    // history: createWebHistory(),
+    history: createWebHashHistory(),
     routes,
     linkActiveClass: 'router-link-active',
     scrollBehavior(to, from, savedPosition) {
