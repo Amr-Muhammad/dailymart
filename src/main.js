@@ -41,13 +41,14 @@ import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import AdminAccount from './components/adminAccount.vue';
 import CardCharts from './components/AdminCrdsCharts.vue'
 import AdminChartsDashboard from './components/AdminDashboard.vue'
+import OtpPage from './components/OtpPage.vue'
+import ResetPassword from './components/ResetPassword.vue'; 
 
 
 
 // import ManageMyPlan from './components/manageMyPlan.vue';
 import Cart from './components/Cart.vue';
 import DeliveryOrders from './components/deliveryOrders.vue';
-import DeliveryOrderDetails from './components/deliveryOrderDetails.vue';
 
 
 
@@ -150,9 +151,8 @@ const routes = [
     { path: '/BoycottWrapper', component: BoycottWrapper }, //wrapper anyone
     { path: '/PlansWrapperComponent', component: PlansWrapperComponent }, //wrapper anyone
     { path: '/EmailGetHelp', component: EmailGetHelp }, //wrapper
-
-    { path: '/deliveryOrderDetails/:userId/:orderId', component: DeliveryOrderDetails },
-
+    { path: '/otp/:otp', name: 'OtpPage', component: OtpPage },
+    { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
     // { path: '/AdminForm', component: AdminForm },
     // { path: '/AdminListItem', component: AdminListItem },
 
@@ -183,6 +183,7 @@ const router = createRouter({
 //         const userRole = store.state.loggedUserData.role
 //         const allowedRoutes = roles[userRole].canAccess
 
+
 //         // console.log(('/' + to.path.split('/')[1] ));
 //         console.log(to.path);
 
@@ -199,6 +200,7 @@ const router = createRouter({
 //     }
 //     else {
 //         if (to.path.includes(`/signPage`) || to.path.includes(`/CategroyPage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/homePage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/ImpactHeading`) || to.path.includes(`/BoycottWrapper`)) {
+
 //             next()
 //         }
 //         else {

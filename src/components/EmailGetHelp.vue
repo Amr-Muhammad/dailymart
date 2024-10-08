@@ -47,53 +47,44 @@ import emailjs from 'emailjs-com';
 import Swal from 'sweetalert2';
 
 export default {
-  data() {
-    return {
-      from_name: '',
-      email: '',
-      phone_num: '',
-      message_sub: '',
-      message: '',
-    };
-  },
-  mounted() {
-    emailjs.init('9UIn0EifA2Rsqne-9');
-  },
-  methods: {
-    sendEmail() {
-      const templateParams = {
-        from_name: this.from_name,
-        to_name: 'Recipient Name',
-        email: this.email,
-        phone_num: this.phone_num,
-        message_sub: this.message_sub,
-        message: this.message,
-      };
 
-      emailjs.send('service_sv28lvr', 'template_9uovei9', templateParams)
-        .then(response => {
-          console.log('SUCCESS!', response.status, response.text)
+ data() {
+   return {
+     from_name: '',
+     email: '',
+     phone_num: '',
+     message_sub: '',
+     message: '',
+   };
+ },
+ mounted() {
+   emailjs.init('9UIn0EifA2Rsqne-9');
+ },
+ methods: {
+   sendEmail() {
+     const templateParams = {
+       from_name: this.from_name,
+       to_name: 'Recipient Name',
+       email: this.email,
+       phone_num: this.phone_num,
+       message_sub: this.message_sub,
+       message: this.message,
+     };
+     
+     emailjs.send('service_g4avpxe', 'template_9uovei9', templateParams)
+     .then(response => {
+       console.log('SUCCESS!', response.status, response.text);
 
-          Swal.fire({
-            icon: 'success',
-            title: 'Thank you for contacting us!',
-            text: "Your message was sent successfully",
-            confirmButtonText: 'OK',
-            timerProgressBar: true,
-            timer: 3000
-          })
-
-          this.from_name = '';
-          this.email = '';
-          this.phone_num = '';
-          this.message_sub = '';
-          this.message = '';
-
-        }, error => {
-          console.log('FAILED...', error);
-        });
-
-    },
-  },
+       this.from_name = '';
+       this.email = '';
+       this.phone_num = '';
+       this.message_sub = '';
+       this.message = '';
+     }, error => {
+       console.log('FAILED...', error);
+     });
+   },
+   
+ },
 };
 </script>
