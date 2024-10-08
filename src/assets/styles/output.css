@@ -4633,13 +4633,12 @@ input.tab:checked + .tab-content,
   margin: 2.5rem;
 }
 
+.m-14 {
+  margin: 3.5rem;
+}
 
 .m-20 {
   margin: 5rem;
-}
-.m-14 {
-  margin: 3.5rem;
-
 }
 
 .mx-10 {
@@ -4692,6 +4691,11 @@ input.tab:checked + .tab-content,
   margin-bottom: 3.5rem;
 }
 
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -4712,10 +4716,10 @@ input.tab:checked + .tab-content,
   margin-bottom: auto;
 }
 
-
 .-mt-\[136px\] {
   margin-top: -136px;
 }
+
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -5679,10 +5683,6 @@ input.tab:checked + .tab-content,
   overflow-y: auto;
 }
 
-.overflow-x-hidden {
-  overflow-x: hidden;
-}
-
 .whitespace-nowrap {
   white-space: nowrap;
 }
@@ -6380,10 +6380,6 @@ input.tab:checked + .tab-content,
   padding-inline-end: 2.5rem;
 }
 
-.pe-16 {
-  padding-inline-end: 4rem;
-}
-
 .pe-4 {
   padding-inline-end: 1rem;
 }
@@ -6410,10 +6406,6 @@ input.tab:checked + .tab-content,
 
 .ps-1 {
   padding-inline-start: 0.25rem;
-}
-
-.ps-10 {
-  padding-inline-start: 2.5rem;
 }
 
 .ps-3 {
@@ -7602,11 +7594,9 @@ input.tab:checked + .tab-content,
     width: 25%;
   }
 
-
   .md\:w-10\/12 {
     width: 83.333333%;
   }
-
 
   .md\:w-2\/4 {
     width: 50%;
