@@ -100,6 +100,7 @@
 import service from '@/mixins/service';
 
 export default {
+    name:'editDelete',
     data() {
         return {
             checked: false,

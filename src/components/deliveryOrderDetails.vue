@@ -18,7 +18,7 @@
                 <div v-for="item in items" :key="item" class="p-2 lg:w-3/12 md:w-1/2 w-full">
                     <div class="item-wrapper shadow-lg rounded-xl p-5">
                         <div class=" mb-3">
-                            <img class="w-28 block mx-auto" :src="item[1].image_url" alt="">
+                            <img class="w-28 h-40 block mx-auto" :src="item[1].image_url" alt="">
                         </div>
                         <p class="font-semibold text-xl">{{ item[1].english_name }}</p>
                         <p class="">{{ item[1].description }}</p>

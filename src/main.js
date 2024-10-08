@@ -1,7 +1,7 @@
 import App from './App.vue'
 import { createApp } from 'vue'
 import { initializeApp } from "firebase/app";
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import store from './store'
 import service from './mixins/service';
 import axios from 'axios';
@@ -45,7 +45,7 @@ import AdminAccount from './components/adminAccount.vue';
 import CardCharts from './components/AdminCrdsCharts.vue'
 import AdminChartsDashboard from './components/AdminDashboard.vue'
 import OtpPage from './components/OtpPage.vue'
-import ResetPassword from './components/ResetPassword.vue'; 
+import ResetPassword from './components/ResetPassword.vue';
 
 
 
@@ -76,6 +76,10 @@ async function checkForUser() {
         // console.log(userId);
         // console.log(role);
 
+        if (role == 'super') {
+            role = 'admin'
+        }
+
         let userData = await service.methods.getLoggedUser(userId, role)
 
         if (!userData.profilePicture) {
@@ -95,7 +99,7 @@ async function checkForUser() {
     else {
         await store.dispatch('setUserData', [null, { role: 'visitor' }])
         store.state.isDataLoading = false
-        localStorage.setItem('role','visitor')
+        localStorage.setItem('role', 'visitor')
     }
 }
 
@@ -118,17 +122,19 @@ const routes = [
     },
     {
         path: '/adminaccount',
+        name: 'AdminAccount',
         component: AdminAccount,
         children: [
             { path: '', redirect: '/adminaccount/AdminChartsDashboard' },
-            { path: 'manageusers', component: ManageUsers },
+            { path: 'AdminChartsDashboard', name: 'CardCharts', component: AdminChartsDashboard },
+            { path: 'manageusers', name: 'manageUsers', component: ManageUsers },
             { path: 'weeklyorders', component: userWeeklyOrders },
             { path: 'myorders', component: MyOrders },
-            { path: 'manageAdmins', component: manageAdmins }, //wrapper
+            { path: 'manageAdmins', name: 'AdminList', component: manageAdmins }, //wrapper
             { path: 'AdminMangement', component: AdminMangement }, //wrapper
             { path: 'adminweeklyorder/:id', component: AdminWeeklyOrder },
-            { path: 'manageProducts', component: ManageProducts },
-            { path: 'editDelete/:id?', component: EditDeleteProducts },
+            { path: 'manageProducts', name: 'productsPage', component: ManageProducts },
+            { path: 'editDelete/:id?', name: 'editDelete', component: EditDeleteProducts },
             { path: 'AdminChartsDashboard', component: AdminChartsDashboard },
         ]
     },
@@ -174,8 +180,8 @@ const routes = [
 ]
 
 const router = createRouter({
-    // history: createWebHistory(),
-    history: createWebHashHistory(),
+    history: createWebHistory(),
+    // history: createWebHashHistory(),
     routes,
     linkActiveClass: 'router-link-active',
     scrollBehavior(to, from, savedPosition) {

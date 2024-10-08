@@ -110,7 +110,6 @@
             <!-- Products -->
             <section>
 
-
                 <div v-if="paginatedProducts.length > 0" class="flex flex-wrap">
                     <div v-for="(product, index) in paginatedProducts" :key="index"
                         class="bg-base-100 rounded-sm cursor-pointer mb-8 w-full lg:w-1/5 md:w-4/12 sm:w-6/12 gap-3 p-3">
@@ -185,8 +184,8 @@
 
                                 <router-link v-if="role === 'customer'" :to="`/productdetail/${product[0]}`"
                                     class="absolute top-0 left-0 w-full h-full"></router-link>
-                                <router-link v-else :to="`/signPage`"
-                                    class="absolute top-0 left-0 w-full h-full"></router-link>
+                                <!-- <router-link v-else :to="`/signPage`"
+                                    class="absolute top-0 left-0 w-full h-full"></router-link> -->
 
                             </figure>
 
@@ -219,10 +218,6 @@
                                     </div>
                                 </div>
 
-                                <!-- <div class="rating rating-sm ">
-                                        <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
-                                            :checked="false" class="mask mask-star-2 bg-amber-400 me-1" />
-                                    </div> -->
                                 <div class="rating rating-sm">
                                     <template v-if="product[1].rating > 0">
                                         <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
@@ -236,7 +231,6 @@
 
                                 </div>
                             </div>
-
 
                             <div v-if="product[1].availability != 0"
                                 class="cart-btn group border z-10 w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
@@ -550,7 +544,7 @@ export default {
             currentPage: 1,
             itemsPerPage: 10,
 
-            
+
             role: localStorage.getItem('role'),
             plan: ''
 

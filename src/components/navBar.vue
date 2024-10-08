@@ -1,5 +1,6 @@
 <template>
-    <nav class="fixed start-0 end-0 top-0 bg-green-800 z-50" v-if="$route.name !== 'SignPage'">
+    <nav class="fixed start-0 end-0 top-0 bg-green-800 z-50"
+        v-if="$route.name !== 'SignPage' && $route.name !== 'OtpPage' && $route.name !== 'ResetPassword'">
 
         <div class="navbar text-white w-11/12 mx-auto flex justify-between ">
 
@@ -25,7 +26,8 @@
                     <router-link to="/BoycottWrapper" class="lg-screen-nav flex items-center">
                         <li class="font-semibold">BOYCOTT LIST</li>
                     </router-link>
-                    <router-link to="/EmailGetHelp" class="lg-screen-nav flex items-center">
+                    <router-link v-if="loggedUserData.role == 'customer'" to="/EmailGetHelp"
+                        class="lg-screen-nav flex items-center">
                         <li class="font-semibold">CONTACT US</li>
                     </router-link>
                 </ul>
@@ -35,7 +37,7 @@
             <div v-if="isDataLoading" class="skeleton w-36 h-8 rounded-md"></div>
 
             <div v-else-if="loggedUserId" class="userIcons">
-                <div class="cart-wishlist-wOrders me-5 flex gap-3">
+                <div v-if="role == 'customer'" class="cart-wishlist-wOrders me-5 flex gap-3">
                     <router-link class="notHveActive"
                         :to="loggedUserData.planid ? '/useraccount/weeklyorders' : '/PlansWrapperComponent'">
                         <img title="Weekly Orders" class="w-6 filter invert grayscale brightness-0"
@@ -104,7 +106,8 @@
                         <router-link to="/BoycottWrapper" class="lg-screen-nav flex items-center">
                             <li class="font-semibold">BOYCOTT LIST</li>
                         </router-link>
-                        <router-link to="/EmailGetHelp" class="lg-screen-nav flex items-center">
+                        <router-link v-if="role == 'customer'" to="/EmailGetHelp"
+                            class="lg-screen-nav flex items-center">
                             <li class="font-semibold">CONTACT US</li>
                         </router-link>
                     </ul>
@@ -157,7 +160,8 @@
             </div>
         </div>
 
-        <div class="navbar bg-[#FBFBFB] text-gray-900 border-b border-stone-400 ">
+        <div v-if="$route.name !== 'SignPage' && $route.name !== 'OtpPage' && $route.name !== 'ResetPassword'"
+            class="navbar bg-[#FBFBFB] text-gray-900 border-b border-stone-400 ">
 
             <div class="w-11/12 mx-auto lgScreen:justify-center flex justify-end">
 
@@ -283,6 +287,7 @@ export default {
             userId: null,
             userData: null,
             isDropdownOpen: false,
+            role: localStorage.getItem('role')
         }
     },
     async mounted() {
