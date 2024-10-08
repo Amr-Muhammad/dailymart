@@ -1,4 +1,5 @@
 <template>
+  <!-- Show this section if the logged-in user has the role 'master' or 'super' -->
   <section v-if="loggedUserData.role === 'master' || loggedUserData.role === 'super'">
     <h1 class="text-3xl font-bold text-gray-800 mb-12 text-center italic">Manage Admins</h1>
     <div class="w-full overflow-x-auto">
