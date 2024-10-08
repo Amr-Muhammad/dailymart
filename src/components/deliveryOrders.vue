@@ -8,18 +8,20 @@
 
         <div v-for="[userId, userOrders] in allOrders" :key="userId" class="flex flex-wrap p-2">
             <template v-for="[orderId, orderValue] in Object.entries(userOrders)" :key="orderId">
-                <div v-if="orderValue.status != 'Delivered'" class="w-full md:w-4/12 lg:w-3/12 p-2">
+                <div v-if="orderValue.status != 'Delivered'" class="w-full md:w-6/12 lg:w-4/12 xl:w-3/12 p-2">
                     <div class="bg-white shadow-md rounded-lg w-full p-4 relative">
 
                         <div class="mb-3">
-                            <h2 class="text-lg font-bold text-gray-700">Order <span>#{{ orderId.slice(5, 12)
+                            <h2 class="text-lg font-bold text-gray-700">Order <span>#{{ orderId.slice(1, 7)
                                     }}</span>
                             </h2>
-                            <p class="text-gray-500 font-semibold">Customer Name: {{ orderValue.customerName }}</p>
-                            <!-- <p class="text-gray-500 font-semibold">Customer Phone: {{ orderValue.customerPhoneNumber }}</p> -->
-                            <p class="text-gray-500 font-semibold">Address: {{
+                            <p class="text-gray-500 font-semibold">Customer Name: {{
+                                orderValue.customerName.length > 10 ? orderValue.customerName.slice(0, 10) +'...':orderValue.customerName
+                                }}</p>
+                            <p v-if="orderValue.customerAddress" class="text-gray-500 font-semibold">Address: {{
+                                orderValue.customerAddress.length > 10 ? orderValue.customerAddress.slice(0, 25) + '...'
+                                    :
                                 orderValue.customerAddress }}</p>
-                            <!-- <p class="text-gray-500 font-semibold">Address: 123 Elm St, City{{ ordr }}</p> -->
                             <p class="text-gray-500 font-semibold">Total Items: {{ orderValue.items ?
                                 Object.values(orderValue.items).length : '' }}</p>
 
@@ -96,27 +98,11 @@ export default {
             this.allOrders = await service.methods.getDeliveryOrders();
             this.allOrders = Object.entries(this.allOrders)
 
-            // for (const key in this.allOrders) {
-            //     console.log(Object.values(this.allOrders[key]).forEach(item => console.log(item)))
-
-            // }
-
-
-            // for (let i = 0; i < this.allOrders.length; i++) {
-            //     console.log(i);
-
-            // }
-
             this.allOrders.forEach(([, userOrders]) => Object.entries(userOrders).forEach(([orderId, order]) => order.status != 'Delivered' ? this.notDeliveredProducts.push({ [orderId]: order }) : ''))
-            console.log(this.notDeliveredProducts);
-
             this.noOfOrders = this.notDeliveredProducts.length
         },
         async onDelivery(userId, orderId) {
             try {
-                console.log(userId);
-                console.log(orderId);
-
 
                 // Order status becomes on delivery , picked by who? , beingDelivered: deliveryId
                 await service.methods.updateOrderStatus(userId, orderId, 'On Delivery', this.loggedUserData.firstName + ' ' + this.loggedUserData.lastName, this.loggedUserId);

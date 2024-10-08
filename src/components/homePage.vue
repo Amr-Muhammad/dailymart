@@ -23,7 +23,9 @@
                             unboycotted products.
                             Make it simple and convenient to support the brands you believe in.</p>
 
-                        <button @click="$router.push('/CategroyPage')"
+
+                    <button v-if="role == 'customer'" @click="$router.push('/CategroyPage')"
+
                         class="hero-btn btn lg:h-[60px] bg-[#DB4444] border-[#DB4444] px-24 md:px-32 mt-10 transition-all font-bold lg:text-3xl text-white hover:bg-[#084c3a] hover:border-[#084c3a] animate__animated animate__zoomIn">
                         Discover
                         </button>
@@ -179,7 +181,7 @@
                 </div>
             </section>
 
-            <button @click="$router.push('/offersPage')"
+            <button v-if="role == 'customer'" @click="$router.push('/offersPage')"
                 class="btn px-24 md:px-30 lg:text-xl transition-all font-bold text-white border-0 bg-[#DB4444] hover:bg-[#0A1E1E] hover:border-[#0A1E1E] animate__animated animate__pulse animate__infinite	infinite">
                 Find more
             </button>
@@ -204,7 +206,9 @@
                         <router-link v-if="role === 'customer'" :to="`/productdetail/${prd[0]}`" class="absolute w-full h-full"></router-link>
                         <router-link v-else :to="`/signPage`"  class="absolute w-full h-full"></router-link>
 
+
                         <button title="Add To Wishlist" v-if="role === 'customer'"
+
                             class="text-red-500 hover:text-red-600 text-3xl z-10 absolute top-[15px] right-[15px]">
                             <svg @click="addToWishlist(prd[0], prd[1])" xmlns="http://www.w3.org/2000/svg" fill="none"
                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -289,7 +293,7 @@
 
             </Carousel>
 
-            <button @click="$router.push('/BoycottWrapper')"
+            <button v-if="role == 'customer'" @click="$router.push('/BoycottWrapper')"
                 class="btn px-10 mt-10 transition-all font-bold text-white border-0 bg-[#DB4444] hover:bg-[#0A1E1E] hover:border-[#0A1E1E]">
                 See more </button>
 
@@ -386,10 +390,12 @@
                             </button>
 
                             <button v-if="role == 'customer'" @click="$router.push(`/productdetail/${prd[0]}`)"
+
                                 class="btn bg-[#DB4444] hover:bg-[#0A1E1E] w-[200px] cursor-pointer text-base text-white border-0 rounded px-4 ">
                                 See more
                             </button>
                             <button v-else @click="$router.push(`/signPage`)"
+
                                 class="btn bg-[#DB4444] hover:bg-[#0A1E1E] w-[200px] cursor-pointer text-base text-white border-0 rounded px-4 ">
                                 See more
                             </button>

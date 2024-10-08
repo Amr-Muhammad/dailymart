@@ -93,14 +93,15 @@ export default {
       this.$router.push(`/productsPage/${catId}`);
     },
     scrollToTop() {
-      const productSection = this.$refs.productSection;
-      if (productSection) {
-        window.scrollTo({
-          top: productSection.offsetTop,
-          behavior: 'smooth',
-        });
-      }
-    },
+  const productSection = this.$refs.productSection;
+  if (productSection) {
+    window.scrollTo({
+      top: productSection.offsetTop - 250, 
+            behavior: 'smooth',
+    });
+  }
+},
+
     nextPage() {
       if (this.currentPage < this.totalPages) {
         this.currentPage++;

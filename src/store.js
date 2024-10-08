@@ -4,7 +4,9 @@ let store = createStore({
     state: {
         loggedUserId: null,
         loggedUserData: null,
-        isDataLoading: true
+        isDataLoading: true,
+        forgotPasswordEmail: null,
+        userOTP: null
 
     },
     mutations: {
@@ -19,6 +21,12 @@ let store = createStore({
             state.loggedUserData = null
             localStorage.removeItem('userId')
             localStorage.removeItem('role')
+        },
+        SAVEEMAIL(state, email) {
+            state.forgotPasswordEmail = email
+        },
+        SETUSEROTP(state, userOTP) {
+            state.userOTP = userOTP
         }
     },
     actions: {
@@ -27,6 +35,12 @@ let store = createStore({
         },
         async logout({ commit }) {
             commit('LOGOUT')
+        },
+        forgetPasswordEmail({ commit }, email) {
+            commit('SAVEEMAIL', email)
+        },
+        setUserOTP({ commit }, userOTP) {
+            commit('SETUSEROTP', userOTP)
         }
     },
     getters: {

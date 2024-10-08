@@ -121,4 +121,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.overflow-x-auto {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+</style>

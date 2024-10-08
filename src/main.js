@@ -44,13 +44,15 @@ import AdminWeeklyOrder from './components/adminWeeklyOrder.vue';
 import AdminAccount from './components/adminAccount.vue';
 import CardCharts from './components/AdminCrdsCharts.vue'
 import AdminChartsDashboard from './components/AdminDashboard.vue'
+import OtpPage from './components/OtpPage.vue'
+import ResetPassword from './components/ResetPassword.vue'; 
 
 
 
 // import ManageMyPlan from './components/manageMyPlan.vue';
 import Cart from './components/Cart.vue';
 import DeliveryOrders from './components/deliveryOrders.vue';
-import DeliveryOrderDetails from './components/deliveryOrderDetails.vue';
+import ManageMyPlan from './components/manageMyPlan.vue';
 
 
 
@@ -70,8 +72,8 @@ async function checkForUser() {
     if (localStorage.getItem('userId') != null && localStorage.getItem('role') != 'visitor') {
         let userId = localStorage.getItem('userId')
         let role = localStorage.getItem('role')
-        console.log(userId);
-        console.log(role);
+        // console.log(userId);
+        // console.log(role);
 
         let userData = await service.methods.getLoggedUser(userId, role)
 
@@ -155,15 +157,16 @@ const routes = [
     { path: '/BoycottWrapper', component: BoycottWrapper }, //wrapper anyone
     { path: '/PlansWrapperComponent', component: PlansWrapperComponent }, //wrapper anyone
     { path: '/EmailGetHelp', component: EmailGetHelp }, //wrapper
-
-    { path: '/deliveryOrderDetails/:userId/:orderId', component: DeliveryOrderDetails },
-
+    // { path: '/otp/:otp', name: 'OtpPage', component: OtpPage },
+    { path: '/otp', name: 'OtpPage', component: OtpPage },
+    { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
     // { path: '/AdminForm', component: AdminForm },
     // { path: '/AdminListItem', component: AdminListItem },
 
     // { path: '/weeklyProducts', component: WeeklyOrderProducts }, //eh da!!!
     // { path: '/AdminChartsDashboard', component: AdminChartsDashboard },
     { path: '/CardCharts', component: CardCharts },
+    { path: '/myPlan', component: ManageMyPlan },
     { path: '/:NotFound(.*)*', name: 'ErrorPage', component: ErrorPage },
 
 ]
@@ -188,13 +191,14 @@ const router = createRouter({
 //         const userRole = store.state.loggedUserData.role
 //         const allowedRoutes = roles[userRole].canAccess
 
+
 //         // console.log(('/' + to.path.split('/')[1] ));
 //         console.log(to.path);
 
 //         // + (to.path.split('/')[2] ? `/${to.path.split('/')[2]}` : '')
 //         if (allowedRoutes.includes('/' + to.path.split('/')[1])) {
 //             next()
-//         }
+//         }   
 //         else if (to.path.split('/')[1].includes('signPage')) {
 //             next('/')
 //         }
@@ -204,6 +208,7 @@ const router = createRouter({
 //     }
 //     else {
 //         if (to.path.includes(`/signPage`) || to.path.includes(`/CategroyPage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/homePage`) || to.path.includes(`/PlansWrapperComponent`) || to.path.includes(`/ImpactHeading`) || to.path.includes(`/BoycottWrapper`)) {
+
 //             next()
 //         }
 //         else {
