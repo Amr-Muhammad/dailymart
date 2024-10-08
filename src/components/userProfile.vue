@@ -121,7 +121,8 @@
         </div>
 
         <div class="w-10/12 mx-auto flex justify-end gap-4">
-            <button class="mainPinkBtn bg-[#598369]">Save Changes</button>
+            <button @click="saveChanges" class="mainPinkBtn bg-[#598369]">Save Changes</button>
+
             <!-- <button class="secondaryBtn border">Cancel</button> -->
         </div>
 
@@ -134,77 +135,152 @@ import axios from 'axios';
 import { mapState } from 'vuex';
 
 export default {
-    data() {
-        return {
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            address: {},
-        }
+  data() {
+    return {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      address: '',
+      currentPassword: '',
+      newPassword: '',
+    };
+  },
+
+  computed: {
+    ...mapState(['loggedUserId', 'loggedUserData']),
+  },
+
+  methods: {
+    // تحميل صورة البروفايل
+    uploadImage(event) {
+      let file = event.target.files[0];
+      if (file.size > 10_000_000) {
+        alert('Your image size is more than 10Mb, please upload another one');
+      } else if (file.type.split('/')[1] !== 'jpeg' && file.type.split('/')[1] !== 'jpg') {
+        alert('Upload your image in jpeg or jpg format');
+      } else {
+        let reader = new FileReader();
+        reader.onload = async (e) => {
+          await axios.patch(
+            `https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${this.loggedUserId}.json`,
+            { profilePicture: e.target.result }
+          );
+          this.loggedUserData.profilePicture = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
     },
 
-    computed: {
-        ...mapState(['loggedUserId', 'loggedUserData']),
+    // حذف صورة البروفايل
+    async deleteProfilePicture() {
+      await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${this.loggedUserId}/profilePicture.json`);
+      if (this.loggedUserData.gender === 'male') {
+        this.loggedUserData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data;
+      } else {
+        this.loggedUserData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data;
+      }
+      await this.$store.dispatch('setUserData', [this.loggedUserId, this.loggedUserData]);
+    },
+    getLoggedUserData() {
+      if (this.loggedUserData) {
+        this.firstName = this.loggedUserData.firstName;
+        this.lastName = this.loggedUserData.lastName;
+        this.email = this.loggedUserData.email;
+        this.phone = this.loggedUserData.phone || '';
+        this.address = this.loggedUserData.address || '';
+      }
     },
 
-    methods: {
-        uploadImage(event) {
-            let file = event.target.files[0]
+    async validateInputs() {
+      const emailPattern = /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/g;
+      const currentPassword = this.currentPassword;
+      const newPassword = this.newPassword;
+      const email = this.email;
 
-            if (file.size > 10_000_000) {
-                alert('Your image size is more than 10Mb, please upload another one')
-            }
+      if (!emailPattern.test(email)) {
+        alert('Invalid email');
+        return false;
+      }
 
-            else if (file.type.split('/')[1] != 'jpeg' && file.type.split('/')[1] != 'jpg') {
-                alert('Upload your image in jpeg or jpg format')
-            }
-            else {
-                let reader = new FileReader()
+      if (newPassword && newPassword !== this.confirmPassword) {
+        alert('New password must match the confirmation password');
+        return false;
+      }
 
-                reader.onload = async (e) => {
-                    await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${this.loggedUserId}.json`, { profilePicture: e.target.result })
-                    this.loggedUserData.profilePicture = e.target.result
-                }
-                reader.readAsDataURL(file)
-            }
-        },
+      if (currentPassword.trim() === '') {
+        alert('Current password is required.');
+        return false;
+      }
 
-        async deleteProfilePicture() {
-            await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${this.loggedUserId}/profilePicture.json`)
+      // تحقق من كلمة المرور الحالية باستخدام API
+      try {
+        const response = await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/verify-password.json`, {
+          userId: this.loggedUserId,
+          currentPassword: currentPassword
+        });
 
-            if (this.loggedUserData.gender == 'male') {
-                this.loggedUserData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/maleImage.json')).data
-            }
-            else {
-                this.loggedUserData.profilePicture = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/userAvatar/femaleImage.json')).data
-            }
-            await this.$store.dispatch('setUserData', [this.loggedUserId, this.loggedUserData])
-        },
-
-        getLoggedUserData() {
-            if (this.loggedUserData) {
-                this.firstName = this.loggedUserData.firstName
-                this.lastName = this.loggedUserData.lastName
-                this.email = this.loggedUserData.email
-                this.phone = this.loggedUserData.phone ? this.loggedUserData.phone : ''
-                this.address = this.loggedUserData.address ? this.loggedUserData.address : ''
-            }
+        if (!response.data.isValid) {
+          alert('Current password is incorrect.');
+          return false;
         }
+      } catch (error) {
+        console.error('Error verifying current password:', error);
+        return false;
+      }
+
+      return true; // إذا كانت جميع المدخلات صالحة
     },
 
-    watch: {
-        loggedUserData() {
-            this.getLoggedUserData()
-        }
-    },
+    async saveChanges() {
+      const isValid = await this.validateInputs();
+      if (!isValid) return;
 
-    mounted() {
-        if (this.loggedUserData) {
-            this.getLoggedUserData()
-        }
+      try {
+        // تحديث البيانات في قاعدة البيانات
+        await axios.patch(
+          `https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${this.loggedUserId}.json`,
+          {
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            address: this.address,
+            newPassword: this.newPassword, // تأكد من إرسال كلمة المرور الجديدة عند الحاجة
+          }
+        );
+
+        // تحديث بيانات المستخدم في حالة نجاح العملية
+        this.loggedUserData.firstName = this.firstName;
+        this.loggedUserData.lastName = this.lastName;
+        this.loggedUserData.email = this.email;
+        this.loggedUserData.address = this.address;
+
+        // عرض بيانات المستخدم في console
+        console.log('Updated User Data:', this.loggedUserData);
+
+      } catch (error) {
+        console.error('Error updating user data:', error);
+      }
+    },
+  
+  },
+  
+
+  watch: {
+    loggedUserData() {
+      this.getLoggedUserData();
     }
-}
+  },
+
+  mounted() {
+    if (this.loggedUserData) {
+      this.getLoggedUserData();
+    }
+  }}
+
+  
 </script>
 
-<style scoped></style>
+<style>
+/* Add your CSS styling here */
+</style>

@@ -53,6 +53,7 @@ import ResetPassword from './components/ResetPassword.vue';
 import Cart from './components/Cart.vue';
 import DeliveryOrders from './components/deliveryOrders.vue';
 import ManageMyPlan from './components/manageMyPlan.vue';
+import DeliveryOrderDetails from './components/deliveryOrderDetails.vue';
 
 
 
@@ -132,6 +133,7 @@ const routes = [
         ]
     },
     { path: '/deliveryOrders', component: DeliveryOrders },
+    { path: '/deliveryOrderDetails/:userId/:orderId', component: DeliveryOrderDetails },
     { path: '/loginpage', component: LoginPage },
     {
         path: '/signPage/:id?',

@@ -111,7 +111,7 @@
     </div>
 
     <!-- Address -->
-    <div v-if="checkoutPopup" 
+    <div v-if="checkoutPopup"
       class="popupContainer fixed bottom-0 h-screen left-0 right-0 z-50 bg-gray-500 top-0 bg-opacity-90 flex items-center">
       <div class="popup p-10 pb-5 shadow w-5/12 mx-auto transform  bg-[#FBFBFB] rounded-lg">
 
@@ -279,6 +279,7 @@ export default {
 
       try {
         this.cart = await service.methods.get_cart_wishlist_weekly(this.loggedUserId, 'cart')
+        console.log(this.cart);
         if (this.cart) {
           this.cart = Object.entries(this.cart);
           this.selectedQty = this.cart.map(() => 1);
@@ -289,7 +290,6 @@ export default {
         console.error('Error fetching cart:', error);
       }
     },
-
 
     calculateItemPrice(index) {
       const price = this.cart[index][1].price;
@@ -387,16 +387,11 @@ export default {
         console.error('Error updating custom quantity:', error);
       }
     },
+
     backToSelect(index) {
       this.customQty[index] = false;
       this.selectedQty[index] = 1;
     },
-
-
-
-
-
-
 
     async deleteItem(productId) {
 
@@ -423,7 +418,6 @@ export default {
     async handleCheckout(prevAddress) {
       try {
 
-
         if (prevAddress) {
           this.address.location = this.selectValue
         }
@@ -435,12 +429,9 @@ export default {
         for (let i = 0; i < Object.entries(cart).length; i++) {
           cartArray.push(Object.entries(cart)[i][1])
         }
-        // console.log(userResponse);
-
 
         const user = {
-          // name: userResponse.data.firstName + ' ' + userResponse.data.lastName,
-          // email: userResponse.data.email
+
           name: this.loggedUserData.firstName + ' ' + this.loggedUserData.lastName,
           email: this.loggedUserData.email
         };
@@ -459,7 +450,7 @@ export default {
         console.log(this.address.location);
         console.log(this.deliveryCharge);
 
-        const sessionResponse = await axios.post('http://localhost:3001/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge });
+        const sessionResponse = await axios.post('http://localhost:3001/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge, weeklyOrder: false });
         // const sessionResponse = await axios.post('https://delight-mart-server.vercel.app/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge });
 
         const sessionId = sessionResponse.data.id;

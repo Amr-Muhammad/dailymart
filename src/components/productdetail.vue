@@ -173,9 +173,12 @@
     <div class="mt-10">
 
       <h2 v-if="getReviews && getReviews.length > 0"
-        class="text-2xl font-bold relative before:content-[''] before:absolute before:bg-[#DB4444] before:top-[8px] before:-left-3 before:block before:w-2 before:h-4 before:rounded-sm pl-2">
-        Customer Reviews
-      </h2>
+
+    class="text-2xl font-bold relative before:content-[''] before:absolute before:bg-[#DB4444] before:top-[8px] before:-left-3 before:block before:w-2 before:h-4 before:rounded-sm pl-2">
+    Customer Reviews
+</h2>
+
+
 
       <div class="space-y-4">
 
@@ -418,28 +421,39 @@ export default {
     },
 
     async getProductRate() {
-      try {
-        const response = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/comments.json')).data;
+  try {
+    const response = (await axios.get('https://dailymart-5c550-default-rtdb.firebaseio.com/comments.json')).data;
 
-        this.commentD = Object.entries(response).filter(item => item[1].productId === this.productId);
+    this.commentD = Object.entries(response).filter(item => item[1].productId === this.productId);
 
-        if (this.commentD.length > 0) {
-          const totalRatings = this.commentD.reduce((sum, comment) => {
-            return sum + parseFloat(comment[1].rating);
-          }, 0);
+    if (this.commentD.length > 0) {
+      const totalRatings = this.commentD.reduce((sum, comment) => {
+        return sum + parseFloat(comment[1].rating);
+      }, 0);
 
-          const averageRating = totalRatings / this.commentD.length;
+      const averageRating = totalRatings / this.commentD.length;
 
-          this.allRates = Math.round(averageRating);
-        } else {
-          this.allRates = 0;
-        }
+      this.allRates = Math.round(averageRating);
 
-      } catch (err) {
-        console.log('Cannot Fetch Data');
-        this.allRates = 0;
-      }
-    },
+      // تحديث المنتج في قاعدة البيانات
+      await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${this.productId}.json`, {
+        rating: this.allRates // تحديث حقل التقييم
+      });
+    } else {
+      this.allRates = 0;
+
+      // تعيين 0 إذا لم يكن هناك تقييمات
+      await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${this.productId}.json`, {
+        rating: 0 // تعيين القيمة 0
+      });
+    }
+
+  } catch (err) {
+    console.log('Cannot Fetch Data');
+    this.allRates = 0;
+  }
+},
+
 
     async addToCart(productId, product) {
       this.clickedProducts[productId] = true

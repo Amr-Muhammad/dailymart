@@ -35,9 +35,12 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 
     if (PaymentType == 'cart') {
       const userId = session.metadata.user_id;
-
-      let userCart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${userId}.json`)).data
-
+      let userCart
+      if (session.metadata.weeklyOrder) {
+        (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/weeklyorders/${userId}.json`)).data
+      } else {
+        (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${userId}.json`)).data
+      }
       const orderData = {
         items: userCart,
         total: session.amount_total / 100,
@@ -49,11 +52,16 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
         customerPhoneNumber: session.metadata.customerPhoneNumber,
       };
 
-
       try {
-        const response = await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/orders/${userId}.json`, orderData);
-        if (response.status === 200) {
+        let response;
+        if (session.metadata.weeklyOrder) {
+          response = await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/weeklyordersOrders/${userId}.json`, orderData);
+          await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, { orderStatus: 'Pending' });
+        } else {
+          response = await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/orders/${userId}.json`, orderData);
           await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${userId}.json`);
+        }
+        if (response.status === 200) {
           let oldSalesRevenue = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/profits/${monthNames[monthIndex]}/salesRevenue.json`)).data
 
           await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/profits/${monthNames[monthIndex]}.json`, { salesRevenue: oldSalesRevenue + session.amount_total / 100 })
@@ -77,28 +85,27 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
 
 
           // a5od el cart mn el destruct bta3 el body w ab3to fi el meta data w a5do mn hnak
-          async function updateCartAvailability(cartAvailabitiy) {
-            let updatePromises = cartAvailabitiy.map((item) => {
-              return axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${item}.json`, {
-                availability: item
-              })
-                .then(res => {
-                  return res
-                })
-                .catch(err => {
-                  console.log(err);
-                });
-            });
+          // async function updateCartAvailability(cartAvailabitiy) {
+          //   let updatePromises = cartAvailabitiy.map((item) => {
+          //     return axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/products/${item}.json`, {
+          //       availability: item
+          //     })
+          //       .then(res => {
+          //         return res
+          //       })
+          //       .catch(err => {
+          //         console.log(err);
+          //       });
+          //   });
 
-            try {
-              await Promise.all(updatePromises)
-            }
-            catch (err) {
-              console.log(err);
-            }
-          }
-
-          updateCartAvailability(cartAvailabitiy)
+          //   try {
+          //     await Promise.all(updatePromises)
+          //   }
+          //   catch (err) {
+          //     console.log(err);
+          //   }
+          // }
+          // updateCartAvailability(cartAvailabitiy)
 
 
         } else {
@@ -127,7 +134,7 @@ app.use(bodyParser.json());
 
 app.post('/create-checkout-session', async (req, res) => {
   try {
-    const { cartArray, userName, userEmail, userId, subscribed, customerPhoneNumber, location, deliveryCharge } = req.body;
+    const { cartArray, userName, userEmail, userId, subscribed, customerPhoneNumber, location, deliveryCharge, weeklyOrder } = req.body;
 
     let line_items = cartArray.map(product => ({
       price_data: {
@@ -172,6 +179,7 @@ app.post('/create-checkout-session', async (req, res) => {
         paying_for: "cart",
         customerPhoneNumber: customerPhoneNumber,
         location: location,
+        weeklyOrder: weeklyOrder,
       }
     });
 

@@ -107,7 +107,8 @@
                         class="signup-form col-[1_/_span_2] row-[1_/_span_2] z-[1] duration-[100ms] delay-[500ms] grid grid-cols-2 px-[1rem] lg:px-10 overflow-hidden opacity-0">
                         <h1 class="text-center text-4xl mt-5 lg:mt-0 mb-5 lg:mb-8 font-bold col-span-2">Sign Up</h1>
 
-                        <label class="firstName input px-[4px] lg:px-[8px]  sign-inputs mb-2 lg:mb-4 me-3 h-[2rem] lg:h-[3rem]">
+                        <label
+                            class="firstName input px-[4px] lg:px-[8px]  sign-inputs mb-2 lg:mb-4 me-3 h-[2rem] lg:h-[3rem]">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                 class="h-4 w-4 opacity-70 hidden md:block">
                                 <path
@@ -116,7 +117,8 @@
                             <input type="text" class="grow" placeholder="First Name" v-model="firstName" required />
                         </label>
 
-                        <label class="lastName input px-[4px] lg:px-[8px]  sign-inputs mb-2 lg:mb-4 h-[2rem] lg:h-[3rem]">
+                        <label
+                            class="lastName input px-[4px] lg:px-[8px]  sign-inputs mb-2 lg:mb-4 h-[2rem] lg:h-[3rem]">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                 class="h-4 w-4 opacity-70 hidden md:block">
                                 <path
@@ -125,7 +127,8 @@
                             <input type="text" class="grow" placeholder="Last Name" v-model="lastName" required />
                         </label>
 
-                        <label class="email input px-[4px] lg:px-[8px]  sign-inputs mb-2 lg:mb-4 relative me-3 h-[2rem] lg:h-[3rem]">
+                        <label
+                            class="email input px-[4px] lg:px-[8px]  sign-inputs mb-2 lg:mb-4 relative me-3 h-[2rem] lg:h-[3rem]">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                 class="h-4 w-4 opacity-70 hidden md:block">
                                 <path
@@ -143,21 +146,23 @@
                                     emailExist }}</span>
                         </label>
 
-                        <label class="phoneNumber input px-[4px] lg:px-[8px]  sign-inputs mb-2 lg:mb-4 relative h-[2rem] lg:h-[3rem]">
+                        <label
+                            class="phoneNumber input px-[4px] lg:px-[8px]  sign-inputs mb-2 lg:mb-4 relative h-[2rem] lg:h-[3rem]">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="h-4 w-4 opacity-70 hidden md:block">
                                 <path fill-rule="evenodd"
                                     d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"
                                     clip-rule="evenodd" />
                             </svg>
-                            <input type="text" class="grow" placeholder="Phone Number" v-model="phone" required 
-                            @input="validatePhone" />
+                            <input type="text" class="grow" placeholder="Phone Number" v-model="phone" required
+                                @input="validatePhone" />
                             <span v-if="phoneError"
                                 class="error-msg absolute text-[6px] lg:text-[10px] -bottom-[17px] lg:-bottom-[20px] left-0 text-red-700">{{
                                     phoneError }}</span>
                         </label>
 
-                        <label data-tip="must include letters, numbers, special characters" class="tooltip password input px-[4px] lg:px-[8px]  sign-inputs mb-2 lg:mb-4 me-3 relative h-[2rem] lg:h-[3rem]">
+                        <label data-tip="must include letters, numbers, special characters"
+                            class="tooltip password input px-[4px] lg:px-[8px]  sign-inputs mb-2 lg:mb-4 me-3 relative h-[2rem] lg:h-[3rem]">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                 class="h-4 w-4 opacity-70 hidden md:block">
                                 <path fill-rule="evenodd"
@@ -171,7 +176,8 @@
                                     passwordError }}</span>
                         </label>
 
-                        <label class="rePassword input px-[4px] lg:px-[8px]  sign-inputs relative mb-2 lg:mb-4 h-[2rem] lg:h-[3rem]">
+                        <label
+                            class="rePassword input px-[4px] lg:px-[8px]  sign-inputs relative mb-2 lg:mb-4 h-[2rem] lg:h-[3rem]">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                 class="h-4 w-4 opacity-70 hidden md:block">
                                 <path fill-rule="evenodd"
@@ -185,9 +191,10 @@
                                     rePasswordError }}</span>
                         </label>
 
-                        <div id="address" :class="{' col-span-2' : !addressFlag}">
+                        <div id="address" :class="{ ' col-span-2': !addressFlag }">
 
-                            <label v-if="addressFlag" class="input px-[4px] lg:px-[8px]  sign-inputs relative me-3 mb-2 lg:mb-4 h-[2rem] lg:h-[3rem]">
+                            <label v-if="addressFlag"
+                                class="input px-[4px] lg:px-[8px]  sign-inputs relative me-3  h-[2rem] lg:h-[3rem]">
                                 <svg fill="#626973" width="20px" height="20px" viewBox="0 0 100 100"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -199,14 +206,16 @@
                                     </g>
                                 </svg>
 
-                                <input type="text" class="grow" placeholder="Address? (optional)" v-model="address.location" />
+                                <input type="text" class="grow" placeholder="Address? (optional)"
+                                    v-model="address.location" />
+
                                 <span v-if="addressErrMessage"
                                     class="error-msg absolute text-[6px] lg:text-[10px] -bottom-[20px] left-0 text-red-700">
                                     {{ addressErrMessage }}</span>
-
                             </label>
 
-                            <div v-if="!addressFlag" class="px-[4px] lg:px-[8px]  sign-inputs relative me-3 mb-2 lg:mb-4 h-[2rem] lg:h-[3rem]">
+                            <div v-if="!addressFlag"
+                                class="px-[4px] lg:px-[8px]  sign-inputs relative me-3 mb-2 lg:mb-4 h-[2rem] lg:h-[3rem]">
                                 <svg class="text-green-500" fill="text-green-500" width="25px" height="25px"
                                     viewBox="0 0 200 200" data-name="Layer 1" id="Layer_1"
                                     xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)"
@@ -261,7 +270,8 @@
 
                         <div class="form-control my-auto col-span-2">
                             <label class="label cursor-pointer justify-start">
-                                <input type="checkbox"  class="checkbox me-3 w-[1rem] h-[1rem] lg:w-[2.5rem] lg:h-[2.5rem]" required/>
+                                <input type="checkbox"
+                                    class="checkbox me-3 w-[1rem] h-[1rem] lg:w-[2.5rem] lg:h-[2.5rem]" required />
                                 <span class="label-text uppercase font-bold text-xs">
                                     Our Delivery Service is currently available only within Cairo and Giza.
                                 </span>
@@ -355,7 +365,7 @@ export default {
             signInBtn: '',
             signContainer: ''
         }
-    },
+    }, 
     methods: {
         openModal() {
             const modal = document.getElementById('my_modal_1');
@@ -376,8 +386,8 @@ export default {
             this.emailExist = '';
 
 
-            if (this.email == '' && !emailPattern.test(this.email)) {
-                this.emailError = "Please enter a valid email address or don't";
+            if (this.email && !emailPattern.test(this.email)) {
+                this.emailError = "Please enter a valid email address";
 
             } else {
                 this.emailError = '';
@@ -420,7 +430,7 @@ export default {
                 this.address.longitude = res.results[0].geometry.lng
                 console.log(this.address);
             } else {
-                this.addressErrMessage = 'Enter a valid address'
+                this.addressErrMessage = "Enter a valid address or don't"
                 console.log(this.addressErrMessage);
                 return;
             }
@@ -590,7 +600,7 @@ export default {
             if (this.address.location != '') {
                 await this.validateAdress()
             }
-            else{
+            else {
                 this.addressErrMessage = ''
             }
             this.validateEmail();
