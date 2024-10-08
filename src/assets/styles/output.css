@@ -4637,6 +4637,10 @@ input.tab:checked + .tab-content,
   margin: 2.5rem;
 }
 
+.m-14 {
+  margin: 3.5rem;
+}
+
 .mx-10 {
   margin-left: 2.5rem;
   margin-right: 2.5rem;
@@ -4680,11 +4684,6 @@ input.tab:checked + .tab-content,
 .my-14 {
   margin-top: 3.5rem;
   margin-bottom: 3.5rem;
-}
-
-.my-2 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
 }
 
 .my-4 {
@@ -4899,6 +4898,10 @@ input.tab:checked + .tab-content,
   margin-top: 136px;
 }
 
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
 .block {
   display: block;
 }
@@ -5050,6 +5053,10 @@ input.tab:checked + .tab-content,
 
 .h-screen {
   height: 100vh;
+}
+
+.h-24 {
+  height: 6rem;
 }
 
 .max-h-10 {
@@ -5263,6 +5270,10 @@ input.tab:checked + .tab-content,
 
 .w-full {
   width: 100%;
+}
+
+.w-24 {
+  width: 6rem;
 }
 
 .min-w-\[240px\] {
@@ -5500,6 +5511,10 @@ input.tab:checked + .tab-content,
 
 .justify-between {
   justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
 }
 
 .gap-1 {
@@ -5840,11 +5855,6 @@ input.tab:checked + .tab-content,
   background-color: rgb(89 131 105 / var(--tw-bg-opacity));
 }
 
-.bg-\[\#8a916d\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(138 145 109 / var(--tw-bg-opacity));
-}
-
 .bg-\[\#DAFFDA\] {
   --tw-bg-opacity: 1;
   background-color: rgb(218 255 218 / var(--tw-bg-opacity));
@@ -6034,6 +6044,11 @@ input.tab:checked + .tab-content,
 .bg-zinc-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(250 250 250 / var(--tw-bg-opacity));
+}
+
+.bg-emerald-950 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(2 44 34 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -7255,6 +7270,11 @@ input.tab:checked + .tab-content,
   background-color: rgb(202 138 4 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-emerald-800:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(6 95 70 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-opacity-10:hover {
   --tw-bg-opacity: 0.1;
 }
@@ -7515,7 +7535,6 @@ input.tab:checked + .tab-content,
     display: flex;
   }
 
-
   .md\:h-full {
     height: 100%;
   }
@@ -7546,10 +7565,6 @@ input.tab:checked + .tab-content,
 
   .md\:w-\[560px\] {
     width: 560px;
-  }
-
-  .md\:w-3\/12 {
-    width: 25%;
   }
 
   .md\:-translate-y-1\/2 {
@@ -7769,16 +7784,16 @@ input.tab:checked + .tab-content,
     width: 25%;
   }
 
+  .lg\:w-4\/12 {
+    width: 33.333333%;
+  }
+
   .lg\:w-6\/12 {
     width: 50%;
   }
 
   .lg\:w-9\/12 {
     width: 75%;
-  }
-
-  .lg\:w-4\/12 {
-    width: 33.333333%;
   }
 
   .lg\:flex-1 {
