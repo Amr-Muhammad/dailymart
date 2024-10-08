@@ -7643,9 +7643,11 @@ input.tab:checked + .tab-content,
     width: 25%;
   }
 
+
   .md\:w-10\/12 {
     width: 83.333333%;
   }
+
 
   .md\:w-2\/4 {
     width: 50%;

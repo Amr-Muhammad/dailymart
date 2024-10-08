@@ -365,7 +365,7 @@ export default {
             signInBtn: '',
             signContainer: ''
         }
-    },
+    }, 
     methods: {
         openModal() {
             const modal = document.getElementById('my_modal_1');

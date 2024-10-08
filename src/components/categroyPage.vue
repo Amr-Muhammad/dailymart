@@ -109,11 +109,10 @@
             <!-- Products -->
             <section>
 
-                <div v-if="filterdProducts" class="flex flex-wrap">
 
-                    <div v-for="(product, index) in filterdProducts" :key="index"
+                <div v-if="paginatedProducts.length > 0" class="flex flex-wrap">
+                    <div v-for="(product, index) in paginatedProducts" :key="index"
                         class="bg-base-100 rounded-sm cursor-pointer mb-8 w-full lg:w-1/5 md:w-4/12 sm:w-6/12 gap-3 p-3">
-
                         <div
                             class="card border rounded-md hover:scale-[1.01] transition-all hover:shadow-lg duration-300">
 
@@ -217,9 +216,21 @@
                                         </div>
                                     </div>
 
-                                    <div class="rating rating-sm ">
+                                    <!-- <div class="rating rating-sm ">
                                         <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
                                             :checked="false" class="mask mask-star-2 bg-amber-400 me-1" />
+                                    </div> -->
+                                    <div class="rating rating-sm">
+                                        <template v-if="product[1].rating > 0">
+                                            <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
+                                                :checked="item <= product[1].rating"
+                                                class="mask mask-star-2 bg-amber-400 me-1" disabled />
+                                        </template>
+                                        <template v-else>
+                                            <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
+                                                class="mask mask-star-2 bg-gray-300 me-1" disabled />
+                                        </template>
+
                                     </div>
                                 </div>
 
@@ -285,12 +296,16 @@
                 </div>
 
                 <div v-else>
-                    <div v-if="products != null" class="flex flex-wrap">
-                        <div v-for="(product, index) in products" :key="index"
+                    <div v-if="filterdProducts" class="flex flex-wrap">
+                        <div v-for="(product, index) in filterdProducts" :key="index"
                             class="bg-base-100 rounded-sm cursor-pointer mb-8 w-full lg:w-1/5 md:w-4/12 sm:w-6/12 gap-3 p-3">
 
                             <div
                                 class="card border rounded-md hover:scale-[1.01] transition-all hover:shadow-lg duration-300">
+
+                                {{ product[0] }}
+                                <router-link :to="`/productdetail/${product[0]}`">
+
 
                                     <figure class="bg-stone-50 p-5 relative ">
 
@@ -365,26 +380,27 @@
                                     <div class="card-body p-5">
 
                                         <h2 :title="product[1].english_name"
-                                            class="card-title text-start text-[18px] font-semibold">{{
-                                                product[1].english_name.length > 15 ?
-                                                    product[1].english_name.slice(0, 15).split().join('') + '...' :
-                                                    product[1].english_name
-                                            }}</h2>
+                                            class="card-title text-start text-[18px] font-semibold">
+                                            {{ product[1].english_name.length > 15 ?
+                                                product[1].english_name.slice(0, 15).split().join('') + '...' :
+                                            product[1].english_name
+                                            }}
+                                        </h2>
 
-                                        <h2 :title="product[1].description" class="card-title text-start text-sm">{{
-                                            product[1].description.length > 25 ?
+                                        <h2 :title="product[1].description" class="card-title text-start text-sm">
+                                            {{ product[1].description.length > 25 ?
                                                 product[1].description.slice(0, 25).split().join('') + '...' :
-                                                product[1].description
-                                        }}</h2>
+                                            product[1].description
+                                            }}
+                                        </h2>
 
                                         <div class="price flex gap-3">
                                             <div class="after text-lg text-red-500 font-bold">
-                                                {{ product[1].onsale.split('%').length ==
-                                                    2 ? product[1].price - (product[1].onsale.split('%')[0] *
-                                                        product[1].price /
-                                                        100) :
-                                                    product[1].price
-                                                }}<span class="text-xs  font-normal"> L.E</span>
+                                                {{ product[1].onsale.split('%').length == 2 ?
+                                                    product[1].price - (product[1].onsale.split('%')[0] * product[1].price /
+                                                100) :
+                                                product[1].price
+                                                }}<span class="text-xs font-normal"> L.E</span>
                                             </div>
                                             <div v-if="product[1].onsale && product[1].availability > 0"
                                                 class="before text-lg text-stone-400 relative before:content-[''] before:absolute before:bg-[#a8a29e] before:block before:w-0.5 before:h-7 before:rotate-90 before:left-4 before:top-0">
@@ -392,11 +408,26 @@
                                             </div>
                                         </div>
 
-                                        <div class="rating rating-sm ">
-                                            <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
-                                                :checked="false" class="mask mask-star-2 bg-amber-400 me-1" />
+                                        <!-- عرض متوسط التقييم أو رسالة "لا يوجد تقييم بعد" -->
+                                        <div class="rating rating-sm">
+                                            <template v-if="product[1].rating > 0">
+                                                <input v-for="item in 5" :key="item" type="radio"
+                                                    :name="`rating-${index}`" :checked="item <= product[1].rating"
+                                                    class="mask mask-star-2 bg-amber-400 me-1" disabled />
+                                            </template>
+                                            <template v-else>
+                                                <input v-for="item in 5" :key="item" type="radio"
+                                                    :name="`rating-${index}`" class="mask mask-star-2 bg-gray-300 me-1"
+                                                    disabled />
+                                            </template>
+
                                         </div>
                                     </div>
+
+
+
+                                </router-link>
+
 
                                 <div v-if="product[1].availability != 0"
                                     class="cart-btn group border z-10 w-full font-bold text-center flex gap-3 justify-center transition-all duration-300">
@@ -474,14 +505,16 @@
             </section>
 
             <!-- Pagination -->
-            <section class="join mt-10 rounded-none">
-                <input class="join-item  pagination-btns" type="radio" name="options" aria-label="«" />
-                <input class="join-item pagination-btns" type="radio" name="options" aria-label="1" checked="checked" />
-                <input class="join-item  pagination-btns" type="radio" name="options" aria-label="2" />
-                <input class="join-item  pagination-btns" type="radio" name="options" aria-label="3" />
-                <input class="join-item  pagination-btns" type="radio" name="options" aria-label="4" />
-                <input class="join-item  pagination-btns" type="radio" name="options" aria-label="»" />
-            </section>
+
+            <div class="join">
+                <button class="join-item btn" @click="previousPage" :disabled="currentPage === 1">«</button>
+
+                <button class="join-item btn" :disabled="true">
+                    Page {{ currentPage }} of {{ totalPages }}
+                </button>
+
+                <button class="join-item btn" @click="nextPage" :disabled="currentPage === totalPages">»</button>
+            </div>
 
         </div>
 
@@ -498,21 +531,35 @@ export default {
     data() {
         return {
             categories: null,
-            products: null,
+            products: [],
             searchQueryProducts: '',
             searchQueryCategories: '',
             user: null,
             subscribed: null,
             clickedProducts: {},
+
+            filterdProducts: [],
+            currentPage: 1,
+            itemsPerPage: 10,
+
             filterdProducts: null,
             role: localStorage.getItem('role'),
             plan: ''
+
         }
     },
     computed: {
-        ...mapState(['loggedUserId', 'loggedUserData'])
-    }
-    ,
+        ...mapState(['loggedUserId', 'loggedUserData']),
+        paginatedProducts() {
+            const start = (this.currentPage - 1) * this.itemsPerPage; // البداية
+            const end = start + this.itemsPerPage; // النهاية
+            return this.products.slice(start, end); // تقطيع المصفوفة
+        },
+        totalPages() {
+            return Math.ceil(this.products.length / this.itemsPerPage);
+        }
+    },
+
     methods: {
         async getCategories() {
             try {
@@ -737,7 +784,18 @@ export default {
         ,
         async isUserSubscribed() {
             this.subscribed = this.loggedUserData.planid
+        },
+        nextPage() {
+            if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+            }
+        },
+        previousPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+            }
         }
+
     }
     ,
     async mounted() {
@@ -767,6 +825,7 @@ export default {
         searchQueryProducts: function () {
             this.filterdProducts = this.products.filter(item => item[1].english_name.toLowerCase().includes(this.searchQueryProducts.toLocaleLowerCase()))
             console.log(this.filterdProducts);
+            this.currentPage = 0;
         },
         searchQueryCategories: function () {
             this.getCategories()
@@ -824,5 +883,34 @@ export default {
     flex-direction: column;
     gap: 40px;
     justify-content: center;
+}
+
+.join {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.join-item {
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: none;
+    background-color: #0e7037;
+    /* يمكنك تغيير اللون حسب رغبتك */
+    color: white;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: background-color 0.3s;
+}
+
+.join-item:hover:not(:disabled) {
+    background-color: #073008;
+    /* ظل عند التحويم */
+}
+
+.btn-active {
+    background-color: #137717;
+    /* لون الزر النشط */
 }
 </style>

@@ -154,11 +154,20 @@
                                             {{ product[1].price }}<span class="text-xs font-normal"> L.E</span>
                                         </div>
                                     </div>
-
-                                    <div class="rating rating-sm ">
+                                    <div class="rating rating-sm">
+    <template v-if="product[1].rating > 0">
+        <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
+            :checked="item <= product[1].rating" class="mask mask-star-2 bg-amber-400 me-1" disabled />
+    </template>
+    <template v-else>
+    <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
+        class="mask mask-star-2 bg-gray-300 me-1" disabled />
+</template>
+</div>
+                                    <!-- <div class="rating rating-sm ">
                                         <input v-for="item in 5" :key="item" type="radio" :name="`rating-${index}`"
                                             :checked="false" class="mask mask-star-2 bg-amber-400 me-1" />
-                                    </div>
+                                    </div> -->
                                 </div>
 
 
