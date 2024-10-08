@@ -26,6 +26,9 @@
                     <router-link to="/useraccount/myorders"
                         class="block mt-2 px-4 py-1 rounded-full text-white sm:text-start text-center">My
                         Orders</router-link>
+                    <!-- Menna -->
+                    <router-link to="/useraccount/myplan" class="block mt-2 px-4 py-1 rounded-full text-white">My
+                        Plan</router-link>
 
                     <!-- <router-link to="/useraccount/manageMyPlan">
                             <li class="mb-[6px] text-gray-400">

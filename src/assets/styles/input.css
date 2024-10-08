@@ -36,7 +36,7 @@
     }
 
     .head p {
-        @apply text-xs sm:w-1/5 md:w-2/5 mx-auto mt-2 text-stone-500;
+        @apply text-base sm:w-1/5 md:w-2/5 mx-auto mt-2 text-stone-500;
     }
 
     .pagination-btns {

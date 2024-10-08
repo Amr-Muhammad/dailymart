@@ -22,6 +22,9 @@
                     <router-link to="/PlansWrapperComponent" class="lg-screen-nav flex items-center">
                         <li class="font-semibold">PLANS</li>
                     </router-link>
+                    <router-link to="/BoycottWrapper" class="lg-screen-nav flex items-center">
+                        <li class="font-semibold">BOYCOTT LIST</li>
+                    </router-link>
                     <router-link to="/EmailGetHelp" class="lg-screen-nav flex items-center">
                         <li class="font-semibold">CONTACT US</li>
                     </router-link>
@@ -86,21 +89,24 @@
 
                     <ul tabindex="0"
                         class="menu menu-sm dropdown-content rounded-box mt-3 w-52 p-2 shadow text-black bg-white relative z-50 -translate-x-32">
-                        <li>
-                            <router-link to="/homePage">Home</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/CategroyPage">Explore</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/offersPage">Offers</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/PlansWrapperComponent">Plans</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/EmailGetHelp">Contact Us</router-link>
-                        </li>
+                        <router-link to="/homePage" class="lg-screen-nav flex items-center">
+                            <li class="font-semibold">HOME</li>
+                        </router-link>
+                        <router-link to="/CategroyPage" class="lg-screen-nav flex items-center">
+                            <li class="font-semibold">EXPLORE</li>
+                        </router-link>
+                        <router-link to="/offersPage" class="lg-screen-nav flex items-center">
+                            <li class="font-semibold">OFFERS</li>
+                        </router-link>
+                        <router-link to="/PlansWrapperComponent" class="lg-screen-nav flex items-center">
+                            <li class="font-semibold">PLANS</li>
+                        </router-link>
+                        <router-link to="/BoycottWrapper" class="lg-screen-nav flex items-center">
+                            <li class="font-semibold">BOYCOTT LIST</li>
+                        </router-link>
+                        <router-link to="/EmailGetHelp" class="lg-screen-nav flex items-center">
+                            <li class="font-semibold">CONTACT US</li>
+                        </router-link>
                     </ul>
 
                 </div>
@@ -111,6 +117,43 @@
                 <router-link to="/signPage">
                     <button class="bg-white text-black px-6 py-1 rounded-md">Login</button>
                 </router-link>
+
+                <div class="lgScreen:hidden">
+
+                    <div class="dropdown">
+                        <div tabindex="0" role="button" class="btn btn-ghost lgScreen:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h8m-8 6h16" />
+                            </svg>
+                        </div>
+
+                        <ul tabindex="0"
+                            class="menu menu-sm dropdown-content  rounded-box mt-3 w-52 p-2 gap-y-2 lgScreen:gap-y-0 shadow text-black bg-white -translate-x-32">
+                            <router-link to="/homePage" class="lg-screen-nav flex items-center">
+                                <li class="font-semibold">HOME</li>
+                            </router-link>
+                            <router-link to="/CategroyPage" class="lg-screen-nav flex items-center">
+                                <li class="font-semibold">EXPLORE</li>
+                            </router-link>
+                            <router-link to="/offersPage" class="lg-screen-nav flex items-center">
+                                <li class="font-semibold">OFFERS</li>
+                            </router-link>
+                            <router-link to="/PlansWrapperComponent" class="lg-screen-nav flex items-center">
+                                <li class="font-semibold">PLANS</li>
+                            </router-link>
+                            <router-link to="/BoycottWrapper" class="lg-screen-nav flex items-center">
+                                <li class="font-semibold">BOYCOTT LIST</li>
+                            </router-link>
+                            <router-link to="/EmailGetHelp" class="lg-screen-nav flex items-center">
+                                <li class="font-semibold">CONTACT US</li>
+                            </router-link>
+                        </ul>
+                    </div>
+
+                </div>
+
             </div>
         </div>
 

@@ -16,6 +16,9 @@ import UserProfile from './components/userProfile.vue';
 import userWishlist from './components/userWishlist.vue';
 import userWeeklyOrders from './components/userWeeklyOrders.vue';
 import MyOrders from './components/myOrders.vue';
+//Menna 
+import MyPlan from './components/userPlan.vue';
+
 import LoginPage from './components/loginPage.vue'; //Should be deleted!
 
 // Menna Pages
@@ -105,6 +108,8 @@ const routes = [
             { path: 'wishlist', component: userWishlist },
             { path: 'weeklyorders/:id?', component: userWeeklyOrders },
             { path: 'myorders', component: MyOrders },
+            //Menna 
+            { path: 'myplan', component: MyPlan },
             // { path: 'manageMyPlan', component: ManageMyPlan },
         ]
     },
