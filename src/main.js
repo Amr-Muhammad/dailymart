@@ -67,8 +67,8 @@ async function checkForUser() {
     if (localStorage.getItem('userId') != null && localStorage.getItem('role') != 'visitor') {
         let userId = localStorage.getItem('userId')
         let role = localStorage.getItem('role')
-        console.log(userId);
-        console.log(role);
+        // console.log(userId);
+        // console.log(role);
 
         let userData = await service.methods.getLoggedUser(userId, role)
 

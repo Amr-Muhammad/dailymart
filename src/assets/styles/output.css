@@ -7547,6 +7547,10 @@ input.tab:checked + .tab-content,
     width: 560px;
   }
 
+  .md\:w-3\/12 {
+    width: 25%;
+  }
+
   .md\:-translate-y-1\/2 {
     --tw-translate-y: -50%;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -7772,6 +7776,10 @@ input.tab:checked + .tab-content,
     width: 75%;
   }
 
+  .lg\:w-4\/12 {
+    width: 33.333333%;
+  }
+
   .lg\:flex-1 {
     flex: 1 1 0%;
   }
@@ -7866,6 +7874,10 @@ input.tab:checked + .tab-content,
 
   .xl\:flex {
     display: flex;
+  }
+
+  .xl\:w-3\/12 {
+    width: 25%;
   }
 }
 
