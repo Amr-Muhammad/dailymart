@@ -32,15 +32,20 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
       "july", "august", "september", "october", "november", "december"
     ]
     let PaymentType = session.metadata.paying_for
+    let weeklyOrder = session.metadata.weeklyOrder
 
     if (PaymentType == 'cart') {
       const userId = session.metadata.user_id;
-      let userCart
-      if (session.metadata.weeklyOrder) {
-        (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/weeklyorders/${userId}.json`)).data
-      } else {
-        (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${userId}.json`)).data
+
+      let userCart;
+      if (weeklyOrder == 'cart') {
+        userCart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${userId}.json`)).data
       }
+      else {
+        userCart = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/weeklyorders/${userId}.json`)).data
+      }
+
+
       const orderData = {
         items: userCart,
         total: session.amount_total / 100,
@@ -53,11 +58,13 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
       };
 
       try {
-        let response;
-        if (session.metadata.weeklyOrder) {
+        let response = '';
+
+        if (session.metadata.weeklyOrder == 'weekly') {
           response = await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/weeklyordersOrders/${userId}.json`, orderData);
           await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, { orderStatus: 'Pending' });
-        } else {
+        }
+        else {
           response = await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/orders/${userId}.json`, orderData);
           await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/cart/${userId}.json`);
         }
@@ -108,7 +115,8 @@ app.post('/webhook', express.raw({ type: 'application/json' }), async (req, res)
           // updateCartAvailability(cartAvailabitiy)
 
 
-        } else {
+        }
+        else {
           console.error('Failed to add order to Firebase');
         }
       } catch (error) {
@@ -170,7 +178,7 @@ app.post('/create-checkout-session', async (req, res) => {
 
       line_items: line_items,
       mode: 'payment',
-      success_url: 'http://localhost:8080/useraccount/myorders',
+      success_url: 'https://amr-muhammad.github.io/dailymart/#/useraccount/myorders',
       cancel_url: 'http://localhost:8080/homePage',
       customer_email: userEmail,
       metadata: {

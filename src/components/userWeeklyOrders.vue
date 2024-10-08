@@ -160,7 +160,7 @@
 
 
     <!-- <div v-if="products != null"> -->
-    <div v-if="!loggedUserData.orderStatus">
+    <div v-if="!loggedUserData.orderStatus && products">
         <button @click="openPopup()" class="mainGreenBtn block mx-auto">CHECKOUT</button>
     </div>
 
@@ -531,7 +531,7 @@ export default {
                 console.log(this.address.location);
                 console.log(this.deliveryCharge);
 
-                const sessionResponse = await axios.post('http://localhost:3001/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge, weeklyOrder: true });
+                const sessionResponse = await axios.post('http://localhost:3001/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge, weeklyOrder: 'weekly' });
                 // const sessionResponse = await axios.post('https://delight-mart-server.vercel.app/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge });
 
                 const sessionId = sessionResponse.data.id;

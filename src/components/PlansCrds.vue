@@ -78,6 +78,7 @@ export default {
     return {
       basicIconUrl: require('../assets/check-mark.png'),
       proIconUrl: require('../assets/check-mark.png'),
+      role:localStorage.getItem('role'),
       plans: [
         {
           title: 'Standard',

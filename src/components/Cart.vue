@@ -303,6 +303,29 @@ calculateTotalPrice() {
 
         if (prevAddress) {
           this.address.location = this.selectValue
+
+          let res = (await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(this.selectValue)}&key=3199d0b4fb7e4184b017cfade26c7298`)).data
+          console.log(res);
+
+          if (res.results[0]) {
+            this.address.latitude = res.results[0].geometry.lat
+            this.address.longitude = res.results[0].geometry.lng
+            this.address.location = this.selectValue
+
+            this.distance = this.haversineDistance(this.storeLat, this.storeLong, this.address.latitude, this.address.longitude)
+            if (this.distance > 25) {
+              this.addressErrMessage = "Sorry! We're not serving this location yet"
+            }
+            else {
+              this.deliveryCharge = this.calculateDeliveryCharge(this.distance)
+            }
+
+          } else {
+            this.addressErrMessage = 'Enter a valid address'
+            console.log(this.addressErrMessage);
+            return;
+          }
+
         }
 
 
@@ -336,8 +359,10 @@ calculateTotalPrice() {
         console.log(this.address.location);
         console.log(this.deliveryCharge);
 
-        const sessionResponse = await axios.post('http://localhost:3001/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge });
-        // const sessionResponse = await axios.post('https://delight-mart-server.vercel.app/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge });
+
+        // const sessionResponse = await axios.post('http://localhost:3001/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge, weeklyOrder: 'cart' });
+        const sessionResponse = await axios.post('https://delight-mart-server.vercel.app/create-checkout-session', { cartArray, userName: user.name, userEmail: user.email, userId: this.loggedUserId, subscribed: this.loggedUserData.planid, customerPhoneNumber: this.loggedUserData.phone, location: this.address.location, deliveryCharge: this.deliveryCharge, weeklyOrder: 'cart' });
+
 
         const sessionId = sessionResponse.data.id;
 
@@ -435,7 +460,7 @@ calculateTotalPrice() {
       } else if (distance <= 15) {
         return 70;
       } else if (distance <= 20) {
-        return 90
+        return 85
       } else if (distance <= 25) {
         return 100
       }

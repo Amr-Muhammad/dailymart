@@ -1,4 +1,5 @@
 <template>
+
     <section v-if="loggedUserData && loggedUserData.role === 'admin'">
       <h1 class="text-3xl font-bold text-red-600 text-center mt-12">You don't have access to this page</h1>
     </section>
@@ -80,16 +81,23 @@
         await axios.delete(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`);
         this.fetchUsers();
       },
+
     },
-    mounted() {
-      this.fetchUsers();
+
+    async approveOrder(userId) {
+      (await axios.patch(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/customer/${userId}.json`, { orderStatus: 'Approved' }))
+      location.reload()
     },
-  };
-  </script>
-  
+  },
+  mounted() {
+    this.fetchUsers();
+  },
+};
+</script>
+
 <style scoped>
 .overflow-x-auto {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 </style>
