@@ -47,7 +47,7 @@
         <label for="adminUsername" class="text-base self-start tracking-wide leading-none ps-5">
           Admin First Name
         </label>
-        <input id="adminUsername" v-model="username" type="text"
+        <input id="adminUsername" v-model="firstName" type="text"
           class="px-9 py-7 text-base mt-4 w-full tracking-wide leading-none whitespace-nowrap bg-white rounded-xl border border-solid border-zinc-100 focus:outline-none focus-within:outline-none max-md:px-5"
           placeholder="First Name" />
       </div>
@@ -56,7 +56,7 @@
         <label for="adminUsername" class="text-base self-start tracking-wide leading-none ps-5">
               Admin Last Name
             </label>
-            <input id="adminUsername" v-model="username" type="text"
+            <input id="adminUsername" v-model="lastName" type="text"
               class="px-9 py-7 text-base mt-4 w-full tracking-wide leading-none whitespace-nowrap bg-white rounded-xl border border-solid border-zinc-100 focus:outline-none focus-within:outline-none max-md:px-5"
               placeholder="Last Name" />
       </div>
@@ -119,18 +119,25 @@ export default {
   name: 'AdminForm',
   data() {
     return {
-      username: '',
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       errorMessage: '',
       gender: 'male',
-      profilePicture: ''
+      profilePicture: '',
+      adminRole:'admin'
     };
   },
   methods: {
     async addAdmin() {
       try {
-        if (!this.username || !this.email || !this.password) {
+        console.log(this.firstName);
+        console.log(this.lastName);
+        console.log(this.email);
+        console.log(this.password);
+        
+        if (!this.firstName || !this.lastName || !this.email || !this.password) {
           this.errorMessage = 'All fields are required. Please fill out the username, email, and password.';
           return;
         }
@@ -157,19 +164,24 @@ export default {
 
         const adminData = {
           // id: newAdminId,
-          username: this.username,
+          firstName: this.firstName,
+          lastName: this.lastName,
           email: this.email,
           password: this.password,
-          role: 'admin',
+          role: this.adminRole,
           gender: this.gender,
           profilePicture: this.profilePicture
         };
-        await axios.post('https://dailymart-5c550-default-rtdb.firebaseio.com/users/admin.json', adminData);
+        await axios.post(`https://dailymart-5c550-default-rtdb.firebaseio.com/users/${this.adminRole}.json`, adminData);
         this.username = '';
         this.email = '';
         this.password = '';
         this.errorMessage = '';
-        console.log('Admin added successfully');
+        if(this.adminRole =='admin'){
+          console.log('Admin added successfully');
+        }else{
+          console.log('Delivery added successfully');
+        }
       }
       catch (error) {
         console.error('Error adding admin:', error);

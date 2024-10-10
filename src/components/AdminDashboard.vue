@@ -14,7 +14,7 @@
           <apexchart type="area" height="350" :options="dailyVisitsOptions" :series="dailyVisitsSeries" />
         </div>
         <div class="chart w-full md:w-1/2">
-          <h2>Categories Sales</h2>
+          <h2>Categories</h2>
           <apexchart type="donut" height="350" :options="departmentSalesOptions" :series="departmentSalesSeries" />
         </div>
       </div>
