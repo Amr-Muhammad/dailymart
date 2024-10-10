@@ -37,7 +37,7 @@
             <div v-if="isDataLoading" class="skeleton w-36 h-8 rounded-md"></div>
 
             <div v-else-if="loggedUserId" class="userIcons">
-                <div v-if="role == 'customer'" class="cart-wishlist-wOrders me-5 flex gap-3">
+                <div v-if="loggedUserData.role == 'customer'" class="cart-wishlist-wOrders me-5 flex gap-3">
                     <router-link class="notHveActive"
                         :to="loggedUserData.planid ? '/useraccount/weeklyorders' : '/PlansWrapperComponent'">
                         <img title="Weekly Orders" class="w-6 filter invert grayscale brightness-0"

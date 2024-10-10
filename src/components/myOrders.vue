@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto my-8 px-4">
+    <div class="container mx-auto my-8 px-4 relative">
 
         <!-- Tabs for Order Status -->
         <div v-if="filteredOrders" class="flex justify-between items-center border-b mb-4 overflow-x-auto">
@@ -117,10 +117,15 @@
             </div>
         </div>
 
+
         <div v-else>
             <h1 class="text-center text-3xl font-bold">You don't have any orders</h1>
             <img class="w-1/2 block mx-auto" src="../assets/noOrders.jpg" alt="">
         </div>
+
+        <!-- <div class="absolute bg-gray-400 w-full h-full top-[50px] left-0 flex items-center justify-center">
+            <span class="loading loading-spinner loading-lg"></span>
+        </div> -->
 
     </div>
 </template>
@@ -132,16 +137,22 @@ import { mapState } from 'vuex';
 export default {
     data() {
         return {
-            selectedTab: "All Orders",
-            tabs: ["All Orders", "Pending", "Delivered"],
-            orders: {}
+            selectedTab: "Processing",
+            tabs: ["Processing", "Pending", "Delivered"],
+            orders: null,
+            filterdProducts: {}
         };
     },
     computed: {
         ...mapState(['loggedUserId', 'loggedUserData']),
         filteredOrders() {
-            if (this.selectedTab == 'All Orders') {
-                return this.orders
+            if (this.selectedTab == 'Processing') {
+                if (this.orders != null) {
+                    console.log(this.orders);
+                    return this.orders.filter((order) => order[1].status === 'Processing');
+                } else {
+                    return this.orders
+                }
             }
             else if (this.selectedTab == 'Pending') {
                 return this.orders.filter((order) => order[1].status === 'On Delivery');
@@ -162,7 +173,9 @@ export default {
             this.orders = (await axios.get(`https://dailymart-5c550-default-rtdb.firebaseio.com/orders/${this.loggedUserId}.json`)).data
             if (this.orders != null) {
                 this.orders = Object.entries(this.orders)
-                console.log(this.orders);
+                // console.log(this.orders);
+                // this.orders.forEach(([, itemData]) => { console.log(itemData) })
+
             }
         }
     }
